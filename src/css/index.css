@@ -94,13 +94,13 @@ nav.menu {
 
     .hamburger {
         display: inline-block; /* Show hamburger icon on mobile */
-        padding: 8px 16px;
+        padding: 0.5rem 1rem;
         background-color: var(--button-color);
         color: var(--text-color);
         border: none;
-        border-radius: 5px;
+        border-radius: 0.25rem;
         cursor: pointer;
-        font-size: 16px;
+        font-size: 1rem;
     }
 
     .hamburger:hover {
@@ -199,5 +199,4 @@ footer {
     padding: 3rem;
     background-color: var(--header-color);
     color: var(--text-color);
-    margin: 1rem;
 }
