@@ -1,4 +1,4 @@
-# [**Title**](https://github.com/JMitchell919/csc403-Temp_Name)
+# [**Lochyl**](https://github.com/JMitchell919/csc403-Temp_Name)
 Software Design and Engineering (CSC 403-002) Scrum Project \
 by <ins>**temp_name**</ins>.
 

@@ -4,104 +4,114 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>temp_name</title>
+    <link rel="stylesheet" href="css/styles.css">
     <link rel="stylesheet" href="css/index.css">
     <script src="js/index.js" defer></script>
+    <script>
+        window.onload = function() {
+            fetch('footer.html')
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('footer-container').innerHTML = data;
+                });
+        };
+    </script>
 </head>
 <body>
-    <header>
-        <div class="left">
-            <p>
-                temp_name
-            </p>
-        </div>
-        <div class="center">
-            <p>
-                current zone name
-            </p>
-        </div>
-        <div class="right">
-            <button class="hamburger" aria-label="Toggle menu">&#9776;</button>
-            <nav class="menu">
-                <a href="post.html"><button id="postButton" style="display: none;">Post</button></a>
-                <button id="logoutButton" style="display: none;">Logout</button>
-                <a href="login.html"><button id="loginButton">Login</button></a>
-                <a href="register.html"><button id="registerButton">Register</button></a>
-            </nav>
-        </div>
-    </header>
-    <section id="posts-section">
-        <!-- Single post -->
-        <div class="post">
-            <div class="post-header">
-                <div class="post-author">
-                    <img src="data/temp_pfp_1.png" alt="Profile Picture" class="profile-pic">
-                    <p class="post-author">temp_user</p>
-                </div>
-                <div class="post-info">
-                    <p class="post-location">temp_location</p>
-                    <p class="post-date">2024-09-25</p>
-                </div>
+    <div class="wrapper">
+        <header>
+            <div class="left">
+                <p>
+                    temp_name
+                </p>
             </div>
-            <p class="post-text">Ayo look at this crazy horse!</p>
-            <img src="data/temp_pic_1.png" alt="Picture" class="pic" >
-            <div class="post-footer">
-                <button class="like-button">
-                    👍 Like
-                    <p class="comment-count"><span class="like-count">0</span></span></p>
-                </button>
-                
-                <button class="dislike-button">
-                    👎 Dislike
-                    <p class="comment-count"><span class="dislike-count">0</span></span></p>
-                </button>
-                
-                <button class="comment-button">
-                    💬 Comment
-                    <p class="comment-count"><span class="comment-count-number">0</span></p>
-                </button>
-                
+            <div class="center">
+                <p>
+                    current zone name
+                </p>
             </div>
-        </div>
-        <!-- End Single post -->
-
-        <!-- Single post -->
-        <div class="post">
-            <div class="post-header">
-                <div class="post-author">
-                    <img src="data/temp_pfp_2.png" alt="Profile Picture" class="profile-pic">
-                    <p class="post-author">Clab</p>
+            <div class="right">
+                <button class="hamburger" aria-label="Toggle menu">&#9776;</button>
+                <nav class="menu">
+                    <a href="post.html"><button id="postButton" style="display: none;">Post</button></a>
+                    <button id="logoutButton" style="display: none;">Logout</button>
+                    <a href="login.html"><button id="loginButton">Login</button></a>
+                    <a href="register.html"><button id="registerButton">Register</button></a>
+                </nav>
+            </div>
+        </header>
+        <main>
+            <section id="posts-section">
+                <!-- Single post -->
+                <div class="post">
+                    <div class="post-header">
+                        <div class="post-author">
+                            <img src="data/temp_pfp_1.png" alt="Profile Picture" class="profile-pic">
+                            <p class="post-author">temp_user</p>
+                        </div>
+                        <div class="post-info">
+                            <p class="post-location">temp_location</p>
+                            <p class="post-date">2024-09-25</p>
+                        </div>
+                    </div>
+                    <p class="post-text">Ayo look at this crazy horse!</p>
+                    <img src="data/temp_pic_1.png" alt="Picture" class="pic" >
+                    <div class="post-footer">
+                        <button class="like-button">
+                            👍 Like
+                            <p class="comment-count"><span class="like-count">0</span></span></p>
+                        </button>
+                        
+                        <button class="dislike-button">
+                            👎 Dislike
+                            <p class="comment-count"><span class="dislike-count">0</span></span></p>
+                        </button>
+                        
+                        <button class="comment-button">
+                            💬 Comment
+                            <p class="comment-count"><span class="comment-count-number">0</span></p>
+                        </button>
+                        
+                    </div>
                 </div>
-                <div class="post-info">
-                    <p class="post-location">Galveston Texas</p>
-                    <p class="post-date">2024-03-14</p>
+                <!-- End Single post -->
+        
+                <!-- Single post -->
+                <div class="post">
+                    <div class="post-header">
+                        <div class="post-author">
+                            <img src="data/temp_pfp_2.png" alt="Profile Picture" class="profile-pic">
+                            <p class="post-author">Clab</p>
+                        </div>
+                        <div class="post-info">
+                            <p class="post-location">Galveston Texas</p>
+                            <p class="post-date">2024-03-14</p>
+                        </div>
+                    </div>
+                    <p class="post-text">Me and the boys.</p>
+                    <img src="data/temp_pic_2.png" alt="Picture" class="pic" >
+                    <div class="post-footer">
+                        <button class="like-button">
+                            👍 Like
+                            <p class="comment-count"><span class="like-count">0</span></span></p>
+                        </button>
+                        
+                        <button class="dislike-button">
+                            👎 Dislike
+                            <p class="comment-count"><span class="dislike-count">0</span></span></p>
+                        </button>
+                        
+                        <button class="comment-button">
+                            💬 Comment
+                            <p class="comment-count"><span class="comment-count-number">0</span></p>
+                        </button>
+                        
+                    </div>
                 </div>
-            </div>
-            <p class="post-text">Me and the boys.</p>
-            <img src="data/temp_pic_2.png" alt="Picture" class="pic" >
-            <div class="post-footer">
-                <button class="like-button">
-                    👍 Like
-                    <p class="comment-count"><span class="like-count">0</span></span></p>
-                </button>
-                
-                <button class="dislike-button">
-                    👎 Dislike
-                    <p class="comment-count"><span class="dislike-count">0</span></span></p>
-                </button>
-                
-                <button class="comment-button">
-                    💬 Comment
-                    <p class="comment-count"><span class="comment-count-number">0</span></p>
-                </button>
-                
-            </div>
-        </div>
-        <!-- End Single post -->
-    </section>
-    <footer>
-        <p>
-            Authors: wip
-        </p>
-    </footer>
+                <!-- End Single post -->
+            </section>
+        </main>
+        <div id="footer-container"></div>
+    </div>
 </body>
 </html>

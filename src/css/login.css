@@ -1,54 +1,16 @@
-:root {
-    --bg-color: #2D3142;
-    --header-color: #4F5D75;
-    --section-color: #7E8695;
-    --text-color: #FFFFFF;
-    --button-color: #EF8354;
-    --highlight-color: #FFA680;
-    margin: 0px;
-}
-
-html, body {
-    margin: 0;
-    padding: 0;
-}
-
-body {
-    background-color: var(--bg-color);
-}
-
-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0.5rem 0;
-    background-color: var(--header-color);
-}
-
-.left {
-    padding: 0 1rem;
+#home-button {
+    padding: 0.5rem 1rem;
+    background-color: var(--button-color);
     color: var(--text-color);
-    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
 }
 
-.center {
-    margin-left: auto;
-    margin-right: auto;
-    text-align: center;
-    color: var(--text-color);
-    background-color: var(--section-color);
-    padding: 0 1rem;
-    border-radius: 0.5rem;
+#home-button:hover {
+    background-color: var(--highlight-color);
 }
-
-.right {
-    padding: 0 1rem;
-    color: var(--text-color);
-    font-size: 16px;
-    font-weight: bold;
-    padding: 0 3rem;
-}
-
 
 .login-field {
     margin: 1rem auto 1rem auto;
@@ -98,10 +60,4 @@ header {
 
 #submitLogin:hover {
     background-color: var(--highlight-color);
-}
-
-footer {
-    padding: 3rem;
-    background-color: var(--header-color);
-    color: var(--text-color);
 }

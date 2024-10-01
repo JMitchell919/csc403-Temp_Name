@@ -4,36 +4,46 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Log in</title>
-    <script src="js/login.js"></script>
+    <link rel="stylesheet" href="css/styles.css">
     <link rel="stylesheet" href="css/login.css">
+    <script src="js/login.js"></script>
+    <script>
+        window.onload = function() {
+            fetch('footer.html')
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('footer-container').innerHTML = data;
+                });
+        };
+    </script>
 </head>
 <body>
-    <header>
-        <div class="left">
-            <p>
-                temp_name
-            </p>
-        </div>
-        <div class="center"></div>
-        <div class="right">
-            Log in
-        </div>
-    </header>
-    <section class="login-field">
-        <div class="username-field">
-            <p class="username-text">Username:</p>
-            <input type="text" name="Username" id="username-input">
-        </div>
-        <div class="password-field">
-            <p class="password-text">Password:</p>
-            <input type="text" name="Password" id="password-input">
-        </div>
-        <button id="submitLogin">Login</button>
-    </section>
-    <footer>
-        <p>
-            Authors: wip
-        </p>
-    </footer>
+    <div class="wrapper">
+        <header>
+            <div class="left">
+                <p>
+                    temp_name
+                </p>
+            </div>
+            <div class="center"></div>
+            <div class="right">
+                <a href="index.html"><button id="home-button">Home</button></a>
+            </div>
+        </header>
+        <main> 
+            <div class="login-field">
+                <div class="username-field">
+                    <p class="username-text">Username:</p>
+                    <input type="text" name="Username" id="username-input">
+                </div>
+                <div class="password-field">
+                    <p class="password-text">Password:</p>
+                    <input type="text" name="Password" id="password-input">
+                </div>
+                <button id="submitLogin">Login</button>
+            </div>
+        </main>
+        <div id="footer-container"></div>
+    </div>
 </body>
 </html>
