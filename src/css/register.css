@@ -85,7 +85,13 @@ header {
     color: var(--text-color);
 }
 
-#submitLogin {
+footer {
+    padding: 3rem;
+    background-color: var(--header-color);
+    color: var(--text-color);
+}
+
+#submitCredentials {
     margin-top: 1rem;
     padding: 0.5rem 1rem;
     background-color: var(--button-color);
@@ -96,12 +102,6 @@ header {
     font-size: 1rem;
 }
 
-#submitLogin:hover {
+#submitCredentials:hover {
     background-color: var(--highlight-color);
-}
-
-footer {
-    padding: 3rem;
-    background-color: var(--header-color);
-    color: var(--text-color);
 }

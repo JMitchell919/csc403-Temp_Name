@@ -9,9 +9,6 @@ document.querySelector('.hamburger').addEventListener('click', function() {
     document.querySelector('.menu').classList.toggle('show');
 });
 
-// Assume this is the user login status (true if logged in, false if not)
-let isLoggedIn = true;
-
 // Function to toggle buttons based on login state
 function updateButtons() {
     if (isLoggedIn) {
@@ -29,20 +26,20 @@ function updateButtons() {
     }
 }
 
-// Temporary login and logout functions
-function login() {
-    isLoggedIn = true;
-    updateButtons();
-}
-
-function logout() {
-    isLoggedIn = false;
-    updateButtons();
-}
+let isLoggedIn = false;
 
 document.addEventListener('DOMContentLoaded', function() {
+    isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+    // const username = localStorage.getItem('username');
+
     updateButtons();
 });
 
-document.getElementById('logoutButton').addEventListener('click', logout);
+document.getElementById('logoutButton').addEventListener('click', function() {
+    localStorage.removeItem('isLoggedIn');
+    localStorage.removeItem('username');
+    window.location.reload();
+    alert("You've been logged out.")
+});
+// document.getElementById('loginButton').addEventListener('click', login);
 
