@@ -111,10 +111,9 @@ nav.menu {
 }
 
 .pic {
-    width: auto; /* Make optional picture responsive */
+    width: auto;
     height: auto;
-    max-height: 30rem;
-    max-width: fit-content;
+    max-width: 40rem;
 }
 
 .post-footer {

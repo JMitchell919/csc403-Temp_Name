@@ -20,12 +20,15 @@
 
     max-width: 50rem;
     max-height: 25rem;
+
+    background: var(--header-color);
 }
 
 .post-text {
+    font-size: 18px;
     color: var(--text-color);
     align-self: flex-start;
-    margin: 1rem 4rem;
+    margin: 1.5rem 4rem;
 }
 
 #post-input {
