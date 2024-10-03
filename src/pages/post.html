@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Log in</title>
-    <link rel="stylesheet" href="css/styles.css">
-    <link rel="stylesheet" href="css/login.css">
-    <script src="js/login.js"></script>
+    <title>Create a Post</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../css/post.css">
+    <script src="../js/post.js"></script>
     <script>
         window.onload = function() {
-            fetch('footer.html')
+            fetch('../components/footer.html')
                 .then(response => response.text())
                 .then(data => {
                     document.getElementById('footer-container').innerHTML = data;
@@ -25,22 +25,20 @@
                     temp_name
                 </p>
             </div>
-            <div class="center"></div>
+            <div class="center">
+                <p>
+                    current zone name
+                </p>
+            </div>
             <div class="right">
                 <a href="index.html"><button id="home-button">Home</button></a>
             </div>
         </header>
-        <main> 
-            <div class="login-field">
-                <div class="username-field">
-                    <p class="username-text">Username:</p>
-                    <input type="text" name="Username" id="username-input">
-                </div>
-                <div class="password-field">
-                    <p class="password-text">Password:</p>
-                    <input type="text" name="Password" id="password-input">
-                </div>
-                <button id="submitLogin">Login</button>
+        <main>
+            <div class="post-field">
+                <p class="post-text">What's on your mind?</p>
+                <textarea name="post-input" id="post-input"></textarea>
+                <button id="submit-post">Post</button>
             </div>
         </main>
         <div id="footer-container"></div>

@@ -49,12 +49,12 @@ document.addEventListener('DOMContentLoaded', function() {
     const examplePostsData = [
         {
             username: 'temp_user',
-            profilePic: 'data/temp_pfp_1.png',
+            profilePic: '../assets/images/temp_pfp_1.png',
             location: 'temp_location',
             date: '2024-09-25',
             text: 'Ayo look at this crazy horse!',
             postPics: [
-                'data/temp_pic_1.png',
+                '../assets/images/temp_pic_1.png',
             ],
             likeCount: 5,
             dislikeCount: 1,
@@ -62,12 +62,12 @@ document.addEventListener('DOMContentLoaded', function() {
         },
         {
             username: 'Clab',
-            profilePic: 'data/temp_pfp_2.png',
+            profilePic: '../assets/images/temp_pfp_2.png',
             location: 'Galveston, Texas',
             date: '2024-03-14',
             text: 'Me and the boys.',
             postPics: [
-                'data/temp_pic_2.png',
+                '../assets/images/temp_pic_2.png',
             ],
             likeCount: 15,
             dislikeCount: 2,
@@ -75,7 +75,7 @@ document.addEventListener('DOMContentLoaded', function() {
         },
         {
             username: 'Clab',
-            profilePic: 'data/temp_pfp_2.png',
+            profilePic: '../assets/images/temp_pfp_2.png',
             location: 'Ruston, Louisiana',
             date: '2024-10-1',
             text: 'First test from a post created using a template!',
