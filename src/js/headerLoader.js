@@ -66,6 +66,12 @@ window.onload = function() {
                         <a href="logout.html"><button id="logout-button">Logout</button></a>
                     `;
                     break;
+                case 'settings.html':
+                    nav.innerHTML = `
+                        <a href="index.html"><button id="home-button">Home</button></a>
+                        <a href="profile.html"><button id="profile-button">Profile</button></a>
+                        <a href="logout.html"><button id="logout-button">Logout</button></a>
+                    `;
             }
 
             
