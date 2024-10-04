@@ -6,30 +6,13 @@
     <title>Log in</title>
     <link rel="stylesheet" href="../css/styles.css">
     <link rel="stylesheet" href="../css/register.css">
-    <script src="../js/register.css"></script>
-    <script>
-        window.onload = function() {
-            fetch('../components/footer.html')
-                .then(response => response.text())
-                .then(data => {
-                    document.getElementById('footer-container').innerHTML = data;
-                });
-        };
-    </script>
+    <!-- <script src="../js/register.js"></script> -->
+    <script src="../js/headerLoader.js"></script>
+    <script src="../js/footerLoader.js"></script>
 </head>
 <body>
     <div class="wrapper">
-        <header>
-            <div class="left">
-                <p>
-                    temp_name
-                </p>
-            </div>
-            <div class="center"></div>
-            <div class="right">
-                <a href="index.html"><button id="home-button">Home</button></a>
-            </div>
-        </header>
+        <div id="header-container"></div>
         <main>
             <section class="login-field">
                 <div class="username-field">
@@ -40,13 +23,13 @@
                     <p class="password-text">Password:</p>
                     <input type="text" name="Password" id="password-input">
                 </div>
-                <div class="password-field">
-                    <p class="password-text">Confirm Password:</p>
-                    <input type="text" name="Password" id="password-input">
+                <div class="confirm-password-field">
+                    <p class="confirm-password-text">Confirm Password:</p>
+                    <input type="text" name="Confirm-Password" id="confirm-password-input">
                 </div>
-                <div class="password-field">
-                    <p class="password-text">Phone Number:</p>
-                    <input type="text" name="Password" id="password-input">
+                <div class="phone-number-field">
+                    <p class="phone-number-text">Phone Number:</p>
+                    <input type="text" name="Phone-Number" id="phone-number-input">
                 </div>
                 <button id="submitCredentials">Register</button>
             </section>

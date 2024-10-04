@@ -7,33 +7,12 @@
     <link rel="stylesheet" href="../css/styles.css">
     <link rel="stylesheet" href="../css/post.css">
     <script src="../js/post.js"></script>
-    <script>
-        window.onload = function() {
-            fetch('../components/footer.html')
-                .then(response => response.text())
-                .then(data => {
-                    document.getElementById('footer-container').innerHTML = data;
-                });
-        };
-    </script>
+    <script src="../js/headerLoader.js"></script>
+    <script src="../js/footerLoader.js"></script>
 </head>
 <body>
     <div class="wrapper">
-        <header>
-            <div class="left">
-                <p>
-                    temp_name
-                </p>
-            </div>
-            <div class="center">
-                <p>
-                    current zone name
-                </p>
-            </div>
-            <div class="right">
-                <a href="index.html"><button id="home-button">Home</button></a>
-            </div>
-        </header>
+        <div id="header-container"></div>
         <main>
             <div class="post-field">
                 <p class="post-text">What's on your mind?</p>

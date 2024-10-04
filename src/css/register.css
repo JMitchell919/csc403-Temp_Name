@@ -1,34 +1,16 @@
-#home-button {
-    padding: 0.5rem 1rem;
-    background-color: var(--button-color);
-    color: var(--text-color);
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 1rem;
-}
-
-#home-button:hover {
-    background-color: var(--highlight-color);
-}
-
-main {
-    flex: 1;
-}
-
 .login-field {
     margin: 1rem auto 1rem auto;
     padding: 5rem;
-    max-width: 20rem;
+    max-width: 25rem;
     background: var(--header-color);
     color: var(--text-color);
+    border-radius: var(--section-border-radius);
 
     display: flex;
     flex-direction: column;
 }
 
-.username-field,
-.password-field {
+.login-field div {
     display: flex;
     flex-direction: row;
     gap: 1rem;
@@ -39,15 +21,14 @@ main {
     color: var(--text-color);
 }
 
-#username-input,
-#password-input {
+main input {
     width: 10rem;
     height: 2rem;
     font-size: 1.5rem;
 
     background-color: var(--section-color);
     padding: 0.5rem;
-    border-radius: 0.5rem;
+    border-radius: var(--section-border-radius);
     color: var(--text-color);
 }
 
@@ -57,7 +38,7 @@ main {
     background-color: var(--button-color);
     color: var(--text-color);
     border: none;
-    border-radius: 5px;
+    border-radius: var(--button-border-radius);
     cursor: pointer;
     font-size: 1rem;
 }

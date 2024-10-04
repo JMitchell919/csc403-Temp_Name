@@ -1,0 +1,13 @@
+.info-box {
+    margin: 1rem auto 1rem auto;
+    padding: 5rem;
+    max-width: 20rem;
+    background: var(--header-color);
+    color: var(--text-color);
+
+    display: flex;
+    flex-direction: column;
+
+    font-size: 1.5rem;
+    text-align: center;
+}
