@@ -12,7 +12,10 @@ html, body {
     height: 100%;
     margin: 0;
     padding: 0;
-    background-color: var(--bg-color);
+    /* background-color: var(--bg-color); */
+    background-color: #000000;
+    background-image: url("https://www.transparenttextures.com/patterns/cartographer.png");
+    /* This is mostly intended for prototyping; please download the pattern and re-host for production environments. Thank you! */
 }
 
 .wrapper {
@@ -35,6 +38,11 @@ header {
     font-weight: bold;
 }
 
+.logo {
+    height: 2.5rem;
+    padding-top: 0.5rem;
+}
+
 .center {
     margin-left: auto;
     margin-right: auto;
@@ -46,11 +54,10 @@ header {
 }
 
 .right {
-    padding: 0 1rem;
     color: var(--text-color);
     font-size: 16px;
     font-weight: bold;
-    padding: 0 3rem;
+    padding: 0 1.5rem;
 }
 
 main {

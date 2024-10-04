@@ -138,6 +138,8 @@ nav.menu {
     border-radius: 5px;
     cursor: pointer;
     font-size: 1rem;
+
+    transition: all 0.2s ease;
 }
 
 .like-button:hover,
@@ -145,3 +147,11 @@ nav.menu {
 .comment-button:hover {
     background-color: var(--section-color);
 }
+
+.like-button.liked i,
+.dislike-button.disliked i,
+.like-button.animate-like,
+.dislike-button.animate-dislike {
+    color: var(--button-color);
+}
+
