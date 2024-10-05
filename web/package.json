@@ -1,0 +1,14 @@
+{
+  "name": "csc403-temp_name",
+  "version": "1.0.0",
+  "description": "Software Design and Engineering (CSC 403-002) Scrum Project \\\r by <ins>**temp_name**</ins>.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.21.0"
+  }
+}

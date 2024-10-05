@@ -4,12 +4,6 @@ window.onload = function() {
         .then(data => {
             document.getElementById('header-container').innerHTML = data;
 
-            // Assume user is logged out
-            let isLoggedIn = false;
-
-            // Get log in status
-            isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
-
             // hamed gurber
             const hamburger = document.querySelector('.hamburger');
             const nav = document.querySelector('.menu');
@@ -22,55 +16,61 @@ window.onload = function() {
                 document.querySelector('.menu').classList.toggle('show');
             });
 
+            // Assume user is logged out
+            let isLoggedIn = false;
+
+            // Get log in status
+            isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+
             //
             const currentPage = window.location.pathname.split('/').pop();
             console.log(currentPage);
             switch (currentPage) {
-                case 'index.html':
+                case '':
                     nav.innerHTML = `
-                        ${isLoggedIn ? `<a href="profile.html"><button id="profile-button">Profile</button></a>` : `<a href="login.html"><button id="loginButton">Login</button></a>`}
-                        ${isLoggedIn ? `<a href="post.html"><button id="post-button">Post</button></a>` : `<a href="register.html"><button id="register-button">Register</button></a>`}
-                        ${isLoggedIn ? `<a href="logout.html"><button id="logout-button">Logout</button></a>` : ``}
+                        ${isLoggedIn ? `<a href="profile"><button id="profile-button">Profile</button></a>` : `<a href="/login"><button id="loginButton">Login</button></a>`}
+                        ${isLoggedIn ? `<a href="post"><button id="post-button">Post</button></a>` : `<a href="register"><button id="register-button">Register</button></a>`}
+                        ${isLoggedIn ? `<a href="logout"><button id="logout-button">Logout</button></a>` : ``}
                     `;
                     break;
-                case 'post.html':
+                case 'post':
                     nav.innerHTML = `
-                        <a href="index.html"><button id="home-button">Home</button></a>
-                        <a href="logout.html"><button id="logout-button">Logout</button></a>
+                        <a href="/"><button id="home-button">Home</button></a>
+                        <a href="logout"><button id="logout-button">Logout</button></a>
                     `;
                     break;
-                case 'register.html':
+                case 'register':
                     nav.innerHTML = `
-                        <a href="index.html"><button id="home-button">Home</button></a>
-                        <a href="login.html"><button id="loginButton">Login</button></a>
+                        <a href="/"><button id="home-button">Home</button></a>
+                        <a href="login"><button id="loginButton">Login</button></a>
                     `;
                     break;
-                case 'login.html':
+                case 'login':
                     nav.innerHTML = `
-                        <a href="index.html"><button id="home-button">Home</button></a>
-                        <a href="register.html"><button id="register-button">Register</button></a>
+                        <a href="/"><button id="home-button">Home</button></a>
+                        <a href="register"><button id="register-button">Register</button></a>
                     `;
                     break;
-                case 'logout.html':
+                case 'logout':
                     nav.innerHTML = `
-                        <a href="index.html"><button id="home-button">Home</button></a>
-                        <a href="login.html"><button id="loginButton">Login</button></a>
-                        <a href="register.html"><button id="register-button">Register</button></a>
+                        <a href="/"><button id="home-button">Home</button></a>
+                        <a href="login"><button id="loginButton">Login</button></a>
+                        <a href="register"><button id="register-button">Register</button></a>
                     `;
                     break;
-                case 'profile.html':
+                case 'profile':
                     nav.innerHTML = `
-                        <a href="index.html"><button id="home-button">Home</button></a>
-                        <a href="post.html"><button id="post-button">Post</button></a>
-                        <a href="settings.html"><button id="settings-button">Settings</button></a>
-                        <a href="logout.html"><button id="logout-button">Logout</button></a>
+                        <a href="/"><button id="home-button">Home</button></a>
+                        <a href="post"><button id="post-button">Post</button></a>
+                        <a href="settings"><button id="settings-button">Settings</button></a>
+                        <a href="logout"><button id="logout-button">Logout</button></a>
                     `;
                     break;
-                case 'settings.html':
+                case 'settings':
                     nav.innerHTML = `
-                        <a href="index.html"><button id="home-button">Home</button></a>
-                        <a href="profile.html"><button id="profile-button">Profile</button></a>
-                        <a href="logout.html"><button id="logout-button">Logout</button></a>
+                        <a href="/"><button id="home-button">Home</button></a>
+                        <a href="profile"><button id="profile-button">Profile</button></a>
+                        <a href="logout"><button id="logout-button">Logout</button></a>
                     `;
             }
 

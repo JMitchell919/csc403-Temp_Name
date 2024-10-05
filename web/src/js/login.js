@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', function() {
             localStorage.setItem('username', username);
 
             // Redirect to home page after login
-            window.location.href = 'index.html';
+            window.location.href = '/';
         } else {
             alert('Invalid username or password!');
         }
