@@ -19,20 +19,20 @@ document.addEventListener('DOMContentLoaded', function() {
         //     dislikeCount: 1,
         //     commentCount: 10,
         // },
-        // {
-        //     id: 1,
-        //     username: 'Clab',
-        //     profilePic: '../assets/images/temp_pfp_2.png',
-        //     location: 'Galveston, Texas',
-        //     date: '2024-03-14',
-        //     text: 'Me and the boys.',
-        //     postPics: [
-        //         '../assets/images/temp_pic_2.png',
-        //     ],
-        //     likeCount: 15,
-        //     dislikeCount: 2,
-        //     commentCount: 25
-        // },
+        {
+            id: 1,
+            username: 'Clab',
+            profilePic: '../assets/images/temp_pfp_2.png',
+            location: 'Galveston, Texas',
+            date: '2024-03-14',
+            text: 'Me and the boys.',
+            postPics: [
+                '../assets/images/temp_pic_2.png',
+            ],
+            likeCount: 15,
+            dislikeCount: 2,
+            commentCount: 25
+        },
         {
             id: 2,
             username: 'Clab',
@@ -184,4 +184,29 @@ document.addEventListener('DOMContentLoaded', function() {
             dislikeButton.classList.remove('animate-dislike');
         }, 200);
     }
+
+
+    // Get the modal and modal content elements
+    const modal = document.getElementById('image-modal');
+    const modalImg = document.getElementById('enlarged-image');
+    const closeBtn = document.querySelector('.close');
+
+    // Get all images with the class 'clickable-image'
+    const images = document.querySelectorAll('.picture-container .pic');
+
+    // Add click event listener to each image
+    images.forEach(image => {
+        image.addEventListener('click', function() {
+            modal.style.display = 'block'; // Show modal
+            modalImg.src = this.src;       // Set modal image to clicked image
+            document.body.classList.add('no-scroll'); // Disable scrolling of main page
+        });
+    });
+
+    // Add click event listener to close the modal
+    closeBtn.addEventListener('click', function() {
+        modal.style.display = 'none'; // Hide modal
+        document.body.classList.remove('no-scroll'); // Enable scrolling of main page
+    });
 });
+

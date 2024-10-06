@@ -1,9 +1,10 @@
 const express = require('express');
 const path = require('path');
 const fs = require('fs');
+require('dotenv').config({ path: path.resolve(__dirname, '../.env') });
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.WEB_PORT || 3000;
 
 // Serve static files (CSS and JS) from the "src" directory
 app.use(express.static(path.join(__dirname, 'src')));

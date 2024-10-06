@@ -22,7 +22,7 @@ window.onload = function() {
             // Get log in status
             isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
 
-            //
+            // Dynamic Header Buttons and stuff
             const currentPage = window.location.pathname.split('/').pop();
             console.log(currentPage);
             switch (currentPage) {
@@ -74,39 +74,12 @@ window.onload = function() {
                     `;
             }
 
-            
+            // FOR KIEFER
+            // Function to change the location shown in the header. (you don't have to use the function if you don't want. The code is short enough to bo used directly)
+            function changeLocation(loc) {
+                document.querySelector('.location').innerHTML = loc;
+            }
 
-            
-            // Function to toggle buttons based on login state
-            // function updateButtons() {
-            //     if (isLoggedIn) {
-            //         // User is logged in: show Post and Logout buttons, hide Login and Register
-            //         document.getElementById('postButton').style.display = 'inline-block';
-            //         document.getElementById('logoutButton').style.display = 'inline-block';
-            //         document.getElementById('loginButton').style.display = 'none';
-            //         document.getElementById('register-button').style.display = 'none';
-            //     } else {
-            //         // User is not logged in: show Login and Register buttons, hide Post and Logout
-            //         document.getElementById('postButton').style.display = 'none';
-            //         document.getElementById('logoutButton').style.display = 'none';
-            //         document.getElementById('loginButton').style.display = 'inline-block';
-            //         document.getElementById('register-button').style.display = 'inline-block';
-            //     }
-            // }
-
-            // Update header buttons
-            // updateButtons();
-
-            
-
-            // Log out button functionality
-            // document.getElementById('logoutButton').addEventListener('click', function() {
-            //     localStorage.removeItem('isLoggedIn');
-            //     localStorage.removeItem('username');
-            //     window.location.reload();
-            //     alert("You've been logged out.")
-            // });
-
-            
+            changeLocation('Ruston, Louisiana');
         })
 }

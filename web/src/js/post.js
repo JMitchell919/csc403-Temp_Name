@@ -12,6 +12,6 @@ document.addEventListener('DOMContentLoaded', function() {
         alert("Post sent!")
 
         // Redirect to home page after login
-        window.location.href = 'index.html';
+        window.location.href = '/';
     });
 });
