@@ -1,7 +1,53 @@
+// require('dotenv').config({ path: path.resolve(__dirname, '../.env') });
+
 // Once DOM is loaded
 document.addEventListener('DOMContentLoaded', function() {
     // Get log in status
     isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+
+    // Function to create a new post HTML element
+    function createPost(postData) {
+        // Create a div for the post
+        const postDiv = document.createElement('div');
+        postDiv.classList.add('post');
+        postDiv.setAttribute('data-post-id', postData.id);
+
+        // HTML template
+        postDiv.innerHTML = `
+            <div class="post-header">
+                <div class="post-author">
+                    <img src="${postData.profilePic}" alt="Profile Picture" class="profile-pic">
+                    <p class="post-author">${postData.username}</p>
+                </div>
+                <div class="post-info">
+                    <p class="post-location">${postData.location}</p>
+                    <p class="post-date">${postData.date}</p>
+                </div>
+            </div>
+            <p class="post-text">${postData.text}</p>
+            <div class="picture-container">
+                ${postData.postPics && postData.postPics.length > 0 ? postData.postPics.map(pic => `<img src="${pic}" alt="Picture" class="pic">`).join('') : ''}
+            </div>
+            <div class="post-footer">
+                <button class="like-button">
+                    <i class="fa-solid fa-thumbs-up"></i>
+                    <p class="comment-count"><span class="like-count">${postData.likeCount}</span></span></p>
+                </button>
+                
+                <button class="dislike-button">
+                    <i class="fa-solid fa-thumbs-down"></i>
+                    <p class="comment-count"><span class="dislike-count">${postData.dislikeCount}</span></span></p>
+                </button>
+                
+                <button class="comment-button">
+                    <i class="fa-solid fa-comment"></i>
+                    <p class="comment-count"><span class="comment-count-number">${postData.commentCount}</span></p>
+                </button>
+            </div>`;
+
+        // Append the post to the posts section
+        document.getElementById('posts-section').appendChild(postDiv);
+    }
 
     // just some dummy post data
     const examplePostsData = [
@@ -50,55 +96,18 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     ]
 
-    // Function to create a new post HTML element
-    function createPost(postData) {
-        // Create a div for the post
-        const postDiv = document.createElement('div');
-        postDiv.classList.add('post');
-        postDiv.setAttribute('data-post-id', postData.id);
-
-        // HTML template
-        postDiv.innerHTML = `
-            <div class="post-header">
-                <div class="post-author">
-                    <img src="${postData.profilePic}" alt="Profile Picture" class="profile-pic">
-                    <p class="post-author">${postData.username}</p>
-                </div>
-                <div class="post-info">
-                    <p class="post-location">${postData.location}</p>
-                    <p class="post-date">${postData.date}</p>
-                </div>
-            </div>
-            <p class="post-text">${postData.text}</p>
-            <div class="picture-container">
-                ${postData.postPics && postData.postPics.length > 0 ? postData.postPics.map(pic => `<img src="${pic}" alt="Picture" class="pic">`).join('') : ''}
-            </div>
-            <div class="post-footer">
-                <button class="like-button">
-                    <i class="fa-solid fa-thumbs-up"></i>
-                    <p class="comment-count"><span class="like-count">${postData.likeCount}</span></span></p>
-                </button>
-                
-                <button class="dislike-button">
-                    <i class="fa-solid fa-thumbs-down"></i>
-                    <p class="comment-count"><span class="dislike-count">${postData.dislikeCount}</span></span></p>
-                </button>
-                
-                <button class="comment-button">
-                    <i class="fa-solid fa-comment"></i>
-                    <p class="comment-count"><span class="comment-count-number">${postData.commentCount}</span></p>
-                </button>
-            </div>`;
-
-        // Append the post to the posts section
-        document.getElementById('posts-section').appendChild(postDiv);
-    }
-
     // Loop through example posts data
     examplePostsData.forEach(postData => createPost(postData));
 
-    
+    // Get actual posts from API (remove dummy data and loop when implemented)
+    // fetch(`${process.env.DB_DB_DOMAIN}/posts`)
+    //     .then(response => response.json())
+    //     .then(data => function() {
+    //         data.forEach(postData => createPost(postData));
+    //     })
+    //     .catch(error => console.error('Error:', error));
 
+    
     // Add event listener to all like and dislike buttons
     document.getElementById('posts-section').addEventListener('click', function(event) {
         const likeButton = event.target.closest('.like-button');
@@ -132,10 +141,14 @@ document.addEventListener('DOMContentLoaded', function() {
             likeButton.classList.add('liked');
             likeButton.classList.add('animate-like'); // Add animation
 
+            // API ADD LIKE TO POST
+
             // If the user had disliked the post before, remove the dislike
             if (dislikeButton.classList.contains('disliked')) {
                 currentDislikes--;
                 dislikeButton.classList.remove('disliked');
+
+                // API REMOVE DISLIKE FROM POST
             }
         }
 
@@ -168,10 +181,14 @@ document.addEventListener('DOMContentLoaded', function() {
             dislikeButton.classList.add('disliked');
             dislikeButton.classList.add('animate-dislike'); // Add animation
 
+            // API ADD DISLIKE TO POST
+
             // If the user had liked the post before, remove the like
             if (likeButton.classList.contains('liked')) {
                 currentLikes--;
                 likeButton.classList.remove('liked');
+
+                // API REMOVE LIKE FROM POST
             }
         }
 

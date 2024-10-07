@@ -32,7 +32,7 @@ header {
     justify-content: space-between;
     align-items: center;
     padding: 0.5rem 0;
-    background-color: var(--header-color);
+    background: var(--header-color);
 }
 
 .left {
@@ -68,7 +68,7 @@ header button {
     background-color: var(--button-color);
     color: var(--text-color);
     border: none;
-    border-radius: 0.5rem;
+    border-radius: var(--button-border-radius);
     cursor: pointer;
     font-size: 1rem;
 }
@@ -129,18 +129,19 @@ main {
 }
 
 footer {
-    font-size: 12px;
+    font-size: 0.8rem;
     padding: 3rem;
-    background-color: var(--header-color);
+    padding-right: 50%;
+    background: linear-gradient(180deg, var(--header-color), var(--bg-color));
     color: var(--text-color);
     display: flex;
     flex-direction: row;
     justify-content: space-between;
 }
 
-.catagory {
+.title {
     color: var(--button-color);
-    font-size: 16px;
+    font-size: 1rem;
     font-weight: bold;
 }
 

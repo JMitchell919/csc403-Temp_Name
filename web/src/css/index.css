@@ -10,7 +10,7 @@
     padding: 1rem;
     padding-bottom: 0;
     margin-bottom: 1rem;
-    background-color: var(--header-color);
+    background: var(--header-color);
     max-width: 50rem;
     color: var(--text-color);
 }
@@ -93,21 +93,18 @@
     color: var(--button-color);
 }
 
-
-
-
 /* Hide the modal by default */
 .modal {
-    display: none; /* Hidden by default */
-    position: fixed; /* Stay in place */
-    z-index: 1; /* Sit on top */
+    display: none;
+    position: fixed;
+    z-index: 1;
     padding: 1rem 0;
     left: 0;
     top: 0;
-    width: 100%; /* Full width */
-    height: 100%; /* Full height */
-    overflow: auto; /* Enable scroll if needed */
-    background-color: rgba(0,0,0,0.75); /* Black with opacity */
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.75);
 }
 
 /* Modal content (the enlarged image) */
@@ -119,7 +116,6 @@
     max-height: 100vh;
 }
 
-/* Close button */
 .close {
     position: absolute;
     top: 1rem;
@@ -130,7 +126,7 @@
     border-radius: 50%;
 
     color: var(--text-color);
-    font-size: 40px;
+    font-size: 3rem;
     font-weight: bold;
 
     cursor: pointer;

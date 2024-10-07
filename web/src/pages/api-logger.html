@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Logger</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../css/api-logger.css">
+    <script src="../js/api-logger.js"></script>
+    <script src="../js/headerLoader.js"></script>
+    <script src="../js/footerLoader.js"></script>
+</head>
+<body>
+    <div class="wrapper">
+        <div id="header-container"></div>
+        <main>
+            <div class="section">
+                <div class="input-section">
+                    <div class="domain">
+                        <p>Domain</p>
+                        <input type="text" id="domain-input">
+                    </div>
+                    <div class="endpoint">
+                        <p>Endpoint</p>
+                        <input type="text" id="endpoint-input">
+                    </div>
+                    <button id="submit">Submit</button>
+                </div>
+                <div class="response-section">
+                    <p>Response:</p>
+                    <div class="response-field">
+                        <pre id="response"></pre>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <div id="footer-container"></div>
+    </div>
+</body>
+</html>

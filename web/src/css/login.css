@@ -1,6 +1,7 @@
 .login-field {
     margin: 1rem auto 1rem auto;
     padding: 5rem;
+    border-radius: var(--section-border-radius);
     max-width: 20rem;
     background: var(--header-color);
     color: var(--text-color);
