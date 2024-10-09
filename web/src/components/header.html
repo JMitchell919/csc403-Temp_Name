@@ -1,12 +1,13 @@
+<body>
 <header>
     <div class="left">
         <a href="/"> 
-            <img src="../assets/images/lochyl_logo.png" alt="" class="logo">
+            <img src="../assets/images/lochyl_logo.png" alt="Lochyl Logo" class="logo">
         </a>
     </div>
     <div class="center">
-        <p class="location">
-            current zone name
+        <p class="location" id="location">
+            Current zone: Loading...
         </p>
     </div>
     <div class="right">
@@ -14,3 +15,29 @@
         <nav class="menu"></nav>
     </div>
 </header>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition((position) => {
+                const latitude = position.coords.latitude;
+                const longitude = position.coords.longitude;
+		let zone;
+
+		if (latitude > 32.5263) {
+			zone = "Zone 1"
+		}
+		else {
+			zone = "Zone 2"
+		}
+                document.getElementById('location').innerText = `Current zone: ${zone}`;
+            }, (error) => {
+                document.getElementById('location').innerText = 'Unable to retrieve location';
+                console.error(error);
+            });
+        } else {
+            document.getElementById('location').innerText = 'Geolocation is not supported by this browser';
+        }
+    });
+</script>
+</body>
