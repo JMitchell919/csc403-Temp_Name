@@ -109,7 +109,7 @@ document.addEventListener('DOMContentLoaded', function() {
     //     })
     //     .catch(error => console.error('Error:', error));
     
-    fetch('http://localhost:8080/post')
+    fetch('http://localhost:8080/posts')
         .then(response => {
             if (!response.ok) {
                 throw new Error('Response was not ok ' + response.statusText);
@@ -117,8 +117,7 @@ document.addEventListener('DOMContentLoaded', function() {
             return response.json();
         })
         .then(data => {
-            console.log(data);
-            createPost(data);
+            data.forEach(postData => createPost(postData));
         })
         .catch(error => {
             console.error("Something's wrong dumby: ", error);
