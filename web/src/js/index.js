@@ -49,63 +49,80 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('posts-section').appendChild(postDiv);
     }
 
+    // ignore all this mess. Ill clean it later
+
     // just some dummy post data
-    const examplePostsData = [
-        // {
-        //     id: 0,
-        //     username: 'temp_user',
-        //     profilePic: '../assets/images/temp_pfp_1.png',
-        //     location: 'temp_location',
-        //     date: '2024-09-25',
-        //     text: 'Ayo look at this crazy horse!',
-        //     postPics: [
-        //         '../assets/images/temp_pic_1.png',
-        //     ],
-        //     likeCount: 5,
-        //     dislikeCount: 1,
-        //     commentCount: 10,
-        // },
-        {
-            id: 1,
-            username: 'Clab',
-            profilePic: '../assets/images/temp_pfp_2.png',
-            location: 'Galveston, Texas',
-            date: '2024-03-14',
-            text: 'Me and the boys.',
-            postPics: [
-                '../assets/images/temp_pic_2.png',
-            ],
-            likeCount: 15,
-            dislikeCount: 2,
-            commentCount: 25
-        },
-        {
-            id: 2,
-            username: 'Clab',
-            profilePic: '../assets/images/temp_pfp_2.png',
-            location: 'Ruston, Louisiana',
-            date: '2024-10-1',
-            text: 'First test from a post created using a template!',
-            postPics: [
-                'https://pbs.twimg.com/media/GXSejYjbkAAwFVJ?format=jpg&name=900x900',
-                'https://pbs.twimg.com/media/GYcEE2obEAAyMZU?format=jpg&name=medium'
-            ],
-            likeCount: 15,
-            dislikeCount: 2,
-            commentCount: 25
-        }
-    ]
+    // const examplePostsData = [
+    //     // {
+    //     //     id: 0,
+    //     //     username: 'temp_user',
+    //     //     profilePic: '../assets/images/temp_pfp_1.png',
+    //     //     location: 'temp_location',
+    //     //     date: '2024-09-25',
+    //     //     text: 'Ayo look at this crazy horse!',
+    //     //     postPics: [
+    //     //         '../assets/images/temp_pic_1.png',
+    //     //     ],
+    //     //     likeCount: 5,
+    //     //     dislikeCount: 1,
+    //     //     commentCount: 10,
+    //     // },
+    //     {
+    //         id: 1,
+    //         username: 'Clab',
+    //         profilePic: '../assets/images/temp_pfp_2.png',
+    //         location: 'Galveston, Texas',
+    //         date: '2024-03-14',
+    //         text: 'Me and the boys.',
+    //         postPics: [
+    //             '../assets/images/temp_pic_2.png',
+    //         ],
+    //         likeCount: 15,
+    //         dislikeCount: 2,
+    //         commentCount: 25
+    //     },
+    //     {
+    //         id: 2,
+    //         username: 'Clab',
+    //         profilePic: '../assets/images/temp_pfp_2.png',
+    //         location: 'Ruston, Louisiana',
+    //         date: '2024-10-1',
+    //         text: 'First test from a post created using a template!',
+    //         postPics: [
+    //             'https://pbs.twimg.com/media/GXSejYjbkAAwFVJ?format=jpg&name=900x900',
+    //             'https://pbs.twimg.com/media/GYcEE2obEAAyMZU?format=jpg&name=medium'
+    //         ],
+    //         likeCount: 15,
+    //         dislikeCount: 2,
+    //         commentCount: 25
+    //     }
+    // ]
 
     // Loop through example posts data
-    examplePostsData.forEach(postData => createPost(postData));
+    // examplePostsData.forEach(postData => createPost(postData));
 
     // Get actual posts from API (remove dummy data and loop when implemented)
-    // fetch(`${process.env.DB_DB_DOMAIN}/posts`)
+    // fetch(`${process.env.DB_DB_DOMAIN}/post`)
     //     .then(response => response.json())
     //     .then(data => function() {
     //         data.forEach(postData => createPost(postData));
     //     })
     //     .catch(error => console.error('Error:', error));
+    
+    fetch('http://localhost:8080/post')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Response was not ok ' + response.statusText);
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log(data);
+            createPost(data);
+        })
+        .catch(error => {
+            console.error("Something's wrong dumby: ", error);
+        })
 
     
     // Add event listener to all like and dislike buttons
@@ -201,7 +218,6 @@ document.addEventListener('DOMContentLoaded', function() {
             dislikeButton.classList.remove('animate-dislike');
         }, 200);
     }
-
 
     // Get the modal and modal content elements
     const modal = document.getElementById('image-modal');
