@@ -4,7 +4,6 @@ USE posts_db;
 CREATE TABLE IF NOT EXISTS posts (
     id INT AUTO_INCREMENT PRIMARY KEY,
     username VARCHAR(255) NOT NULL,
-    profile_pic VARCHAR(255),
     location VARCHAR(255),
     date VARCHAR(50),
     text TEXT,
