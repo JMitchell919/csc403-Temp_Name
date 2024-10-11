@@ -17,7 +17,7 @@ public class Posts {
         this.posts = posts;
     }
 
-    public static List<Post> retrievePosts() {
+    public static List<Post> readPosts() {
         Connection conn = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
@@ -66,5 +66,57 @@ public class Posts {
         }
 
         return postList;
+    }
+
+
+    public static int writePost(Post post) {
+        String username = post.getUsername();
+        // String profilePic = post.getProfilePic();
+        String location = post.getLocation();
+        String date = post.getDate();
+        String text = post.getText();
+        // List<String> postPics = post.getPostPics();
+
+        // get rest of data?
+        
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        int postId = -1;
+
+        try {
+            conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD);
+
+            String sql = "INSERT INTO posts (username, location, date, text) VALUES (?, ?, ?, ?)";
+            pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+
+            pstmt.setString(1, username);
+            pstmt.setString(2, location);
+            pstmt.setString(3, date);
+            pstmt.setString(4, text);
+            // pstmt.setString(5, profilePic);
+
+            int rowsAffected = pstmt.executeUpdate();
+
+            if (rowsAffected > 0) {
+                rs = pstmt.getGeneratedKeys();
+                if (rs.next()) {
+                    postId = rs.getInt(1);
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (rs != null) rs.close();
+                if (pstmt != null) pstmt.close();
+                if (conn != null) conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return postId;
     }
 }

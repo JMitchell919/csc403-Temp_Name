@@ -1,4 +1,3 @@
-
 <header>
     <div class="left">
         <a href="/"> 
@@ -14,30 +13,7 @@
         <button class="hamburger" aria-label="Toggle menu">&#9776;</button>
         <nav class="menu"></nav>
     </div>
+    <!-- Why is this here? idk things work and I'm afraid the site will blow up if I remove it -->
+    <script src="/js/footerLoader.js"></script> 
 </header>
-
-<script>
-    document.addEventListener('DOMContentLoaded', () => {
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition((position) => {
-                const latitude = position.coords.latitude;
-                const longitude = position.coords.longitude;
-		let zone;
-
-		if (latitude > 32.5263) {
-			zone = "Zone 1"
-		}
-		else {
-			zone = "Zone 2"
-		}
-                document.getElementById('location').innerText = `Current zone: ${zone}`;
-            }, (error) => {
-                document.getElementById('location').innerText = 'Unable to retrieve location';
-                console.error(error);
-            });
-        } else {
-            document.getElementById('location').innerText = 'Geolocation is not supported by this browser';
-        }
-    });
-</script>
 

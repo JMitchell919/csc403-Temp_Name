@@ -11,18 +11,15 @@ document.addEventListener('DOMContentLoaded', function() {
         // Get data needed for post
         // Fetch user details
 
+        const date = new Date();
+
         // Construct post
         post = {
-            id: 2,
-            username: 'user',
-            profilePic: '',
-            location: 'Ruston, Louisiana',
-            date: '2024-10-10',
+            username: localStorage.getItem('username'), // replace with id later
+            location: localStorage.getItem('zone'),
+            date: `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`,
             text: input,
-            postPics: [],
-            likeCount: 0,
-            dislikeCount: 0,
-            commentCount: 0
+            postPics: []
         }
 
 
