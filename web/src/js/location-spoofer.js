@@ -7,9 +7,13 @@ document.addEventListener('DOMContentLoaded', function() {
         const ok = true;
         
         if (ok) {
-            // Set location
-
-            output.innerHTML = `Location succesfully set to ${location}.`
+            if (location) {
+                localStorage.setItem('overrideZone', location)
+                output.innerHTML = `Location succesfully set to ${location}.`
+            } else {
+                localStorage.removeItem('overrideZone');
+                output.innerHTML = `Location set to your location (${localStorage.getItem('zone')}).`
+            }
         } else {
             output.innerHTML = `Error: ${location} does not exist or something else is wrong, idk.` 
         }

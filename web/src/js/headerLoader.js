@@ -91,29 +91,6 @@ window.onload = function() {
                 document.querySelector('.location').innerHTML = loc;
             }
 
-            changeLocation(localStorage.getItem('zone'));
-
-            // if (navigator.geolocation) {
-            //     navigator.geolocation.getCurrentPosition((position) => {
-            //         const latitude = localStorage.getItem('latitude');
-            //         const longitude = localStorage.getItem('longitude');
-                    
-            //         let zone;
-                
-            //         if (latitude > 32.5263) {
-            //             zone = "Zone 1"
-            //         }
-            //         else {
-            //             zone = "Zone 2"
-            //         }
-
-            //         localStorage.setItem('zone', zone);
-            //         changeLocation(zone);
-
-            //     }, (error) => {
-            //         document.getElementById('location').innerText = 'Unable to retrieve location';
-            //         console.error(error);
-            //     });
-            // }
+            changeLocation(`${localStorage.getItem('overrideZone') || localStorage.getItem('zone')}${localStorage.getItem('overrideZone') ? ' (override)' : ''}`);
         });
 }

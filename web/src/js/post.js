@@ -9,14 +9,12 @@ document.addEventListener('DOMContentLoaded', function() {
         console.log(input);
 
         // Get data needed for post
-        // Fetch user details
-
         const date = new Date();
 
         // Construct post
         post = {
             username: localStorage.getItem('username'), // replace with id later
-            location: localStorage.getItem('zone'),
+            location: localStorage.getItem('overrideZone') || localStorage.getItem('zone'),
             date: `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`,
             text: input,
             postPics: []
@@ -33,7 +31,6 @@ document.addEventListener('DOMContentLoaded', function() {
         })
         .then(response => {
             if (!response.ok) {
-                // Alert user of sent post
                 alert("Network response was not ok");
                 throw new Error('Network response was not ok');
             }
