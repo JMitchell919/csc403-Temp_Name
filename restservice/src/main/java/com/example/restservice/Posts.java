@@ -9,7 +9,7 @@ public class Posts {
 
     private static final String DB_URL = "jdbc:mysql://localhost:3306/lochyl";
     private static final String DB_USERNAME = "root";
-    private static final String DB_PASSWORD = "";
+    private static final String DB_PASSWORD = "password";
 
     private List<Post> posts;
 
@@ -26,7 +26,7 @@ public class Posts {
         try {
             conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD);
 
-            String sql = "SELECT p.id, p.username, u.profile_pic, p.location, p.date, p.text, p.like_count, " +
+            String sql = "SELECT p.id, p.username, ANY_VALUE(u.profile_pic) AS profile_pic, p.location, p.date, p.text, p.like_count, " +
                          "p.dislike_count, p.comment_count, GROUP_CONCAT(pp.pic_url) AS post_pics " +
                          "FROM posts p " +
                          "LEFT JOIN post_pics pp ON p.id = pp.post_id " +
