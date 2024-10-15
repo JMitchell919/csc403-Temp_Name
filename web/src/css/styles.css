@@ -120,7 +120,11 @@ nav.menu button {
     }
 
     .hamburger:hover {
-        background-color: var(--highlight-color);
+        background: var(--highlight-color);
+    }
+    
+    footer {
+        font-size: 0.5rem;
     }
 }
 
@@ -132,6 +136,7 @@ footer {
     font-size: 0.8rem;
     padding: 3rem;
     padding-right: 50%;
+    min-width: 30rem;
     background: linear-gradient(180deg, var(--header-color), var(--bg-color));
     color: var(--text-color);
     display: flex;

@@ -1,9 +1,9 @@
 // const { response } = require("express");
 
 // On document load
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', async function() {
     // Add click event to submit-post button
-    document.getElementById('submit-post').addEventListener('click', function() {
+    document.getElementById('submit-post').addEventListener('click', async function() {
         // Grab value of post-input
         const input = document.getElementById('post-input').value;
         console.log(input);
@@ -20,9 +20,22 @@ document.addEventListener('DOMContentLoaded', function() {
             postPics: []
         }
 
+        let apiDomain = '';
+        let apiPort = '';
+
+        await fetch('/config')
+            .then(response => response.json())
+            .then(config => {
+                apiDomain = config.apiDomain;
+                apiPort = config.apiPort;
+            })
+            .catch(error => {
+                console.error('Error fetching config:', error);
+            });
+
 
         // Send post off
-        fetch('http://localhost:8080/posts', {
+        fetch(`${apiDomain}:${apiPort}/posts`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

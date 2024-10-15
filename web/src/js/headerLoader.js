@@ -24,7 +24,6 @@ window.onload = function() {
 
             // Dynamic Header Buttons and stuff
             const currentPage = window.location.pathname.split('/').pop();
-            console.log(currentPage);
             switch (currentPage) {
                 case '':
                     nav.innerHTML = `

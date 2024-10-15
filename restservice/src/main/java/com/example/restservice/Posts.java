@@ -18,52 +18,46 @@ public class Posts {
     }
 
     public static List<Post> readPosts() {
-        Connection conn = null;
-        PreparedStatement pstmt = null;
-        ResultSet rs = null;
         List<Post> postList = new ArrayList<>();
 
-        try {
-            conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD);
+        String sqlPost = "SELECT posts.*, users.profile_pic " +
+                         "FROM posts " +
+                         "LEFT JOIN users ON posts.username = users.username";
 
-            String sql = "SELECT p.id, p.username, ANY_VALUE(u.profile_pic) AS profile_pic, p.location, p.date, p.text, p.like_count, " +
-                         "p.dislike_count, p.comment_count, GROUP_CONCAT(pp.pic_url) AS post_pics " +
-                         "FROM posts p " +
-                         "LEFT JOIN post_pics pp ON p.id = pp.post_id " +
-                         "LEFT JOIN users u ON p.username = u.username " + // Join with the users table to fetch user data
-                         "GROUP BY p.id";
+        try (Connection conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD);
+             PreparedStatement pstmt = conn.prepareStatement(sqlPost);
+             ResultSet rsPosts = pstmt.executeQuery()) {
 
-            pstmt = conn.prepareStatement(sql);
-            rs = pstmt.executeQuery();
+            while (rsPosts.next()) {
+                int id = rsPosts.getInt("id");
+                String username = rsPosts.getString("username");
+                String profilePic = rsPosts.getString("profile_pic");
+                String location = rsPosts.getString("location");
+                String date = rsPosts.getString("date");
+                String text = rsPosts.getString("text");
+                int likeCount = rsPosts.getInt("like_count");
+                int dislikeCount = rsPosts.getInt("dislike_count");
+                int commentCount = rsPosts.getInt("comment_count");
 
-            while (rs.next()) {
-                int id = rs.getInt("id");
-                String username = rs.getString("username");
-                String profilePic = rs.getString("profile_pic");
-                String location = rs.getString("location");
-                String date = rs.getString("date");
-                String text = rs.getString("text");
-                int likeCount = rs.getInt("like_count");
-                int dislikeCount = rs.getInt("dislike_count");
-                int commentCount = rs.getInt("comment_count");
+                // Retrieve pic_urls for the current post
+                List<String> postPics = new ArrayList<>();
+                String sqlPics = "SELECT pic_url FROM post_pics WHERE post_id=?";
+                
+                try (PreparedStatement pstmtPics = conn.prepareStatement(sqlPics)) {
+                    pstmtPics.setInt(1, id); // Set post_id for the specific post
+                    try (ResultSet rsPics = pstmtPics.executeQuery()) {
+                        while (rsPics.next()) {
+                            postPics.add(rsPics.getString("pic_url"));
+                        }
+                    }
+                }
 
-                String postPicsStr = rs.getString("post_pics");
-                List<String> postPics = postPicsStr != null ? Arrays.asList(postPicsStr.split(",")) : new ArrayList<>();
-
+                // Create the Post object
                 Post post = new Post(id, username, profilePic, location, date, text, postPics, likeCount, dislikeCount, commentCount);
                 postList.add(post);
             }
-
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-            try {
-                if (rs != null) rs.close();
-                if (pstmt != null) pstmt.close();
-                if (conn != null) conn.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
         }
 
         return postList;

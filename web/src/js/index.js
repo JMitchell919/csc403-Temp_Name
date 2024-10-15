@@ -1,7 +1,5 @@
-// require('dotenv').config({ path: path.resolve(__dirname, '../.env') });
-
 // Once DOM is loaded
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', async function() {
     // Get log in status
     isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
 
@@ -11,118 +9,98 @@ document.addEventListener('DOMContentLoaded', function() {
         const postDiv = document.createElement('div');
         postDiv.classList.add('post');
         postDiv.setAttribute('data-post-id', postData.id);
-
+        
         // HTML template
         postDiv.innerHTML = `
-            <div class="post-header">
-                <div class="post-author">
-                    <img src="${postData.profilePic}" alt="Profile Picture" class="profile-pic">
-                    <p class="post-author">${postData.username}</p>
-                </div>
-                <div class="post-info">
-                    <p class="post-location">${postData.location}</p>
-                    <p class="post-date">${postData.date}</p>
-                </div>
+            <div class="highlight">
+                <a href="view?postId=${postData.id}" class="post-anchor">
+                    <div class="post-header">
+                        <div class="post-author no-redirect">
+                            <img src="${postData.profilePic}" alt="Profile Picture" class="profile-pic">
+                            <p class="post-author">${postData.username}</p>
+                        </div>
+                        <div class="post-info">
+                            <p class="post-location">${postData.location}</p>
+                            <p class="post-date">${postData.date}</p>
+                        </div>
+                    </div>
+                    
+                    <p class="post-text no-redirect">${postData.text}</p>
+            
+                    <div class="picture-container">
+                        ${postData.postPics && postData.postPics.length > 0 ? postData.postPics.map(pic => `<img src="${pic}" alt="Picture" class="pic">`).join('') : ''}
+                    </div>
+            
+                    <div class="post-footer">
+                        <button class="like-button no-redirect">
+                            <i class="fa-solid fa-thumbs-up"></i>
+                            <p class="comment-count"><span class="like-count">${postData.likeCount}</span></span></p>
+                        </button>
+                        
+                        <button class="dislike-button no-redirect">
+                            <i class="fa-solid fa-thumbs-down"></i>
+                            <p class="comment-count"><span class="dislike-count">${postData.dislikeCount}</span></span></p>
+                        </button>
+                        
+                        <button class="comment-button">
+                            <i class="fa-solid fa-comment"></i>
+                            <p class="comment-count"><span class="comment-count-number">${postData.commentCount}</span></p>
+                        </button>
+                    </div>
+                </a>
             </div>
-            <p class="post-text">${postData.text}</p>
-            <div class="picture-container">
-                ${postData.postPics && postData.postPics.length > 0 ? postData.postPics.map(pic => `<img src="${pic}" alt="Picture" class="pic">`).join('') : ''}
-            </div>
-            <div class="post-footer">
-                <button class="like-button">
-                    <i class="fa-solid fa-thumbs-up"></i>
-                    <p class="comment-count"><span class="like-count">${postData.likeCount}</span></span></p>
-                </button>
-                
-                <button class="dislike-button">
-                    <i class="fa-solid fa-thumbs-down"></i>
-                    <p class="comment-count"><span class="dislike-count">${postData.dislikeCount}</span></span></p>
-                </button>
-                
-                <button class="comment-button">
-                    <i class="fa-solid fa-comment"></i>
-                    <p class="comment-count"><span class="comment-count-number">${postData.commentCount}</span></p>
-                </button>
-            </div>`;
+        `;
+    
+        // Prevent redirect if a no-redirect element is clicked
+        postDiv.querySelector('.post-anchor').addEventListener('click', function(event) {
+            if (event.target.closest('.no-redirect')) {
+                event.preventDefault();
+            }
+        });
+        
+        // Add click event listener to images for enlarging
+        postDiv.querySelectorAll('.pic').forEach(image => {
+            image.addEventListener('click', function(event) {
+                event.preventDefault();
+                modal.style.display = 'block';
+                modalImg.src = this.src;
+                document.body.classList.add('no-scroll');
+            });
+        });
 
         // Append the post to the posts section
         document.getElementById('posts-section').appendChild(postDiv);
     }
 
-    // ignore all this mess. Ill clean it later
+    // Fetch config
+    let apiDomain = '';
+    let apiPort = '';
 
-    // just some dummy post data
-    // const examplePostsData = [
-    //     // {
-    //     //     id: 0,
-    //     //     username: 'temp_user',
-    //     //     profilePic: '../assets/images/temp_pfp_1.png',
-    //     //     location: 'temp_location',
-    //     //     date: '2024-09-25',
-    //     //     text: 'Ayo look at this crazy horse!',
-    //     //     postPics: [
-    //     //         '../assets/images/temp_pic_1.png',
-    //     //     ],
-    //     //     likeCount: 5,
-    //     //     dislikeCount: 1,
-    //     //     commentCount: 10,
-    //     // },
-    //     {
-    //         id: 1,
-    //         username: 'Clab',
-    //         profilePic: '../assets/images/temp_pfp_2.png',
-    //         location: 'Galveston, Texas',
-    //         date: '2024-03-14',
-    //         text: 'Me and the boys.',
-    //         postPics: [
-    //             '../assets/images/temp_pic_2.png',
-    //         ],
-    //         likeCount: 15,
-    //         dislikeCount: 2,
-    //         commentCount: 25
-    //     },
-    //     {
-    //         id: 2,
-    //         username: 'Clab',
-    //         profilePic: '../assets/images/temp_pfp_2.png',
-    //         location: 'Ruston, Louisiana',
-    //         date: '2024-10-1',
-    //         text: 'First test from a post created using a template!',
-    //         postPics: [
-    //             'https://pbs.twimg.com/media/GXSejYjbkAAwFVJ?format=jpg&name=900x900',
-    //             'https://pbs.twimg.com/media/GYcEE2obEAAyMZU?format=jpg&name=medium'
-    //         ],
-    //         likeCount: 15,
-    //         dislikeCount: 2,
-    //         commentCount: 25
-    //     }
-    // ]
-
-    // Loop through example posts data
-    // examplePostsData.forEach(postData => createPost(postData));
-
-    // Get actual posts from API (remove dummy data and loop when implemented)
-    // fetch(`${process.env.DB_DB_DOMAIN}/post`)
-    //     .then(response => response.json())
-    //     .then(data => function() {
-    //         data.forEach(postData => createPost(postData));
-    //     })
-    //     .catch(error => console.error('Error:', error));
-    
-    fetch('http://localhost:8080/posts')
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Response was not ok ' + response.statusText);
-            }
-            return response.json();
-        })
-        .then(data => {
-            data.forEach(postData => createPost(postData));
+    await fetch('/config')
+        .then(response => response.json())
+        .then(config => {
+            apiDomain = config.apiDomain;
+            apiPort = config.apiPort;
         })
         .catch(error => {
-            console.error("Something's wrong dumby: ", error);
-        })
+            console.error('Error fetching config:', error);
+        });
 
+    // Fetch posts
+    fetch(`${apiDomain}:${apiPort}/posts`)
+        .then(response => response.json())
+        .then(posts => {
+            posts.forEach(post => {
+                // post.postPics = [
+                //     'https://media.discordapp.net/attachments/880342502660530176/1295663084056346727/monk_autism.png?ex=670f77c7&is=670e2647&hm=0aa3be9dbd1434b6db5743c251f1a8d237e39b0569be9c4ff95c3326b842e51f&=&format=webp&quality=lossless&width=381&height=391',
+                //     'https://media.discordapp.net/attachments/880342502660530176/1295699271064092766/image0.jpg?ex=670f997b&is=670e47fb&hm=ea9c83a5625e192e14d8cd0f870fc99f9cd75e01bb9a4133633ecd17b875b9f0&=&format=webp&width=623&height=822'
+                // ]
+                createPost(post)
+            });
+        })
+        .catch(error => {
+            console.error("Error fetching from /posts: ", error);
+        });
     
     // Add event listener to all like and dislike buttons
     document.getElementById('posts-section').addEventListener('click', function(event) {
@@ -223,22 +201,19 @@ document.addEventListener('DOMContentLoaded', function() {
     const modalImg = document.getElementById('enlarged-image');
     const closeBtn = document.querySelector('.close');
 
-    // Get all images with the class 'clickable-image'
-    const images = document.querySelectorAll('.picture-container .pic');
-
-    // Add click event listener to each image
-    images.forEach(image => {
-        image.addEventListener('click', function() {
-            modal.style.display = 'block'; // Show modal
-            modalImg.src = this.src;       // Set modal image to clicked image
-            document.body.classList.add('no-scroll'); // Disable scrolling of main page
-        });
-    });
-
     // Add click event listener to close the modal
     closeBtn.addEventListener('click', function() {
         modal.style.display = 'none'; // Hide modal
         document.body.classList.remove('no-scroll'); // Enable scrolling of main page
     });
+
+    modal.addEventListener('click', function() {
+        modal.style.display = 'none'; // Hide modal
+        document.body.classList.remove('no-scroll'); // Enable scrolling of main page
+    });
+
+    document.getElementById('enlarged-image').addEventListener('click', function(event) {
+        event.stopPropagation();
+    })
 });
 

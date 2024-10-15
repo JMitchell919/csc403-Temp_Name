@@ -27,6 +27,9 @@ fs.readdir(pagesDirectory, (err, files) => {
             app.get(routePath, (req, res) => {
                 res.sendFile(path.join(pagesDirectory, file));
             });
+            app.get('/config', (req, res) => {
+                res.json({ apiDomain: process.env.DB_DOMAIN, apiPort: process.env.DB_PORT });
+            })
         }
     });
 });
