@@ -19,6 +19,10 @@ public class PostService {
 
         Post post = null;
 
+        if (postId == 0) {
+            return post;
+        }
+
         try {
             conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD);
             String sql ="SELECT posts.*, users.profile_pic, post_pics.pic_url " +

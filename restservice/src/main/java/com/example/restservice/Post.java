@@ -94,16 +94,32 @@ public class Post {
         return likeCount;
     }
 
-    public void setLikeCount(int likeCount) {
+    private void setLikeCount(int likeCount) {
         this.likeCount = likeCount;
+    }
+
+    public void incrementLikeCount() {
+        this.likeCount += 1;
+    }
+
+    public void decrementLikeCount() {
+        this.likeCount -= 1;
     }
 
     public int getDislikeCount() {
         return dislikeCount;
     }
 
-    public void setDislikeCount(int dislikeCount) {
+    private void setDislikeCount(int dislikeCount) {
         this.dislikeCount = dislikeCount;
+    }
+
+    public void incrementDisikeCount() {
+        this.dislikeCount += 1;
+    }
+
+    public void decrementDisikeCount() {
+        this.dislikeCount -= 1;
     }
 
     public int getCommentCount() {
@@ -113,54 +129,4 @@ public class Post {
     public void setCommentCount(int commentCount) {
         this.commentCount = commentCount;
     }
-
-    // public Post getPostById(int postId) {
-    //     Connection conn = null;
-    //     PreparedStatement pstmt = null;
-    //     ResultSet rs = null;
-
-    //     Post post = null;
-
-    //     try {
-    //         conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD);
-
-    //         String sql ="SELECT p.*, u.profile_pic " +
-    //                     "FROM posts p " +
-    //                     "LEFT JOIN users u ON p.username = u.username " +
-    //                     "WHERE p.id=?";
-    //         pstmt = conn.prepareStatement(sql);
-    //         pstmt.setInt(1, postId);
-    //         rs = pstmt.executeQuery();
-
-    //         while (rs.next()) {
-    //             int id = rs.getInt("id");
-    //             String username = rs.getString("username");
-    //             String profilePic = rs.getString("profile_pic");
-    //             String location = rs.getString("location");
-    //             String date = rs.getString("date");
-    //             String text = rs.getString("text");
-    //             int likeCount = rs.getInt("like_count");
-    //             int dislikeCount = rs.getInt("dislike_count");
-    //             int commentCount = rs.getInt("comment_count");
-
-    //             String postPicsStr = rs.getString("post_pics");
-    //             List<String> postPics = postPicsStr != null ? Arrays.asList(postPicsStr.split(",")) : new ArrayList<>();
-
-    //             post = new Post(id, username, profilePic, location, date, text, postPics, likeCount, dislikeCount, commentCount);
-    //         }
-
-    //     } catch (SQLException e) {
-    //         e.printStackTrace();
-    //     } finally {
-    //         try {
-    //             if (rs != null) rs.close();
-    //             if (pstmt != null) pstmt.close();
-    //             if (conn != null) conn.close();
-    //         } catch (SQLException e) {
-    //             e.printStackTrace();
-    //         }
-    //     }
-
-    //     return post;
-    // }
 }

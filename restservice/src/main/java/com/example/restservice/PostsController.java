@@ -20,7 +20,6 @@ public class PostsController {
     public ResponseEntity<Post> createPost(@RequestBody Post post) {
         postsManager.writePost(post);
 
-        // Return 201
         return ResponseEntity.status(HttpStatus.CREATED).body(post);
     }
 }
