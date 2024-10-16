@@ -99,11 +99,11 @@ public class Post {
     }
 
     public void incrementLikeCount() {
-        this.likeCount += 1;
+        executeUpdate("UPDATE posts SET like_count = like_count + 1 WHERE id = ?", this.id);
     }
 
     public void decrementLikeCount() {
-        this.likeCount -= 1;
+        executeUpdate("UPDATE posts SET like_count = like_count - 1 WHERE id = ?", this.id);
     }
 
     public int getDislikeCount() {
@@ -114,12 +114,12 @@ public class Post {
         this.dislikeCount = dislikeCount;
     }
 
-    public void incrementDisikeCount() {
-        this.dislikeCount += 1;
+    public void incrementDislikeCount() {
+        executeUpdate("UPDATE posts SET dislike_count = dislike_count + 1 WHERE id = ?", this.id);
     }
 
-    public void decrementDisikeCount() {
-        this.dislikeCount -= 1;
+    public void decrementDislikeCount() {
+        executeUpdate("UPDATE posts SET dislike_count = dislike_count - 1 WHERE id = ?", this.id);
     }
 
     public int getCommentCount() {
@@ -128,5 +128,16 @@ public class Post {
 
     public void setCommentCount(int commentCount) {
         this.commentCount = commentCount;
+    }
+
+    private void executeUpdate(String sql, int postId) {
+        try (Connection conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD);
+            PreparedStatement pstmt = conn.prepareStatement(sql)) {             
+            pstmt.setInt(1, postId);
+            int affectedRows = pstmt.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }

@@ -3,12 +3,42 @@ document.addEventListener('DOMContentLoaded', async function() {
     // Get log in status
     isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
 
+    // Get user's interactions
+    const userInteractions = {
+        likes: [],
+        dislikes: []
+    };
+    const storedInteractions = localStorage.getItem('userInteractions');
+
+    // Check if there are stored interactions, if not initialize them
+    if (storedInteractions) {
+        try {
+            // Attempt to parse stored interactions
+            const parsedInteractions = JSON.parse(storedInteractions);
+            // Ensure the parsed object has the expected structure
+            userInteractions.likes = parsedInteractions.likes || [];
+            userInteractions.dislikes = parsedInteractions.dislikes || [];
+        } catch (error) {
+            console.error('Error parsing user interactions from localStorage:', error);
+            // Reset if parsing fails
+            localStorage.removeItem('userInteractions');
+        }
+    } else {
+        // Initialize empty interactions in localStorage
+        localStorage.setItem('userInteractions', JSON.stringify(userInteractions));
+    }
+
     // Function to create a new post HTML element
-    function createPost(postData) {
+    function constructPost(postData) {
         // Create a div for the post
         const postDiv = document.createElement('div');
         postDiv.classList.add('post');
-        postDiv.setAttribute('data-post-id', postData.id);
+        postDiv.setAttribute('post-id', postData.id);
+
+        // Check if the user liked or disliked the post
+        const isLiked = userInteractions.likes.includes(String(postData.id));
+        const isDisliked = userInteractions.dislikes.includes(String(postData.id));
+        console.log(`${postData.id} ${isLiked} ${isDisliked}`)
         
         // HTML template
         postDiv.innerHTML = `
@@ -32,12 +62,12 @@ document.addEventListener('DOMContentLoaded', async function() {
                     </div>
             
                     <div class="post-footer">
-                        <button class="like-button no-redirect">
+                        <button class="like-button no-redirect ${isLiked ? 'liked' : ''}">
                             <i class="fa-solid fa-thumbs-up"></i>
                             <p class="comment-count"><span class="like-count">${postData.likeCount}</span></span></p>
                         </button>
                         
-                        <button class="dislike-button no-redirect">
+                        <button class="dislike-button no-redirect ${isDisliked ? 'disliked' : ''}">
                             <i class="fa-solid fa-thumbs-down"></i>
                             <p class="comment-count"><span class="dislike-count">${postData.dislikeCount}</span></span></p>
                         </button>
@@ -95,7 +125,7 @@ document.addEventListener('DOMContentLoaded', async function() {
                 //     'https://media.discordapp.net/attachments/880342502660530176/1295663084056346727/monk_autism.png?ex=670f77c7&is=670e2647&hm=0aa3be9dbd1434b6db5743c251f1a8d237e39b0569be9c4ff95c3326b842e51f&=&format=webp&quality=lossless&width=381&height=391',
                 //     'https://media.discordapp.net/attachments/880342502660530176/1295699271064092766/image0.jpg?ex=670f997b&is=670e47fb&hm=ea9c83a5625e192e14d8cd0f870fc99f9cd75e01bb9a4133633ecd17b875b9f0&=&format=webp&width=623&height=822'
                 // ]
-                createPost(post)
+                constructPost(post)
             });
         })
         .catch(error => {
@@ -118,6 +148,8 @@ document.addEventListener('DOMContentLoaded', async function() {
 
     // Handle the like button click
     function handleLikeButtonClick(likeButton) {
+        const postId = likeButton.closest('.post').getAttribute('post-id');
+
         const likeCountSpan = likeButton.querySelector('.like-count');
         let currentLikes = parseInt(likeCountSpan.textContent, 10);
 
@@ -127,24 +159,33 @@ document.addEventListener('DOMContentLoaded', async function() {
 
         if (likeButton.classList.contains('liked')) {
             // User is removing the like
+            userInteractions.likes = userInteractions.likes.filter(likedPostId => likedPostId !== postId);
             currentLikes--;
             likeButton.classList.remove('liked');
+
+            interact(postId, "remove", "like");
+
         } else {
             // User is liking the post
+            userInteractions.likes.push(postId);
             currentLikes++;
             likeButton.classList.add('liked');
             likeButton.classList.add('animate-like'); // Add animation
 
-            // API ADD LIKE TO POST
+            interact(postId, "add", "like");
 
             // If the user had disliked the post before, remove the dislike
             if (dislikeButton.classList.contains('disliked')) {
+                userInteractions.dislikes = userInteractions.dislikes.filter(dislikedPostId => dislikedPostId !== postId);
                 currentDislikes--;
                 dislikeButton.classList.remove('disliked');
 
-                // API REMOVE DISLIKE FROM POST
+                interact(postId, "remove", "dislike");
             }
         }
+
+        // Save interactions to localStorage
+        localStorage.setItem('userInteractions', JSON.stringify(userInteractions));
 
         // Update the like and dislike counts in the UI
         likeCountSpan.textContent = currentLikes;
@@ -158,6 +199,8 @@ document.addEventListener('DOMContentLoaded', async function() {
 
     // Handle the dislike button click
     function handleDislikeButtonClick(dislikeButton) {
+        const postId = dislikeButton.closest('.post').getAttribute('post-id');
+
         const dislikeCountSpan = dislikeButton.querySelector('.dislike-count');
         let currentDislikes = parseInt(dislikeCountSpan.textContent, 10);
 
@@ -167,24 +210,33 @@ document.addEventListener('DOMContentLoaded', async function() {
 
         if (dislikeButton.classList.contains('disliked')) {
             // User is removing the dislike
+            userInteractions.dislikes = userInteractions.dislikes.filter(dislikedPostId => dislikedPostId !== postId);
             currentDislikes--;
             dislikeButton.classList.remove('disliked');
+
+            interact(postId, "remove", "dislike");
+
         } else {
             // User is disliking the post
+            userInteractions.dislikes.push(postId);
             currentDislikes++;
             dislikeButton.classList.add('disliked');
             dislikeButton.classList.add('animate-dislike'); // Add animation
 
-            // API ADD DISLIKE TO POST
+            interact(postId, "add", "dislike");
 
             // If the user had liked the post before, remove the like
             if (likeButton.classList.contains('liked')) {
+                userInteractions.likes = userInteractions.likes.filter(likedPostId => likedPostId !== postId);
                 currentLikes--;
                 likeButton.classList.remove('liked');
 
-                // API REMOVE LIKE FROM POST
+                interact(postId, "remove", "like");
             }
         }
+
+        // Save interactions to localStorage
+        localStorage.setItem('userInteractions', JSON.stringify(userInteractions));
 
         // Update the dislike and like counts in the UI
         dislikeCountSpan.textContent = currentDislikes;
@@ -215,5 +267,24 @@ document.addEventListener('DOMContentLoaded', async function() {
     document.getElementById('enlarged-image').addEventListener('click', function(event) {
         event.stopPropagation();
     })
+
+    // localStorage.getItem('userId')
+
+    function interact(postId, method, type) { 
+        fetch(`${apiDomain}:${apiPort}/interaction?userId=${1}&postId=${postId}&method=${method}&type=${type}`, {
+            method: 'POST'
+        })
+        .then(response => {
+            if (response.ok) {
+                return response.json();
+            } else {
+                console.error('No worky: ', response);
+            }
+        })
+        .then(data => {
+            console.log('Does worky: ', data);
+        })
+        .catch(error => console.error('No workey: ', error));
+    }
 });
 

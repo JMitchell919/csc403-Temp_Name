@@ -31,3 +31,11 @@ CREATE TABLE IF NOT EXISTS post_pics (
     pic_url VARCHAR(255),
     FOREIGN KEY (post_id) REFERENCES posts(id) ON DELETE CASCADE
 );
+
+CREATE TABLE post_interactions (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    post_id INT NOT NULL,
+    interaction_type ENUM('like', 'dislike') NOT NULL,
+    UNIQUE KEY (user_id, post_id)
+);
