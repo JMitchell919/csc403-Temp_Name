@@ -15,20 +15,28 @@
 <body>
     <div class="wrapper">
         <div id="header-container"></div>
-        <div class="subheader">
-            <button class="dropdown"><i class="fa-solid fa-caret-down"></i></button>
-            <nav>
-                <div class="order">
+
+        <div id="subheader-container">
+            <nav class="subheader">
+                <div class="order-section row">
+                    <p>Order by : </p>
                     <button>Hot</button>
                     <button>Popular</button>
                     <button>Near</button>
                     <button>Recent</button>
                 </div>
-                <div class="filter">
+                <div class="filter-section row">
                     <!-- not sure yet -->
                 </div>
+                <div class="search-section row">
+                    <!-- Search?? -->
+                    <input type="text" placeholder="&#xF002; Search" style="font-family:Arial, FontAwesome" class="search-field"/>
+                </div>
+                <button class="dropdown-button"><i class="fa-solid fa-caret-down"></i></button>
             </nav>
+            
         </div>
+
         <main>
             <section id="posts-section"></section>
         </main>

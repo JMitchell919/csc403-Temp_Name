@@ -146,6 +146,14 @@ document.addEventListener('DOMContentLoaded', async function() {
         }
     });
 
+    // Apply drop down functionality
+    document.querySelector('.dropdown-button').addEventListener('click', function() {
+        const subheader = document.getElementById('subheader-container');
+        const dropdownButton = document.querySelector('.dropdown-button');
+        subheader.classList.toggle('expanded');
+        dropdownButton.classList.toggle('expanded');
+    });
+
     // Handle the like button click
     function handleLikeButtonClick(likeButton) {
         const postId = likeButton.closest('.post').getAttribute('post-id');

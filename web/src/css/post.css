@@ -31,6 +31,7 @@
     color: var(--text-color);
 
     border: var(--button-color);
+    border-radius: var(--button-border-radius);
 
     padding: 1rem;
 
