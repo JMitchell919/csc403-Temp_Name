@@ -58,7 +58,7 @@ document.addEventListener('DOMContentLoaded', async function() {
                     <p class="post-text no-redirect">${postData.text}</p>
             
                     <div class="picture-container">
-                        ${postData.postPics && postData.postPics.length > 0 ? postData.postPics.map(pic => `<img src="${pic}" alt="Picture" class="pic">`).join('') : ''}
+                        ${postData.postPics && postData.postPics.length > 0 ? postData.postPics.map(pic => `<img src="../assets/postImages/${pic}" alt="Picture" class="pic">`).join('') : ''}
                     </div>
             
                     <div class="post-footer">

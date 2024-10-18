@@ -1,14 +1,12 @@
 package com.example.rest_service;
 
 import io.github.cdimascio.dotenv.Dotenv;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
+
 
 import org.springframework.stereotype.Service;
 
+@Service
 public class SqlService {
 
     private static SqlService instance;
@@ -37,18 +35,31 @@ public class SqlService {
         return DriverManager.getConnection(dbUrl, dbUser, dbPassword);
     }
 
-    // Create (INSERT), Update (UPDATE), Delete (DELETE)
-    public boolean write(String query, Object... params) {
+    // Create (INSERT),             DOES NOT WORK WITH Update (UPDATE), Delete (DELETE)
+    public int write(String query, Object... params) {
         try {
             Connection conn = getConnection();
-            PreparedStatement pstmt = conn.prepareStatement(query);
+            PreparedStatement pstmt = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
         
             setParameters(pstmt, params);  // Setting parameters
-            return pstmt.executeUpdate() > 0;
+
+            int affectedRows = pstmt.executeUpdate();
+
+            if (affectedRows == 0) {
+                throw new SQLException("No rows affected.");
+            }
+
+            try (ResultSet generatedKeys = pstmt.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                    return generatedKeys.getInt(1);
+                } else {
+                    throw new SQLException("No ID obtained.");
+                }
+            }
             
         } catch (SQLException e) {
             e.printStackTrace();
-            return false;
+            return -1;
         }
     }
 

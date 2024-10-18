@@ -18,7 +18,14 @@
             <div class="post-field">
                 <p class="post-text">What's on your mind?</p>
                 <textarea name="post-input" id="post-input"></textarea>
-                <button id="submit-post">Post</button>
+                <div class="post-field-footer">
+                    <div id="preview"></div>
+                    <div class="footer-bottom">
+                        <label for="fileInput" class="file-input">Upload Image</label>
+                        <input type="file" id="fileInput" accept="image/*" multiple>
+                        <button id="submit-post">Post</button>
+                    </div>
+                </div>
             </div>
         </main>
         <div id="footer-container"></div>
