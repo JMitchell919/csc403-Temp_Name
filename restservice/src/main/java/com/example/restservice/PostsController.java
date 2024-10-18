@@ -6,6 +6,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 
+// This class needs a better name omg
+
 @RestController
 public class PostsController {
 

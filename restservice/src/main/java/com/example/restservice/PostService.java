@@ -8,32 +8,29 @@ import java.util.List;
 
 @Service
 public class PostService {
-    private static final String DB_URL = "jdbc:mysql://localhost:3306/lochyl";
-    private static final String DB_USERNAME = "root";
-    private static final String DB_PASSWORD = "password";
+
+    SqlService sqlService = SqlService.getInstance();
 
     public Post getPostById(int postId) {
-        Connection conn = null;
-        PreparedStatement pstmt = null;
-        ResultSet rs = null;
-
         Post post = null;
 
         if (postId == 0) {
             return post;
         }
 
-        try {
-            conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD);
-            String sql ="SELECT posts.*, users.profile_pic, post_pics.pic_url " +
-                        "FROM posts " +
-                        "LEFT JOIN users ON posts.username = users.username " +
-                        "LEFT JOIN post_pics ON posts.id = post_pics.post_id " +
-                        "WHERE posts.id=?";
-            pstmt = conn.prepareStatement(sql);
-            pstmt.setInt(1, postId);
-            rs = pstmt.executeQuery();
+        SqlResultSet sqlResultSet = sqlService.read(
+            "SELECT posts.*, users.profile_pic, post_pics.pic_url " +
+            "FROM posts " +
+            "LEFT JOIN users ON posts.username = users.username " +
+            "LEFT JOIN post_pics ON posts.id = post_pics.post_id " +
+            "WHERE posts.id=?", postId);
 
+        if (sqlResultSet == null || sqlResultSet.getResultSet() == null) {
+            return post;
+        }
+
+        ResultSet rs = sqlResultSet.getResultSet();
+        try {
             if (rs.next()) {
                 int id = rs.getInt("id");
                 String username = rs.getString("username");
@@ -50,19 +47,11 @@ public class PostService {
 
                 post = new Post(id, username, profilePic, location, date, text, postPics, likeCount, dislikeCount, commentCount);
             }
-
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            try {
-                if (rs != null) rs.close();
-                if (pstmt != null) pstmt.close();
-                if (conn != null) conn.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+            sqlService.close(rs);
         }
-
         return post;
     }
 }
