@@ -1,3 +1,8 @@
+// Marked for deletion
+// GET replaced by FeedControllerNew
+// POST replaced by UploadControllerNew
+
+
 package com.example.rest_service;
 
 import org.springframework.http.HttpStatus;
@@ -13,17 +18,18 @@ public class PostsController {
 
     private Posts postsManager = new Posts(new ArrayList<>());
 
+    // Get posts (/index page)
     @GetMapping("/posts")
     public List<Post> posts() {
         return postsManager.readPosts();
     }
 
-    @PostMapping("/posts")
-    public ResponseEntity<Post> createPost(@RequestBody Post post) {
-        postsManager.writePost(post);
+    // @PostMapping("/posts")
+    // public ResponseEntity<Post> createPost(@RequestBody Post post) {
+    //     postsManager.writePost(post);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(post);
-    }
+    //     return ResponseEntity.status(HttpStatus.CREATED).body(post);
+    // }
 }
 
 

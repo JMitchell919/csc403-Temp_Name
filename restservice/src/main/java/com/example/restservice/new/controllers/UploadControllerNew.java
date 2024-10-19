@@ -7,8 +7,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 
-
-
 @RestController
 @RequestMapping("/upload")
 public class UploadControllerNew {
@@ -16,6 +14,7 @@ public class UploadControllerNew {
     @Autowired
     private PostServiceNew postService;
 
+    // Upload post (/post page)
     @PostMapping(consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
     public ResponseEntity<String> createPost(
         @RequestParam("username") String username,

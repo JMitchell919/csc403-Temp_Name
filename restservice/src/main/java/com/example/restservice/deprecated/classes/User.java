@@ -1,3 +1,6 @@
+// Methods marked for deletion
+// Functionality to be replaced with UserService.java
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;

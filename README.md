@@ -8,6 +8,8 @@ by <ins>**temp_name**</ins>.
 
 Instructor: Dr. Kyle Prather.
 
+[Sprint Planning sheet](https://docs.google.com/spreadsheets/d/1QZbJwJ9QFFsDdKehfLf9RbN7DHzTSJRc4qnkTvA3VUc/edit?pli=1&gid=0#gid=0)
+
 ## **Developers**
 - Kiefer Armand ([Greendragon2170](https://github.com/Greendragon2170))
     - GPS
@@ -18,3 +20,8 @@ Instructor: Dr. Kyle Prather.
 - Jesse Mitchell ([JMitchell919](https://github.com/JMitchell919))
     - Database
 
+   <a href="https://github.com/JMitchell919/csc403-Temp_Name/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=JMitchell919/csc403-Temp_Name" />
+</a>
+
+---

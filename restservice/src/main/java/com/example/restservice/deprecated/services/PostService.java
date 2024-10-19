@@ -1,3 +1,5 @@
+// Marked for deletion
+
 package com.example.rest_service;
 
 import org.springframework.stereotype.Service;

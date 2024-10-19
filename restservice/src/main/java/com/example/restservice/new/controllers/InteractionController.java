@@ -18,6 +18,7 @@ public class InteractionController {
         this.interactionService = interactionService;
     }
 
+    // Like / Dislike (/index page)
     @PostMapping("/interaction")
     public ResponseEntity<Map<String, String>> interaction(
                     @RequestParam(required = true) int userId,
