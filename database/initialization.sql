@@ -17,9 +17,11 @@ INSERT INTO users (username, password, profile_pic) VALUES
 CREATE TABLE IF NOT EXISTS posts (
     id INT AUTO_INCREMENT PRIMARY KEY,
     username VARCHAR(255) NOT NULL,
-    location VARCHAR(255),
-    date DATE,
     text TEXT,
+    location VARCHAR(255),
+    longitude DECIMAL(9,6),
+    latitude DECIMAL(9,6),
+    date DATETIME DEFAULT CURRENT_TIMESTAMP,
     like_count INT DEFAULT 0,
     dislike_count INT DEFAULT 0,
     comment_count INT DEFAULT 0
