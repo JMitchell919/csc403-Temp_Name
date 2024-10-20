@@ -1,29 +1,27 @@
-// package com.example.rest_service;
+package com.example.rest_service;
 
-// import org.springframework.web.bind.annotation.*;
-// import org.springframework.web.multipart.MultipartFile;
-// import org.springframework.http.ResponseEntity;
-// import org.springframework.http.MediaType;
-// import org.springframework.http.HttpStatus;
-// import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.beans.factory.annotation.Autowired;
 
 
+import java.util.List;
 
-// @RestController
-// @RequestMapping("/feed")
-// public class UploadControllerNew {
 
-//     @Autowired
-//     private FeedServiceNew feedService;
 
-//     // Get feed of posts (/index page)
-//     @GetMapping("/feed")
-//     public List<Post> getFeed(
-//         @RequestParam String algorithm, 
-//         @RequestParam double userLat, 
-//         @RequestParam double userLon) {
+@RestController
+public class FeedControllerNew {
 
-//         return feedService.getFeed(algorithm, userLat, userLon);
-//     }
+    @Autowired
+    private FeedServiceNew feedService;
 
-// }
+    // Get feed of posts (/index page)
+    @RequestMapping("/feed")
+    public List<Post> getFeed(
+        @RequestParam String algorithm, 
+        @RequestParam(required = false) Double userLat, 
+        @RequestParam(required = false) Double userLon) {
+
+        return feedService.getFeed(algorithm, userLat, userLon);
+    }
+
+}

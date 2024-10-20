@@ -21,13 +21,14 @@ public class PostServiceNew {
         this.sqlService = sqlService;
     }
 
-    public void writePost(String username, String location, String date, String text, MultipartFile[] files) throws IOException {
+    public void writePost(String username, String location, Double latitude, Double longitude, String text, MultipartFile[] files) throws IOException {
         // Write post to posts table
         int postId = sqlService.write(
-            "INSERT INTO posts (username, location, date, text) VALUES (?, ?, ?, ?)",
+            "INSERT INTO posts (username, location, latitude, longitude, text) VALUES (?, ?, ?, ?, ?)",
             username,
             location,
-            date,
+            latitude,
+            longitude,
             text);
 
         // Save each uploaded file
@@ -68,7 +69,9 @@ public class PostServiceNew {
                 rsPosts.getString("username"), 
                 rsPosts.getString("profile_pic"), 
                 rsPosts.getString("location"), 
-                rsPosts.getString("date"), 
+                rsPosts.getDouble("latitude"),
+                rsPosts.getDouble("longitude"), 
+                rsPosts.getTimestamp("date"),
                 rsPosts.getString("text"), 
                 postPics, 
                 rsPosts.getInt("like_count"), 

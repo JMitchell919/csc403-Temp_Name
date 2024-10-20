@@ -28,6 +28,51 @@ document.addEventListener('DOMContentLoaded', async function() {
         localStorage.setItem('userInteractions', JSON.stringify(userInteractions));
     }
 
+    // Apply drop down functionality
+    document.querySelector('.dropdown-button').addEventListener('click', function() {
+        const subheader = document.getElementById('subheader-container');
+        const dropdownButton = document.querySelector('.dropdown-button');
+        subheader.classList.toggle('expanded');
+        dropdownButton.classList.toggle('expanded');
+    });
+
+    document.getElementById('popularSortBtn').addEventListener('click', function() {
+        feedAlgorithm = 'Popular';
+        constructFeed();
+    });
+    document.getElementById('hotSortBtn').addEventListener('click', function() {
+        feedAlgorithm = 'Hot';
+        constructFeed();
+    });
+    document.getElementById('nearSortBtn').addEventListener('click', function() {
+        feedAlgorithm = 'Near';
+        constructFeed();
+    });
+    document.getElementById('recentSortBtn').addEventListener('click', function() {
+        feedAlgorithm = 'Recent';
+        constructFeed();
+    });
+
+    // Fetch config
+    let apiDomain = '';
+    let apiPort = '';
+
+    await fetch('/config')
+        .then(response => response.json())
+        .then(config => {
+            apiDomain = config.apiDomain;
+            apiPort = config.apiPort;
+        })
+        .catch(error => {
+            console.error('Error fetching config:', error);
+        });
+
+    // Construct the feed
+    const postsSection = document.getElementById('posts-section');
+    let feedAlgorithm = 'Popular'
+    constructFeed();
+
+
     // Function to create a new post HTML element
     function constructPost(postData) {
         // Create a div for the post
@@ -38,7 +83,6 @@ document.addEventListener('DOMContentLoaded', async function() {
         // Check if the user liked or disliked the post
         const isLiked = userInteractions.likes.includes(String(postData.id));
         const isDisliked = userInteractions.dislikes.includes(String(postData.id));
-        console.log(`${postData.id} ${isLiked} ${isDisliked}`)
         
         // HTML template
         postDiv.innerHTML = `
@@ -99,60 +143,43 @@ document.addEventListener('DOMContentLoaded', async function() {
         });
 
         // Append the post to the posts section
-        document.getElementById('posts-section').appendChild(postDiv);
+        postsSection.appendChild(postDiv);
     }
 
-    // Fetch config
-    let apiDomain = '';
-    let apiPort = '';
-
-    await fetch('/config')
-        .then(response => response.json())
-        .then(config => {
-            apiDomain = config.apiDomain;
-            apiPort = config.apiPort;
-        })
-        .catch(error => {
-            console.error('Error fetching config:', error);
-        });
-
     // Fetch posts
-    fetch(`${apiDomain}:${apiPort}/posts`)
-        .then(response => response.json())
-        .then(posts => {
-            posts.forEach(post => {
-                // post.postPics = [
-                //     'https://media.discordapp.net/attachments/880342502660530176/1295663084056346727/monk_autism.png?ex=670f77c7&is=670e2647&hm=0aa3be9dbd1434b6db5743c251f1a8d237e39b0569be9c4ff95c3326b842e51f&=&format=webp&quality=lossless&width=381&height=391',
-                //     'https://media.discordapp.net/attachments/880342502660530176/1295699271064092766/image0.jpg?ex=670f997b&is=670e47fb&hm=ea9c83a5625e192e14d8cd0f870fc99f9cd75e01bb9a4133633ecd17b875b9f0&=&format=webp&width=623&height=822'
-                // ]
-                constructPost(post)
+    function constructFeed() {
+        // Clear previous feed
+        postsSection.innerHTML = ''
+
+        fetch(`${apiDomain}:${apiPort}/feed?algorithm=${feedAlgorithm}`)
+            .then(response => response.json())
+            .then(posts => {
+                posts.forEach(post => {
+                    constructPost(post)
+                });
+            })
+            .catch(error => {
+                console.error("Error fetching from /posts: ", error);
             });
-        })
-        .catch(error => {
-            console.error("Error fetching from /posts: ", error);
-        });
+
+        // Clear previous event listeners for like and dislike buttons
+        postsSection.removeEventListener('click', handleButtonClick);
+        postsSection.addEventListener('click', handleButtonClick);
+    }
     
-    // Add event listener to all like and dislike buttons
-    document.getElementById('posts-section').addEventListener('click', function(event) {
+    // Handle button clicks
+    function handleButtonClick(event) {
         const likeButton = event.target.closest('.like-button');
         const dislikeButton = event.target.closest('.dislike-button');
-
+    
         if (likeButton) {
             handleLikeButtonClick(likeButton);
         }
-
+    
         if (dislikeButton) {
             handleDislikeButtonClick(dislikeButton);
         }
-    });
-
-    // Apply drop down functionality
-    document.querySelector('.dropdown-button').addEventListener('click', function() {
-        const subheader = document.getElementById('subheader-container');
-        const dropdownButton = document.querySelector('.dropdown-button');
-        subheader.classList.toggle('expanded');
-        dropdownButton.classList.toggle('expanded');
-    });
+    }
 
     // Handle the like button click
     function handleLikeButtonClick(likeButton) {
@@ -289,9 +316,7 @@ document.addEventListener('DOMContentLoaded', async function() {
                 console.error('No worky: ', response);
             }
         })
-        .then(data => {
-            console.log('Does worky: ', data);
-        })
+        .then(data => {})
         .catch(error => console.error('No workey: ', error));
     }
 });

@@ -16,18 +16,22 @@ public class Post {
     private String username;
     private String profilePic;
     private String location;
-    private String date;
+    private Double latitude;
+    private Double longitude;
+    private Timestamp date;
     private String text;
     private List<String> postPics;
     private int likeCount;
     private int dislikeCount;
     private int commentCount;
 
-    public Post (int id, String username, String profilePic, String location, String date, String text, List<String> postPics, int likeCount, int dislikeCount, int commentCount) {
+    public Post (int id, String username, String profilePic, String location, Double latitude, Double longitude, Timestamp date, String text, List<String> postPics, int likeCount, int dislikeCount, int commentCount) {
         this.id = id;
         this.username = username;
         this.profilePic = profilePic;
         this.location = location;
+        this.latitude = latitude;
+        this.longitude = longitude;
         this.date = date;
         this.text = text;
         this.postPics = postPics;
@@ -68,11 +72,13 @@ public class Post {
         this.location = location;
     }
 
-    public String getDate() {
+    // dont feel like making lat and long getters and setters
+
+    public Timestamp getDate() {
         return date;
     }
 
-    public void setDate(String date) {
+    public void setDate(Timestamp date) {
         this.date = date;
     }
 

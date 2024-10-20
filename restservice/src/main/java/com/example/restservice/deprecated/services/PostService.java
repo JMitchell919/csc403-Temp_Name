@@ -38,7 +38,9 @@ public class PostService {
                 String username = rs.getString("username");
                 String profilePic = rs.getString("profile_pic");
                 String location = rs.getString("location");
-                String date = rs.getString("date");
+                Double latitude = rs.getDouble("latitude");
+                Double longitude = rs.getDouble("longitude");
+                Timestamp date = rs.getTimestamp("date");
                 String text = rs.getString("text");
                 int likeCount = rs.getInt("like_count");
                 int dislikeCount = rs.getInt("dislike_count");
@@ -47,7 +49,7 @@ public class PostService {
                 String postPicsStr = rs.getString("pic_url");
                 List<String> postPics = postPicsStr != null ? Arrays.asList(postPicsStr.split(",")) : new ArrayList<>();
 
-                post = new Post(id, username, profilePic, location, date, text, postPics, likeCount, dislikeCount, commentCount);
+                post = new Post(id, username, profilePic, location, latitude, longitude, date, text, postPics, likeCount, dislikeCount, commentCount);
             }
         } catch (SQLException e) {
             e.printStackTrace();

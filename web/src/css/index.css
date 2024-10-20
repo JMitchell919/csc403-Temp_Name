@@ -19,12 +19,12 @@
 .subheader {
     display: flex;
     flex-direction: row;
-    gap: 0.5rem;
+    /* gap: 0.5rem; */
 
     justify-content: flex-end;
     align-items: flex-end;
     position: relative;
-    padding: 0.5rem 1rem;
+    padding: 0.5rem;
     height: 3.25rem;
     background: var(--bg-color);
 }
@@ -56,12 +56,14 @@
     display: flex;
     flex-direction: row;
     gap: 0.25rem;
+    padding: 0 0.5rem;
 }
 
 .dropdown-button {
     position: absolute;
     top: 5.25rem;
     right: 1rem;
+    
     transition: transform 0.5s ease;
 }
 

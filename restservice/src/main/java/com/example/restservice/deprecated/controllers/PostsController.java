@@ -16,13 +16,13 @@ import java.util.List;
 @RestController
 public class PostsController {
 
-    private Posts postsManager = new Posts(new ArrayList<>());
+    // private Posts postsManager = new Posts(new ArrayList<>());
 
     // Get posts (/index page)
-    @GetMapping("/posts")
-    public List<Post> posts() {
-        return postsManager.readPosts();
-    }
+    // @GetMapping("/posts")
+    // public List<Post> posts() {
+    //     return postsManager.readPosts();
+    // }
 
     // @PostMapping("/posts")
     // public ResponseEntity<Post> createPost(@RequestBody Post post) {

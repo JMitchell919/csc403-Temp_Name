@@ -99,6 +99,8 @@ document.addEventListener('DOMContentLoaded', async function() {
         const formData = new FormData();
         formData.append('username', localStorage.getItem('username'));
         formData.append('location', localStorage.getItem('overrideZone') || localStorage.getItem('zone'));
+        formData.append('latitude', localStorage.getItem('latitude'));
+        formData.append('longitude', localStorage.getItem('longitude'));
         formData.append('date', `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`);
         formData.append('text', input);
 
