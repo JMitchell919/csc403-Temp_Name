@@ -6,52 +6,38 @@
     <title>Post View</title>
     <link rel="stylesheet" href="../css/styles.css">
     <link rel="stylesheet" href="../css/view.css">
-    <!-- <script src="../js/view.js"></script> -->
+    <script type="module" src="../js/view.js"></script>
+    <script type="module" src="../js/index.js"></script>
     <script src="../js/headerLoader.js"></script>
     <script src="../js/footerLoader.js"></script>
     <script src="/js/gps.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', async function() {
-            // Grab postId from url
-            const urlParams = new URLSearchParams(window.location.search);
-            const postId = urlParams.get('postId');
-            console.log(postId);
-
-            // Fetch config
-            let apiDomain = '';
-            let apiPort = '';
-
-            await fetch('/config')
-                .then(response => response.json())
-                .then(config => {
-                    apiDomain = config.apiDomain;
-                    apiPort = config.apiPort;
-                })
-                .catch(error => {
-                    console.error('Error fetching config:', error);
-                });
-
-            // Fetch post from api
-            fetch(`${apiDomain}:${apiPort}/post?id=${postId}`)
-                .then(response => response.json())
-                .then(postData => {
-                    // Populate post details
-                    const postContainer = document.getElementById('post-container');
-                    postContainer.innerHTML = `
-                        <p>${JSON.stringify(postData, null, 2)}</p>
-                    `;
-                })
-                .catch(error => console.error('Error fetching post:', error));
-        });
-    </script>
+    <script src="https://kit.fontawesome.com/a595f208a2.js" crossorigin="anonymous"></script>
 </head>
 <body>
     <div class="wrapper">
         <div id="header-container"></div>
         <main>
-            <div id="post-container"></div>
+            <div id="section">
+                <div id="post" class="post"></div>
+
+                <div id="comment-container">
+                    <textarea name="comment-input" id="comment-input" placeholder="Write a comment..."></textarea>
+                    <button id="submit-comment">Post</button>
+                </div>
+
+                <div id="comments-container">
+                    <p>comments section...</p>
+                    <p>cant really do much else beyond this point. comments will be elements created in code and can be children of each other. Will need to 1: add array of comment ids to post object and 2: create api endpoint to get comment given id that returns a comment object that also has an array of comment ids, resulting in nested/chain comments.</p>
+                </div>
+            </div>
+
         </main>
         <div id="footer-container"></div>
+    </div>
+
+    <div id="image-modal" class="modal">
+        <span class="close">&times;</span>
+        <img class="modal-content" id="enlarged-image">
     </div>
 </body>
 </html>

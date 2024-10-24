@@ -5,10 +5,10 @@ document.addEventListener('DOMContentLoaded', async function() {
 
     postInput.addEventListener('input', function() {
         // Reset height
-        this.style.height = 'auto';
+        this.style.minHeight = 'auto';
 
         // Set height based on content
-        this.style.height = this.scrollHeight + 'px';
+        this.style.minHeight = this.scrollHeight + 'px';
     })
 
     // Image upload support
@@ -84,15 +84,6 @@ document.addEventListener('DOMContentLoaded', async function() {
 
         // Get data needed for post
         const date = new Date();
-
-        // Construct post
-        // post = {
-        //     username: localStorage.getItem('username'), // replace with id later
-        //     location: localStorage.getItem('overrideZone') || localStorage.getItem('zone'),
-        //     date: `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`,
-        //     text: input,
-        //     postPics: selectedFiles
-        // }
 
         console.log(localStorage.getItem('username'));        
 

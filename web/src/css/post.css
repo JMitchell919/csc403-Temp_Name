@@ -3,29 +3,21 @@
     flex-direction: column;
     align-items: center;
     margin: 1rem auto;
+    padding-top: 1rem;
 
-    width: 80rem;
-    max-width: 100%;
+    min-width: 30rem;
+    width: 80%;
+    max-width: 80rem;
     height: fit-content;
 
     border-radius: var(--section-border-radius);
     background: var(--header-color);
 }
 
-.post-text {
-    font-size: 1.25rem;
-    color: var(--text-color);
-    align-self: flex-start;
-    margin: 1.5rem 5rem;
-}
-
 #post-input {
+    height: 1rem;
     width: 60rem;
     max-width: 80%;
-
-    /* min-height: 5rem;
-    max-height: 80%; */
-
 
     font-size: 1rem;
 
@@ -45,6 +37,10 @@
 
 #post-input:focus {
     outline: solid var(--button-color);
+}
+
+#post-input::placeholder {
+    color: var(--text-color);
 }
 
 .post-field-footer {

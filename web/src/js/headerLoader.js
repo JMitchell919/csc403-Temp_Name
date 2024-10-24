@@ -72,16 +72,12 @@ window.onload = function() {
                         <a href="logout"><button id="logout-button">Logout</button></a>
                     `;
                     break;
-                case 'api-logger':
-                        nav.innerHTML = `
-                            <a href="/"><button id="home-button">Home</button></a>
+                default:
+                    nav.innerHTML = `
+                        <a href="/"><button id="home-button">Home</button></a>
                     `;
                     break;
-                case 'location-spoofer':
-                        nav.innerHTML = `
-                            <a href="/"><button id="home-button">Home</button></a>
-                    `;
-                    break;
+                    
             }
 
             // FOR KIEFER

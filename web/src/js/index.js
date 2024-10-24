@@ -1,13 +1,16 @@
+// Global vars
+const userInteractions = {
+    likes: [],
+    dislikes: []
+};
+
 // Once DOM is loaded
 document.addEventListener('DOMContentLoaded', async function() {
-    // Get log in status
-    isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+    if (window.location.pathname != '/') {
+        return;
+    }
 
     // Get user's interactions
-    const userInteractions = {
-        likes: [],
-        dislikes: []
-    };
     const storedInteractions = localStorage.getItem('userInteractions');
 
     // Check if there are stored interactions, if not initialize them
@@ -53,20 +56,6 @@ document.addEventListener('DOMContentLoaded', async function() {
         constructFeed();
     });
 
-    // Fetch config
-    let apiDomain = '';
-    let apiPort = '';
-
-    await fetch('/config')
-        .then(response => response.json())
-        .then(config => {
-            apiDomain = config.apiDomain;
-            apiPort = config.apiPort;
-        })
-        .catch(error => {
-            console.error('Error fetching config:', error);
-        });
-
     // Construct the feed
     const postsSection = document.getElementById('posts-section');
     let feedAlgorithm = 'Popular'
@@ -79,6 +68,17 @@ document.addEventListener('DOMContentLoaded', async function() {
         const postDiv = document.createElement('div');
         postDiv.classList.add('post');
         postDiv.setAttribute('post-id', postData.id);
+
+        // Format the date
+        const dateObject = new Date(postData.date);
+        const printDate = dateObject.toLocaleString('en-US', {
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric',
+            hour: 'numeric',
+            minute: 'numeric',
+            hour12: true
+        })
 
         // Check if the user liked or disliked the post
         const isLiked = userInteractions.likes.includes(String(postData.id));
@@ -95,7 +95,7 @@ document.addEventListener('DOMContentLoaded', async function() {
                         </div>
                         <div class="post-info">
                             <p class="post-location">${postData.location}</p>
-                            <p class="post-date">${postData.date}</p>
+                            <p class="post-date">${printDate}</p>
                         </div>
                     </div>
                     
@@ -147,9 +147,22 @@ document.addEventListener('DOMContentLoaded', async function() {
     }
 
     // Fetch posts
-    function constructFeed() {
+    async function constructFeed() {
         // Clear previous feed
         postsSection.innerHTML = ''
+
+        // Fetch config
+        let apiDomain = '';
+        let apiPort = '';
+        await fetch('/config')
+            .then(response => response.json())
+            .then(config => {
+                apiDomain = config.apiDomain;
+                apiPort = config.apiPort;
+            })
+            .catch(error => {
+                console.error('Error fetching config:', error);
+            });
 
         fetch(`${apiDomain}:${apiPort}/feed?algorithm=${feedAlgorithm}`)
             .then(response => response.json())
@@ -165,122 +178,6 @@ document.addEventListener('DOMContentLoaded', async function() {
         // Clear previous event listeners for like and dislike buttons
         postsSection.removeEventListener('click', handleButtonClick);
         postsSection.addEventListener('click', handleButtonClick);
-    }
-    
-    // Handle button clicks
-    function handleButtonClick(event) {
-        const likeButton = event.target.closest('.like-button');
-        const dislikeButton = event.target.closest('.dislike-button');
-    
-        if (likeButton) {
-            handleLikeButtonClick(likeButton);
-        }
-    
-        if (dislikeButton) {
-            handleDislikeButtonClick(dislikeButton);
-        }
-    }
-
-    // Handle the like button click
-    function handleLikeButtonClick(likeButton) {
-        const postId = likeButton.closest('.post').getAttribute('post-id');
-
-        const likeCountSpan = likeButton.querySelector('.like-count');
-        let currentLikes = parseInt(likeCountSpan.textContent, 10);
-
-        const dislikeButton = likeButton.closest('.post-footer').querySelector('.dislike-button');
-        const dislikeCountSpan = dislikeButton.querySelector('.dislike-count');
-        let currentDislikes = parseInt(dislikeCountSpan.textContent, 10);
-
-        if (likeButton.classList.contains('liked')) {
-            // User is removing the like
-            userInteractions.likes = userInteractions.likes.filter(likedPostId => likedPostId !== postId);
-            currentLikes--;
-            likeButton.classList.remove('liked');
-
-            interact(postId, "remove", "like");
-
-        } else {
-            // User is liking the post
-            userInteractions.likes.push(postId);
-            currentLikes++;
-            likeButton.classList.add('liked');
-            likeButton.classList.add('animate-like'); // Add animation
-
-            interact(postId, "add", "like");
-
-            // If the user had disliked the post before, remove the dislike
-            if (dislikeButton.classList.contains('disliked')) {
-                userInteractions.dislikes = userInteractions.dislikes.filter(dislikedPostId => dislikedPostId !== postId);
-                currentDislikes--;
-                dislikeButton.classList.remove('disliked');
-
-                interact(postId, "remove", "dislike");
-            }
-        }
-
-        // Save interactions to localStorage
-        localStorage.setItem('userInteractions', JSON.stringify(userInteractions));
-
-        // Update the like and dislike counts in the UI
-        likeCountSpan.textContent = currentLikes;
-        dislikeCountSpan.textContent = currentDislikes;
-
-        // Remove animation class after the animation completes
-        setTimeout(() => {
-            likeButton.classList.remove('animate-like');
-        }, 200);
-    }
-
-    // Handle the dislike button click
-    function handleDislikeButtonClick(dislikeButton) {
-        const postId = dislikeButton.closest('.post').getAttribute('post-id');
-
-        const dislikeCountSpan = dislikeButton.querySelector('.dislike-count');
-        let currentDislikes = parseInt(dislikeCountSpan.textContent, 10);
-
-        const likeButton = dislikeButton.closest('.post-footer').querySelector('.like-button');
-        const likeCountSpan = likeButton.querySelector('.like-count');
-        let currentLikes = parseInt(likeCountSpan.textContent, 10);
-
-        if (dislikeButton.classList.contains('disliked')) {
-            // User is removing the dislike
-            userInteractions.dislikes = userInteractions.dislikes.filter(dislikedPostId => dislikedPostId !== postId);
-            currentDislikes--;
-            dislikeButton.classList.remove('disliked');
-
-            interact(postId, "remove", "dislike");
-
-        } else {
-            // User is disliking the post
-            userInteractions.dislikes.push(postId);
-            currentDislikes++;
-            dislikeButton.classList.add('disliked');
-            dislikeButton.classList.add('animate-dislike'); // Add animation
-
-            interact(postId, "add", "dislike");
-
-            // If the user had liked the post before, remove the like
-            if (likeButton.classList.contains('liked')) {
-                userInteractions.likes = userInteractions.likes.filter(likedPostId => likedPostId !== postId);
-                currentLikes--;
-                likeButton.classList.remove('liked');
-
-                interact(postId, "remove", "like");
-            }
-        }
-
-        // Save interactions to localStorage
-        localStorage.setItem('userInteractions', JSON.stringify(userInteractions));
-
-        // Update the dislike and like counts in the UI
-        dislikeCountSpan.textContent = currentDislikes;
-        likeCountSpan.textContent = currentLikes;
-
-        // Remove animation class after the animation completes
-        setTimeout(() => {
-            dislikeButton.classList.remove('animate-dislike');
-        }, 200);
     }
 
     // Get the modal and modal content elements
@@ -302,22 +199,153 @@ document.addEventListener('DOMContentLoaded', async function() {
     document.getElementById('enlarged-image').addEventListener('click', function(event) {
         event.stopPropagation();
     })
-
-    // localStorage.getItem('userId')
-
-    function interact(postId, method, type) { 
-        fetch(`${apiDomain}:${apiPort}/interaction?userId=${1}&postId=${postId}&method=${method}&type=${type}`, {
-            method: 'POST'
-        })
-        .then(response => {
-            if (response.ok) {
-                return response.json();
-            } else {
-                console.error('No worky: ', response);
-            }
-        })
-        .then(data => {})
-        .catch(error => console.error('No workey: ', error));
-    }
 });
+
+// Handle button clicks
+function handleButtonClick(event) {
+    const likeButton = event.target.closest('.like-button');
+    const dislikeButton = event.target.closest('.dislike-button');
+
+    if (likeButton) {
+        handleLikeButtonClick(likeButton);
+    }
+
+    if (dislikeButton) {
+        handleDislikeButtonClick(dislikeButton);
+    }
+}
+
+// Handle the like button click
+function handleLikeButtonClick(likeButton) {
+    const postId = likeButton.closest('.post').getAttribute('post-id');
+
+    const likeCountSpan = likeButton.querySelector('.like-count');
+    let currentLikes = parseInt(likeCountSpan.textContent, 10);
+
+    const dislikeButton = likeButton.closest('.post-footer').querySelector('.dislike-button');
+    const dislikeCountSpan = dislikeButton.querySelector('.dislike-count');
+    let currentDislikes = parseInt(dislikeCountSpan.textContent, 10);
+
+    if (likeButton.classList.contains('liked')) {
+        // User is removing the like
+        userInteractions.likes = userInteractions.likes.filter(likedPostId => likedPostId !== postId);
+        currentLikes--;
+        likeButton.classList.remove('liked');
+
+        interact(postId, "remove", "like");
+
+    } else {
+        // User is liking the post
+        userInteractions.likes.push(postId);
+        currentLikes++;
+        likeButton.classList.add('liked');
+        likeButton.classList.add('animate-like'); // Add animation
+
+        interact(postId, "add", "like");
+
+        // If the user had disliked the post before, remove the dislike
+        if (dislikeButton.classList.contains('disliked')) {
+            userInteractions.dislikes = userInteractions.dislikes.filter(dislikedPostId => dislikedPostId !== postId);
+            currentDislikes--;
+            dislikeButton.classList.remove('disliked');
+
+            interact(postId, "remove", "dislike");
+        }
+    }
+
+    // Save interactions to localStorage
+    localStorage.setItem('userInteractions', JSON.stringify(userInteractions));
+
+    // Update the like and dislike counts in the UI
+    likeCountSpan.textContent = currentLikes;
+    dislikeCountSpan.textContent = currentDislikes;
+
+    // Remove animation class after the animation completes
+    setTimeout(() => {
+        likeButton.classList.remove('animate-like');
+    }, 200);
+}
+
+// Handle the dislike button click
+function handleDislikeButtonClick(dislikeButton) {
+    const postId = dislikeButton.closest('.post').getAttribute('post-id');
+
+    const dislikeCountSpan = dislikeButton.querySelector('.dislike-count');
+    let currentDislikes = parseInt(dislikeCountSpan.textContent, 10);
+
+    const likeButton = dislikeButton.closest('.post-footer').querySelector('.like-button');
+    const likeCountSpan = likeButton.querySelector('.like-count');
+    let currentLikes = parseInt(likeCountSpan.textContent, 10);
+
+    if (dislikeButton.classList.contains('disliked')) {
+        // User is removing the dislike
+        userInteractions.dislikes = userInteractions.dislikes.filter(dislikedPostId => dislikedPostId !== postId);
+        currentDislikes--;
+        dislikeButton.classList.remove('disliked');
+
+        interact(postId, "remove", "dislike");
+
+    } else {
+        // User is disliking the post
+        userInteractions.dislikes.push(postId);
+        currentDislikes++;
+        dislikeButton.classList.add('disliked');
+        dislikeButton.classList.add('animate-dislike'); // Add animation
+
+        interact(postId, "add", "dislike");
+
+        // If the user had liked the post before, remove the like
+        if (likeButton.classList.contains('liked')) {
+            userInteractions.likes = userInteractions.likes.filter(likedPostId => likedPostId !== postId);
+            currentLikes--;
+            likeButton.classList.remove('liked');
+
+            interact(postId, "remove", "like");
+        }
+    }
+
+    // Save interactions to localStorage
+    localStorage.setItem('userInteractions', JSON.stringify(userInteractions));
+
+    // Update the dislike and like counts in the UI
+    dislikeCountSpan.textContent = currentDislikes;
+    likeCountSpan.textContent = currentLikes;
+
+    // Remove animation class after the animation completes
+    setTimeout(() => {
+        dislikeButton.classList.remove('animate-dislike');
+    }, 200);
+}
+
+// localStorage.getItem('userId')
+
+async function interact(postId, method, type) { 
+    // Fetch config
+    let apiDomain = '';
+    let apiPort = '';
+    await fetch('/config')
+        .then(response => response.json())
+        .then(config => {
+            apiDomain = config.apiDomain;
+            apiPort = config.apiPort;
+        })
+        .catch(error => {
+            console.error('Error fetching config:', error);
+        });
+    
+    fetch(`${apiDomain}:${apiPort}/interaction?userId=${1}&postId=${postId}&method=${method}&type=${type}`, {
+        method: 'POST'
+    })
+    .then(response => {
+        if (response.ok) {
+            return response.json();
+        } else {
+            console.error('No worky: ', response);
+        }
+    })
+    .then(data => {})
+    .catch(error => console.error('No workey: ', error));
+}
+
+export { handleButtonClick, interact };
 
