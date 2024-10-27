@@ -6,8 +6,9 @@ import java.io.*;
 public class TextMaker
 {
 	//Program makes a text file and stores it in a text file
-	public static void textGrabber(String post_meat)
+	public static String[] textGrabber(String post_meat)
 	{
+		String[] post_data = new String[6];
 		//To be replaced by website things
 		try
 		{
@@ -42,10 +43,13 @@ public class TextMaker
 			send_post.write(post_meat);
 			send_post.close();
 			System.out.println("Post made!");
+			return post_data;
+
 		}
 		catch(IOException e)
 		{
 			System.out.println("Error");
+			return post_data;
 		}
 	}
 }
