@@ -1,0 +1,48 @@
+.login-field {
+    margin: 1rem auto 1rem auto;
+    padding: 5rem;
+    max-width: 25rem;
+    background: var(--header-color);
+    color: var(--text-color);
+    border-radius: var(--section-border-radius);
+
+    display: flex;
+    flex-direction: column;
+}
+
+.login-field div {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    justify-content: space-between;
+    align-items: center;
+    
+    font-size: 1.5rem;
+    color: var(--text-color);
+}
+
+main input {
+    width: 10rem;
+    height: 2rem;
+    font-size: 1.5rem;
+
+    background-color: var(--section-color);
+    padding: 0.5rem;
+    border-radius: var(--section-border-radius);
+    color: var(--text-color);
+}
+
+#submitConfirmation {
+    margin-top: 1rem;
+    padding: 0.5rem 1rem;
+    background-color: var(--button-color);
+    color: var(--text-color);
+    border: none;
+    border-radius: var(--button-border-radius);
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+#submitConfirmation:hover {
+    background-color: var(--highlight-color);
+}
