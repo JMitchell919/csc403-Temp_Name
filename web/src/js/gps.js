@@ -12,11 +12,19 @@ document.addEventListener('DOMContentLoaded', () => {
             
             let zone;
         
-            if (latitude > 32.5263) {
-                zone = "Zone 1"
+            if (longitude > -92.645) {
+                if (latitude > 32.325) {
+                    zone = "Zone 1";
+                }else {
+                    zone = "Zone 2";
+                }
             }
             else {
-                zone = "Zone 2"
+                if (latitude < 32.325) {
+                    zone = "Zone 3";
+                }else {
+                    zone = "Zone 4";
+                }
             }
 
             localStorage.setItem('zone', zone);
