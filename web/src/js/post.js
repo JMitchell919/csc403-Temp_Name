@@ -75,7 +75,6 @@ document.addEventListener('DOMContentLoaded', async function() {
     document.getElementById('submit-post').addEventListener('click', async function() {
         // Grab value of post-input
         const input = postInput.value;
-        console.log(input);
 
         if (input == "") {
             alert("Post text cannot be empty.");
@@ -83,9 +82,7 @@ document.addEventListener('DOMContentLoaded', async function() {
         }
 
         // Get data needed for post
-        const date = new Date();
-
-        console.log(localStorage.getItem('username'));        
+        const date = new Date();      
 
         const formData = new FormData();
         formData.append('username', localStorage.getItem('username'));
@@ -102,7 +99,7 @@ document.addEventListener('DOMContentLoaded', async function() {
         // Log the FormData content
         for (let pair of formData.entries()) {
             console.log(`${pair[0]}: ${pair[1]}`);
-}
+        }
 
         let apiDomain = window.location.hostname === "localhost" ? "http://localhost" : `http://${window.location.hostname}`;
         let apiPort = '';
