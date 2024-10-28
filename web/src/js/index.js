@@ -152,21 +152,16 @@ document.addEventListener('DOMContentLoaded', async function() {
         postsSection.innerHTML = ''
 
         // Fetch config
-        let apiDomain = '';
+        let apiDomain = window.location.hostname === "localhost" ? "http://localhost" : `http://${window.location.hostname}`;
         let apiPort = '';
         await fetch('/config')
             .then(response => response.json())
             .then(config => {
-                // apiDomain = config.apiDomain;
-                apiDomain = window.location.hostname === "localhost" ? "http://localhost" : `http://${window.location.hostname}`;
                 apiPort = config.apiPort;
             })
             .catch(error => {
                 console.error('Error fetching config:', error);
             });
-
-        console.log(window.location.hostname)
-        console.log(`${apiDomain}:${apiPort}`)
 
         fetch(`${apiDomain}:${apiPort}/feed?algorithm=${feedAlgorithm}`)
             .then(response => response.json())

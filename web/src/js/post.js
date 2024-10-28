@@ -104,13 +104,12 @@ document.addEventListener('DOMContentLoaded', async function() {
             console.log(`${pair[0]}: ${pair[1]}`);
 }
 
-        let apiDomain = '';
+        let apiDomain = window.location.hostname === "localhost" ? "http://localhost" : `http://${window.location.hostname}`;
         let apiPort = '';
 
         await fetch('/config')
             .then(response => response.json())
             .then(config => {
-                apiDomain = config.apiDomain;
                 apiPort = config.apiPort;
             })
             .catch(error => {

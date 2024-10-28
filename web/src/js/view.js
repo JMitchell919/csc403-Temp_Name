@@ -32,13 +32,12 @@ document.addEventListener('DOMContentLoaded', async function() {
     }
 
     // Fetch config
-    let apiDomain = '';
+    let apiDomain = window.location.hostname === "localhost" ? "http://localhost" : `http://${window.location.hostname}`;
     let apiPort = '';
 
     await fetch('/config')
         .then(response => response.json())
         .then(config => {
-            apiDomain = config.apiDomain;
             apiPort = config.apiPort;
         })
         .catch(error => {
