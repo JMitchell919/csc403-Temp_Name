@@ -5,16 +5,51 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Profile</title>
     <link rel="stylesheet" href="../css/styles.css">
-    <!-- <link rel="stylesheet" href="../css/profile.css"> -->
-    <!-- <script src="../js/profile.js"></script> -->
+    <link rel="stylesheet" href="../css/profile.css">
+    <script src="../js/profile.js"></script>
     <script src="../js/headerLoader.js"></script>
     <script src="../js/footerLoader.js"></script>
     <script src="/js/gps.js"></script>
+    <script src="https://kit.fontawesome.com/a595f208a2.js" crossorigin="anonymous"></script>
 </head>
 <body>
     <div class="wrapper">
         <div id="header-container"></div>
-        <main></main>
+        <main>
+            <div id="info-section">
+                <div id="info">
+                    <div id="pfp">
+                        <img src="" alt="" id="pfp-image">
+                        <button>Change</button>
+                    </div>
+                    <div id="data">
+                        <div class="row">
+                            <p>Display Name: <span id="display-name"></span></p>
+                            <button>Change</button>
+                        </div>
+                        <div class="row">
+                            <p>Username: <span id="username"></span></p>
+                            <button>Change</button>
+                        </div>
+                        <div class="row">
+                            <p>Email: <span id="email"></span></p>
+                            <button>Change</button>
+                        </div>
+                    </div>
+    
+                    <div id="stats">
+                        <p>Followers: <span id="followers-count"></span></p>
+                        <p>Following: <span id="following-count"></span></p>
+                        <p>Posts: <span id="total-post-count"></span></p>
+                        <p>Likes: <span id="total-likes-count"></span></p>
+                        <p>Dislikes: <span id="total-dislikes-count"></span></p>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="posts-section">
+            </div>
+        </main>
         <div id="footer-container"></div>
     </div>
 </body>

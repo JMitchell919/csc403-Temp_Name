@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
             localStorage.setItem('zone', zone);
 
         }, (error) => {
-            document.getElementById('location').innerText = 'Unable to retrieve location';
+            // document.getElementById('location').innerText = 'Unable to retrieve location';
             console.error(error);
         });
     }

@@ -24,7 +24,13 @@ public class UploadControllerNew {
         @RequestParam("text") String text,
         @RequestParam(value = "files", required = false) MultipartFile[] files
     ) {
+        System.out.println("Username: " + username);
+        System.out.println("Location: " + location);
+        System.out.println("Latitude: " + latitude);
+        System.out.println("Longitude: " + longitude);
+        System.out.println("Text: " + text);
         try {
+            
             postService.writePost(username, location, latitude, longitude, text, files != null ? files : new MultipartFile[0]);
             return ResponseEntity.ok("Post created successfully");
         } catch (Exception e) {
