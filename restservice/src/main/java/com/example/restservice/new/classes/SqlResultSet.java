@@ -37,6 +37,11 @@ public class SqlResultSet {
         return resultSet.getInt(columnLabel);
     }
 
+    public Integer getInteger(String columnLabel) throws SQLException {
+        int value = resultSet.getInt(columnLabel);
+        return resultSet.wasNull() ? null : value;
+    }
+
     public String getString(String columnLabel) throws SQLException {
         return resultSet.getString(columnLabel);
     }

@@ -150,4 +150,64 @@ document.addEventListener('DOMContentLoaded', async function() {
         // Set height based on content
         this.style.minHeight = this.scrollHeight + 'px';
     })
+
+    // Comment section! Yay yippee woohoo!
+    fetch(`${apiDomain}:${apiPort}/comments?postId=${postId}`)
+        .then(response => response.json())
+        .then(comments => {
+            createComments(comments);
+        })
+        .catch(error => console.error('Error fetching comments:', error));
+
+    function createComments(comments, level = 0) {
+        const commentsContainer = document.getElementById('comments-container')
+
+        comments.forEach(comment => {
+            const commentwrapperDiv = document.createElement('div');
+            commentwrapperDiv.className = 'comment-wrapper';
+            commentwrapperDiv.style.paddingLeft = `${level * 2}rem`;
+            
+            const commentDiv = document.createElement('div');
+            commentDiv.className = 'comment';
+            // if (level == 0) {
+            //     commentDiv.style.marginTop = '1rem';
+            // }
+
+            // Format the date
+            const dateObject = new Date(comment.date);
+            const printDate = dateObject.toLocaleString('en-US', {
+                year: 'numeric',
+                month: 'short',
+                day: 'numeric',
+                hour: 'numeric',
+                minute: 'numeric',
+                hour12: true
+            })
+
+            //get user by id (comment.userId) from api (pfp, username)
+
+            // <p>${comment.text}</p>
+            // <p>${printDate}</p>
+
+            commentDiv.innerHTML = `
+                <div class="comment">
+                    <img src="${"../assets/images/Clab.png"}" alt="" class="comment-pfp">
+                    <div class="comment-right">
+                        <div class="comment-info">
+                            <span class="comment-username">${"Clab"}</span>
+                            <span class="comment-date">${printDate}</span>
+                        </div>
+                        <div class="comment-text">${comment.text}</div>
+                    </div>
+                </div>
+            `;
+
+            commentwrapperDiv.appendChild(commentDiv);
+            commentsContainer.appendChild(commentwrapperDiv);
+
+            if (comment.replies && comment.replies.length > 0) {
+                createComments(comment.replies, level + 1);
+            }
+        })
+    }
 });

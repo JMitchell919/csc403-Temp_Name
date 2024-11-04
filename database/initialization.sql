@@ -34,10 +34,19 @@ CREATE TABLE IF NOT EXISTS post_pics (
     FOREIGN KEY (post_id) REFERENCES posts(id) ON DELETE CASCADE
 );
 
-CREATE TABLE post_interactions (
+CREATE TABLE IF NOT EXISTS post_interactions (
     id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT NOT NULL,
     post_id INT NOT NULL,
     interaction_type ENUM('like', 'dislike') NOT NULL,
     UNIQUE KEY (user_id, post_id)
+);
+
+CREATE TABLE IF NOT EXISTS comments (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    post_id INT,
+    parent_id INT,
+    user_id INT,
+    text TEXT,
+    date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
