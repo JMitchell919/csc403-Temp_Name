@@ -36,30 +36,30 @@ public class InteractionService {
 
     // Add user interaction in the database
     public void addUserInteraction(int userId, int postId, String type) {
-    String updateSql = "UPDATE post_interactions SET interaction_type = ? WHERE user_id = ? AND post_id = ?";
-    String insertSql = "INSERT INTO post_interactions (user_id, post_id, interaction_type) VALUES (?, ?, ?)";
-    
-    try (Connection conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD);
-         PreparedStatement updatePstmt = conn.prepareStatement(updateSql);
-         PreparedStatement insertPstmt = conn.prepareStatement(insertSql)) {
+        String updateSql = "UPDATE post_interactions SET interaction_type = ? WHERE user_id = ? AND post_id = ?";
+        String insertSql = "INSERT INTO post_interactions (user_id, post_id, interaction_type) VALUES (?, ?, ?)";
         
-        // Try to update existing interaction
-        updatePstmt.setString(1, type);
-        updatePstmt.setInt(2, userId);
-        updatePstmt.setInt(3, postId);
-        
-        int updatedRows = updatePstmt.executeUpdate();
-        if (updatedRows == 0) {
-            // If no rows were updated, insert a new interaction
-            insertPstmt.setInt(1, userId);
-            insertPstmt.setInt(2, postId);
-            insertPstmt.setString(3, type);
-            insertPstmt.executeUpdate();
+        try (Connection conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD);
+            PreparedStatement updatePstmt = conn.prepareStatement(updateSql);
+            PreparedStatement insertPstmt = conn.prepareStatement(insertSql)) {
+            
+            // Try to update existing interaction
+            updatePstmt.setString(1, type);
+            updatePstmt.setInt(2, userId);
+            updatePstmt.setInt(3, postId);
+            
+            int updatedRows = updatePstmt.executeUpdate();
+            if (updatedRows == 0) {
+                // If no rows were updated, insert a new interaction
+                insertPstmt.setInt(1, userId);
+                insertPstmt.setInt(2, postId);
+                insertPstmt.setString(3, type);
+                insertPstmt.executeUpdate();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-    } catch (SQLException e) {
-        e.printStackTrace();
     }
-}
 
     // Remove user interaction in the database
     public void removeUserInteraction(int userId, int postId) {

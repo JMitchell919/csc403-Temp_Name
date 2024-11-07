@@ -20,7 +20,21 @@ public class CommentController {
     }
 
     // submit comment
-    // @PostMapping("/comment")
+    @PostMapping("/comment")
+    public ResponseEntity<?> postComment(@RequestBody CommentRequestDTO commentRequest){
+        try {
+            commentService.writeComment(
+                commentRequest.getPostId(),
+                commentRequest.getParentId(),
+                commentRequest.getUsername(),
+                commentRequest.getText()
+            );
+            return ResponseEntity.ok("Comment created successfully");
+        } catch (Exception e) {
+            System.out.println(e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error while creating comment");
+        }
+    }
     
 
     // get comments by post id

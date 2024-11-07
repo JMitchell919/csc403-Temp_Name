@@ -141,15 +141,42 @@ document.addEventListener('DOMContentLoaded', async function() {
         .catch(error => console.error('Error fetching post:', error));
 
     // Get post-input
-    const commentInput = document.getElementById('comment-input');
+    document.getElementById('submit-comment').addEventListener('click', function() {
+        fetch(`${apiDomain}:${apiPort}/comment`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                postId: parseInt(document.getElementById('post').getAttribute('post-id')),
+                parentId: null,
+                username: localStorage.getItem('username'),
+                text: document.getElementById('comment-input').value
+            })
+        })
+        .then(response => {
+            if (response.ok) {
+                window.location.href = window.location;
+            } else {
+                alert('Failed to submit comment.');
+                console.log(response)
+            }
+        })
+        .catch(error => {
+            console.error(error);
+            alert('Error while submitting comment.');
+        });
+    })
 
-    commentInput.addEventListener('input', function() {
+    document.getElementById('comment-input').addEventListener('input', function() {
         // Reset height
         this.style.minHeight = 'auto';
 
         // Set height based on content
         this.style.minHeight = this.scrollHeight + 'px';
     })
+
+    let activeDropdown = null;
 
     // Comment section! Yay yippee woohoo!
     fetch(`${apiDomain}:${apiPort}/comments?postId=${postId}`)
@@ -159,19 +186,24 @@ document.addEventListener('DOMContentLoaded', async function() {
         })
         .catch(error => console.error('Error fetching comments:', error));
 
-    function createComments(comments, level = 0) {
+    async function createComments(comments, level = 0, isLast = []) {
         const commentsContainer = document.getElementById('comments-container')
 
-        comments.forEach(comment => {
+        comments.forEach((comment, index) => {
+            const isCurrentLast = index === comments.length - 1;
             const commentwrapperDiv = document.createElement('div');
             commentwrapperDiv.className = 'comment-wrapper';
-            commentwrapperDiv.style.paddingLeft = `${level * 2}rem`;
+            // commentwrapperDiv.style.paddingLeft = `${level * 4}rem`;
             
             const commentDiv = document.createElement('div');
-            commentDiv.className = 'comment';
-            // if (level == 0) {
-            //     commentDiv.style.marginTop = '1rem';
-            // }
+            commentDiv.className = 'comment-div';
+            commentDiv.setAttribute('comment-id', comment.id)
+            
+            let treeSymbols = '';
+            for (let i = 0; i < level; i++) {
+                treeSymbols += isLast[i] ? "&nbsp;" : "│";
+            }
+            treeSymbols += isCurrentLast ? "└" : "├";
 
             // Format the date
             const dateObject = new Date(comment.date);
@@ -190,24 +222,85 @@ document.addEventListener('DOMContentLoaded', async function() {
             // <p>${printDate}</p>
 
             commentDiv.innerHTML = `
+                <div class="tree">
+                    <p>${treeSymbols}</p>
+                </div>
+                
                 <div class="comment">
                     <img src="${"../assets/images/Clab.png"}" alt="" class="comment-pfp">
                     <div class="comment-right">
-                        <div class="comment-info">
+                        <div class="comment-right-top">
                             <span class="comment-username">${"Clab"}</span>
                             <span class="comment-date">${printDate}</span>
                         </div>
-                        <div class="comment-text">${comment.text}</div>
+                        <div class="comment-right-bottom">
+                            <div class="comment-text">${comment.text}</div>
+                            <button class="reply-button">
+                                <i class="fa-solid fa-comment"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="comment-reply-section" style="display: none;">
+                        <textarea class="reply-input" placeholder="Write a reply..."></textarea>
+                        <button class="submit-reply-button">Submit</button>
                     </div>
                 </div>
             `;
+
+            commentDiv.querySelector('.reply-button').addEventListener('click', function () {
+                const replySection = commentDiv.querySelector('.comment-reply-section');
+
+                if (activeDropdown && activeDropdown !== replySection) {
+                    activeDropdown.style.display = 'none';
+                }
+                
+                if (replySection.style.display === 'none' || replySection.style.display === '') {
+                    replySection.style.display = 'flex';
+                    activeDropdown = replySection;
+                } else {
+                    replySection.style.display = 'none';
+                    activeDropdown = null;
+                }
+            });
+
+            commentDiv.querySelector('.reply-input').addEventListener('input', function() {
+                this.style.minHeight = 'auto';
+                this.style.minHeight = this.scrollHeight + 'px';
+            })
+
+            commentDiv.querySelector('.submit-reply-button').addEventListener('click', async function () {
+                fetch(`${apiDomain}:${apiPort}/comment`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        postId: parseInt(document.getElementById('post').getAttribute('post-id')),
+                        parentId: parseInt(commentDiv.getAttribute('comment-id')),
+                        username: localStorage.getItem('username'),
+                        text: commentDiv.querySelector('.reply-input').value
+                    })
+                })
+                .then(response => {
+                    if (response.ok) {
+                        window.location.href = window.location;
+                    } else {
+                        alert('Failed to submit reply.');
+                    }
+                })
+                .catch(error => {
+                    console.error(error);
+                    alert('Error while submitting reply.');
+                });
+            });
 
             commentwrapperDiv.appendChild(commentDiv);
             commentsContainer.appendChild(commentwrapperDiv);
 
             if (comment.replies && comment.replies.length > 0) {
-                createComments(comment.replies, level + 1);
+                createComments(comment.replies, level + 1, [...isLast, isCurrentLast]);
             }
         })
-    }
+    } 
 });

@@ -18,7 +18,7 @@ public class PostServiceNew {
 
     // Constructor injection
     public PostServiceNew(SqlService sqlService) {
-        this.sqlService = sqlService;
+        this.sqlService = sqlService.getInstance();
     }
 
     public void writePost(String username, String location, Double latitude, Double longitude, String text, MultipartFile[] files) throws IOException {

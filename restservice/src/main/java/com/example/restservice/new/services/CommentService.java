@@ -12,7 +12,7 @@ public class CommentService {
 
     // Constructor injection
     public CommentService(SqlService sqlService) {
-        this.sqlService = sqlService;
+        this.sqlService = sqlService.getInstance();
     }
 
     public List<Comment> getCommentsByPostId(int postId) {
@@ -25,7 +25,7 @@ public class CommentService {
                     rs.getInt("id"),
                     rs.getInt("post_id"),
                     rs.getInteger("parent_id"),
-                    rs.getInteger("user_id"),
+                    rs.getString("username"),
                     rs.getString("text"),
                     rs.getTimestamp("date")
                 );
@@ -49,7 +49,7 @@ public class CommentService {
                     rs.getInt("id"),
                     rs.getInteger("post_id"),
                     rs.getInteger("parent_id"),
-                    rs.getInt("user_id"),
+                    rs.getString("username"),
                     rs.getString("text"),
                     rs.getTimestamp("date")
                 );
@@ -59,5 +59,9 @@ public class CommentService {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public void writeComment(int postId, Integer parentId, String username, String text) {
+        int commentId = sqlService.write("INSERT INTO comments (post_id, parent_id, username, text) VALUES (?, ?, ?, ?)", postId, parentId, username, text);
     }
 }

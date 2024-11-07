@@ -19,7 +19,6 @@ public class PostController {
     // Get a single post's data. (/view page)
     @GetMapping("/post")
     public Post post(@RequestParam(value = "id", defaultValue = "0") int id) { 
-        System.out.println(id);
         return postServiceNew.readPost(id);
     }
 }

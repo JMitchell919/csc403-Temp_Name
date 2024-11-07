@@ -16,7 +16,7 @@ public class FeedServiceNew {
     int commentInfluence;
 
     public FeedServiceNew(SqlService sqlService, PostServiceNew postService) {
-        this.sqlService = sqlService;
+        this.sqlService = sqlService.getInstance();
         this.postService = postService;
 
         this.likeInfluence = 1;

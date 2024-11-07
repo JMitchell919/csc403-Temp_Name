@@ -46,7 +46,7 @@ CREATE TABLE IF NOT EXISTS comments (
     id INT AUTO_INCREMENT PRIMARY KEY,
     post_id INT,
     parent_id INT,
-    user_id INT,
+    username TEXT,
     text TEXT,
     date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );

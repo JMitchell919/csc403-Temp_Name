@@ -37,9 +37,13 @@ public class SqlService {
 
     // Create (INSERT),             DOES NOT WORK WITH Update (UPDATE), Delete (DELETE)
     public int write(String query, Object... params) {
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet generatedKeys = null;
+
         try {
-            Connection conn = getConnection();
-            PreparedStatement pstmt = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+            conn = getConnection();
+            pstmt = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
         
             setParameters(pstmt, params);  // Setting parameters
 
@@ -49,38 +53,54 @@ public class SqlService {
                 throw new SQLException("No rows affected.");
             }
 
-            try (ResultSet generatedKeys = pstmt.getGeneratedKeys()) {
-                if (generatedKeys.next()) {
-                    return generatedKeys.getInt(1);
-                } else {
-                    throw new SQLException("No ID obtained.");
-                }
+            generatedKeys = pstmt.getGeneratedKeys();
+            if (generatedKeys.next()) {
+                return generatedKeys.getInt(1);
+            } else {
+                throw new SQLException("No ID obtained.");
             }
             
         } catch (SQLException e) {
             e.printStackTrace();
             return -1;
+        } finally {
+            // Ensuring all resources are closed in the finally block
+            close(generatedKeys);
+            close(pstmt);
+            close(conn);
         }
     }
 
     // Read (SELECT)
     public SqlResultSet read(String sql, Object... params) {
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+
         try {
-            Connection conn = getConnection();
-            PreparedStatement pstmt = conn.prepareStatement(sql);
+            conn = getConnection();
+            pstmt = conn.prepareStatement(sql);
             setParameters(pstmt, params);
-            ResultSet rs = pstmt.executeQuery();
+
+            rs = pstmt.executeQuery();
             return new SqlResultSet(rs, conn);  // Decoupling
+
         } catch (SQLException e) {
             e.printStackTrace();
             return null;
+        } finally {
+            // Don't have to close the ResultSet here since it’s handled already handled and for further use
         }
     }
 
     // Helper method to set params for PreparedStatement
     private void setParameters(PreparedStatement pstmt, Object... params) throws SQLException {
         for (int i = 0; i < params.length; i++) {
-            pstmt.setObject(i + 1, params[i]);
+            if (params[i] == null) {
+                pstmt.setNull(i + 1, java.sql.Types.INTEGER);
+            } else {
+                pstmt.setObject(i + 1, params[i]);
+            }
         }
     }
 
@@ -88,6 +108,22 @@ public class SqlService {
     public void close(ResultSet rs) {
         try {
             if (rs != null) rs.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void close(Connection conn) {
+        try {
+            if (conn != null) conn.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void close(PreparedStatement pstmt) {
+        try {
+            if (pstmt != null) pstmt.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }

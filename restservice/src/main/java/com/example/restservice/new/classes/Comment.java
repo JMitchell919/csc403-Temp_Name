@@ -8,16 +8,16 @@ public class Comment {
     private int id;
     private Integer postId;
     private Integer parentId;
-    private int userId;
+    private String username;
     private String text;
     private Timestamp date;
     private List<Comment> replies;
 
-    public Comment(int id, Integer postId, Integer parentId, int userId, String text, Timestamp date) {
+    public Comment(int id, Integer postId, Integer parentId, String username, String text, Timestamp date) {
         this.id = id;
         this.postId = postId;
         this.parentId = parentId;
-        this.userId = userId;
+        this.username = username;
         this.text = text;
         this.date = date;
         this.replies = new ArrayList<>();
@@ -36,8 +36,8 @@ public class Comment {
         return parentId;
     }
 
-    public int getUserId() {
-        return userId;
+    public String getUsername() {
+        return username;
     }
 
     public String getText() {
