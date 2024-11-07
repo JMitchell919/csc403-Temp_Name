@@ -141,7 +141,7 @@
     border: var(--button-color);
     border-radius: var(--button-border-radius);
 
-    border: 1rem solid var(--section-color);;
+    border: 1rem solid var(--section-color);
 
     overflow: hidden;
     resize: none;
@@ -297,7 +297,7 @@
     border: var(--button-color);
     border-radius: var(--button-border-radius);
 
-    border: 1rem solid var(--section-color);;
+    border: 1rem solid var(--section-color);
 
     overflow: hidden;
     resize: none;
@@ -305,6 +305,10 @@
 
 .reply-input::placeholder {
     color: var(--text-color);
+}
+
+.reply-input:focus {
+    outline: solid var(--button-color);
 }
 
 .submit-reply-button {

@@ -142,6 +142,12 @@ document.addEventListener('DOMContentLoaded', async function() {
 
     // Get post-input
     document.getElementById('submit-comment').addEventListener('click', function() {
+        const text = document.getElementById('comment-input').value;
+        if (text == '') {
+            alert('Cannot submit an empty comment!');
+            return;
+        }
+
         fetch(`${apiDomain}:${apiPort}/comment`, {
             method: 'POST',
             headers: {
@@ -151,7 +157,7 @@ document.addEventListener('DOMContentLoaded', async function() {
                 postId: parseInt(document.getElementById('post').getAttribute('post-id')),
                 parentId: null,
                 username: localStorage.getItem('username'),
-                text: document.getElementById('comment-input').value
+                text: text
             })
         })
         .then(response => {
@@ -258,6 +264,7 @@ document.addEventListener('DOMContentLoaded', async function() {
                 if (replySection.style.display === 'none' || replySection.style.display === '') {
                     replySection.style.display = 'flex';
                     activeDropdown = replySection;
+                    commentDiv.querySelector('.reply-input').focus();
                 } else {
                     replySection.style.display = 'none';
                     activeDropdown = null;
@@ -267,9 +274,15 @@ document.addEventListener('DOMContentLoaded', async function() {
             commentDiv.querySelector('.reply-input').addEventListener('input', function() {
                 this.style.minHeight = 'auto';
                 this.style.minHeight = this.scrollHeight + 'px';
-            })
+            });
 
             commentDiv.querySelector('.submit-reply-button').addEventListener('click', async function () {
+                const text = commentDiv.querySelector('.reply-input').value;
+                if (text == '') {
+                    alert('Cannot submit an empty reply!');
+                    return;
+                }
+
                 fetch(`${apiDomain}:${apiPort}/comment`, {
                     method: 'POST',
                     headers: {
@@ -279,7 +292,7 @@ document.addEventListener('DOMContentLoaded', async function() {
                         postId: parseInt(document.getElementById('post').getAttribute('post-id')),
                         parentId: parseInt(commentDiv.getAttribute('comment-id')),
                         username: localStorage.getItem('username'),
-                        text: commentDiv.querySelector('.reply-input').value
+                        text: text
                     })
                 })
                 .then(response => {
