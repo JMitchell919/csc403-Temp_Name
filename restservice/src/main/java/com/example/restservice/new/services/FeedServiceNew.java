@@ -19,8 +19,8 @@ public class FeedServiceNew {
         this.sqlService = sqlService.getInstance();
         this.postService = postService;
 
-        this.likeInfluence = 1;
-        this.commentInfluence = 1;
+        this.likeInfluence = 1000;
+        this.commentInfluence = 1000;
     }
     
     public List<Post> getFeed(String algorithm, Double userLat, Double userLon) {
@@ -31,22 +31,22 @@ public class FeedServiceNew {
             switch (algorithm.toLowerCase()) {
                 case "popular":
                     rs = sqlService.read(
-                        "SELECT posts.id, (((like_count - dislike_count) * ?) / TIMESTAMPDIFF(SECOND, date, NOW())) AS score " +
+                        "SELECT posts.id, ((1 + (like_count - dislike_count) * ?) / SQRT(TIMESTAMPDIFF(SECOND, date, NOW()))) AS score " +
                         "FROM posts ORDER BY score DESC", likeInfluence);
                     break;
                 case "hot":
                     rs = sqlService.read(
-                        "SELECT posts.id, ((comment_count * ?) / TIMESTAMPDIFF(SECOND, date, NOW())) AS score " + 
+                        "SELECT posts.id, (1 + (comment_count * ?) / SQRT(TIMESTAMPDIFF(SECOND, date, NOW()))) AS score " + 
                         "FROM posts ORDER BY score DESC;", commentInfluence);
                     break;
                 case "near":
                     rs = sqlService.read(
-                        "SELECT posts.id, 1 / SQRT(POW(? - latitude, 2) + POW(? - longitude, 2)) AS score " +
+                        "SELECT posts.id, 1 / (1 + SQRT(POW(? - latitude, 2) + POW(? - longitude, 2))) AS score " +
                         "FROM posts ORDER BY score DESC", userLat, userLon);
                     break;
                 case "recent":
                     rs = sqlService.read(
-                        "SELECT posts.id, 1 / TIMESTAMPDIFF(SECOND, date, NOW()) AS score " +
+                        "SELECT posts.id, 1 / SQRT(TIMESTAMPDIFF(SECOND, date, NOW())) AS score " +
                         "FROM posts ORDER BY score DESC");
                     break;
                 default:

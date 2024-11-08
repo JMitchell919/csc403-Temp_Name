@@ -87,8 +87,8 @@ document.addEventListener('DOMContentLoaded', async function() {
         const formData = new FormData();
         formData.append('username', localStorage.getItem('username'));
         formData.append('location', localStorage.getItem('overrideZone') || localStorage.getItem('zone'));
-        formData.append('latitude', parseFloat(localStorage.getItem('latitude')));
-        formData.append('longitude', parseFloat(localStorage.getItem('longitude')));
+        formData.append('latitude', parseFloat(localStorage.getItem('overrideLatitude') || localStorage.getItem('latitude')));
+        formData.append('longitude', parseFloat(localStorage.getItem('overrideLongitude') || localStorage.getItem('longitude')));
         // formData.append('date', `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`);
         formData.append('text', input);
 

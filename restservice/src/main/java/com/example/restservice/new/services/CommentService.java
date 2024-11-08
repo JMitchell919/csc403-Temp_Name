@@ -63,5 +63,6 @@ public class CommentService {
 
     public void writeComment(int postId, Integer parentId, String username, String text) {
         int commentId = sqlService.write("INSERT INTO comments (post_id, parent_id, username, text) VALUES (?, ?, ?, ?)", postId, parentId, username, text);
+        sqlService.update("UPDATE posts SET comment_count = comment_count + 1 WHERE id = ?", postId);
     }
 }

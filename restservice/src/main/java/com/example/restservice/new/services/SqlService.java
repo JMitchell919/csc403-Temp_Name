@@ -35,7 +35,7 @@ public class SqlService {
         return DriverManager.getConnection(dbUrl, dbUser, dbPassword);
     }
 
-    // Create (INSERT),             DOES NOT WORK WITH Update (UPDATE), Delete (DELETE)
+    // Create (INSERT)
     public int write(String query, Object... params) {
         Connection conn = null;
         PreparedStatement pstmt = null;
@@ -66,6 +66,28 @@ public class SqlService {
         } finally {
             // Ensuring all resources are closed in the finally block
             close(generatedKeys);
+            close(pstmt);
+            close(conn);
+        }
+    }
+
+    // Update (UPDATE)
+    public int update(String query, Object... params) {
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+
+        try {
+            conn = getConnection();
+            pstmt = conn.prepareStatement(query);
+
+            setParameters(pstmt, params);
+
+            return pstmt.executeUpdate();
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return -1;
+        } finally {
             close(pstmt);
             close(conn);
         }

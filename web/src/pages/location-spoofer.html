@@ -15,13 +15,32 @@
     <div class="wrapper">
         <div id="header-container"></div>
         <main>
-            <div class="section">
+            <div class="container">
                 <div class="input-section">
-                    <div class="location">
-                        <p>Location</p>
-                        <input type="text" id="location-input">
+                    <div class="zone-section section">
+                        <div class="part">
+                            <p>Zone</p>
+                            <input type="text" id="zone-input">
+                        </div>
+                        <div class="buttons">
+                            <button id="submit-zone">Submit</button>
+                            <button id="reset-zone">Reset</button>
+                        </div>
                     </div>
-                    <button id="submit">Submit</button>
+                    <div class="coords-section section">
+                        <div class="part">
+                            <p>Latitude</p>
+                            <input type="text" id="lat-input">
+                        </div>
+                        <div class="part">
+                            <p>Longitude</p>
+                            <input type="text" id="lon-input">
+                        </div>
+                        <div class="buttons">
+                            <button id="submit-coords">Submit</button>
+                            <button id="reset-coords">Reset</button>
+                        </div>
+                    </div>
                 </div>
                 <div class="output-section">
                     <p id="output"></p>

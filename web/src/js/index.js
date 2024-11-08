@@ -41,24 +41,29 @@ document.addEventListener('DOMContentLoaded', async function() {
 
     document.getElementById('popularSortBtn').addEventListener('click', function() {
         feedAlgorithm = 'Popular';
+        extraParams = '';
         constructFeed();
     });
     document.getElementById('hotSortBtn').addEventListener('click', function() {
         feedAlgorithm = 'Hot';
+        extraParams = '';
         constructFeed();
     });
     document.getElementById('nearSortBtn').addEventListener('click', function() {
         feedAlgorithm = 'Near';
+        extraParams = `&userLat=${localStorage.getItem('overrideLatitude') || localStorage.getItem('latitude')}&userLon=${localStorage.getItem('overrideLongitude') || localStorage.getItem('longitude')}`
         constructFeed();
     });
     document.getElementById('recentSortBtn').addEventListener('click', function() {
         feedAlgorithm = 'Recent';
+        extraParams = '';
         constructFeed();
     });
 
     // Construct the feed
     const postsSection = document.getElementById('posts-section');
     let feedAlgorithm = 'Popular'
+    let extraParams = '';
     constructFeed();
 
 
@@ -163,7 +168,8 @@ document.addEventListener('DOMContentLoaded', async function() {
                 console.error('Error fetching config:', error);
             });
 
-        fetch(`${apiDomain}:${apiPort}/feed?algorithm=${feedAlgorithm}`)
+        console.log(`${apiDomain}:${apiPort}/feed?algorithm=${feedAlgorithm}${extraParams}`);
+        fetch(`${apiDomain}:${apiPort}/feed?algorithm=${feedAlgorithm}${extraParams}`)
             .then(response => response.json())
             .then(posts => {
                 posts.forEach(post => {
