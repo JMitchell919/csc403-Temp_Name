@@ -201,13 +201,36 @@ document.addEventListener('DOMContentLoaded', async function() {
         document.body.classList.remove('no-scroll'); // Enable scrolling of main page
     });
 
-    document.getElementById('enlarged-image').addEventListener('click', function(event) {
+    modalImg.addEventListener('click', function(event) {
         event.stopPropagation();
     })
 });
 
 // Handle button clicks
 function handleButtonClick(event) {
+
+    // Get user's interactions
+    const storedInteractions = localStorage.getItem('userInteractions');
+
+    // Check if there are stored interactions, if not initialize them
+    if (storedInteractions) {
+        try {
+            // Attempt to parse stored interactions
+            const parsedInteractions = JSON.parse(storedInteractions);
+            // Ensure the parsed object has the expected structure
+            userInteractions.likes = parsedInteractions.likes || [];
+            userInteractions.dislikes = parsedInteractions.dislikes || [];
+        } catch (error) {
+            console.error('Error parsing user interactions from localStorage:', error);
+            // Reset if parsing fails
+            localStorage.removeItem('userInteractions');
+        }
+    } else {
+        // Initialize empty interactions in localStorage
+        localStorage.setItem('userInteractions', JSON.stringify(userInteractions));
+    }
+
+
     const likeButton = event.target.closest('.like-button');
     const dislikeButton = event.target.closest('.dislike-button');
 
@@ -352,5 +375,5 @@ async function interact(postId, method, type) {
     .catch(error => console.error('No workey: ', error));
 }
 
-export { handleButtonClick, interact };
+export { handleButtonClick };
 

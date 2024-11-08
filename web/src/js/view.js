@@ -1,4 +1,4 @@
-import { handleButtonClick, interact } from './index.js';
+import { handleButtonClick } from './index.js';
 
 document.addEventListener('DOMContentLoaded', async function() {
     // Grab postId from url

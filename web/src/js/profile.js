@@ -1,78 +1,177 @@
+import { handleButtonClick } from './index.js';
+
+const userInteractions = {
+    likes: [],
+    dislikes: []
+};
+
 document.addEventListener('DOMContentLoaded', async function() {
-    document.getElementById('display-name').textContent = localStorage.getItem('username');
+    document.getElementById('display-name').textContent = '-';
     document.getElementById('username').textContent = localStorage.getItem('username');
-    document.getElementById('email').textContent = 'dummy@email.com';
+    document.getElementById('email').textContent = '-';
 
-    // dummy data, likly accumulated from posts from the next section (not followers or following)
-    document.getElementById('followers-count').textContent = '420';
-    document.getElementById('following-count').textContent = '69';
-    document.getElementById('total-post-count').textContent = '42';
-    document.getElementById('total-likes-count').textContent = '1337';
-    document.getElementById('total-dislikes-count').textContent = '7';
+    document.getElementById('followers-count').textContent = '-';
+    document.getElementById('following-count').textContent = '-';
+    document.getElementById('total-post-count').textContent = '-';
+    document.getElementById('total-likes-count').textContent = '-';
+    document.getElementById('total-dislikes-count').textContent = '-'; 
 
-    // get all posts of user and populate posts-section
+    // Get user's interactions
+    const storedInteractions = localStorage.getItem('userInteractions');
 
-    // dummy data
-    const postData = {
-        id : 1,
-        profilePic : '',
-        username : localStorage.getItem('username'),
-        location : 'yuh',
-        text : 'this is the post text',
-        postPics : '',
-        likeCount : 69,
-        dislikeCount : 420,
-        commentCount : 1337
-    } 
-
-    let printDate
-    let isLiked
-    let isDisliked
-
-    const postDiv = document.createElement('div');
-    postDiv.classList.add('post');
-    postDiv.setAttribute('post-id', postData.id);
-
-    postDiv.innerHTML = `
-        <div class="highlight">
-            <a href="view?postId=${postData.id}" class="post-anchor">
-                <div class="post-header">
-                    <div class="post-author no-redirect">
-                        <img src="${postData.profilePic}" alt="Profile Picture" class="profile-pic">
-                        <p class="post-author">${postData.username}</p>
-                    </div>
-                    <div class="post-info">
-                        <p class="post-location">${postData.location}</p>
-                        <p class="post-date">${printDate}</p>
-                    </div>
-                </div>
-                
-                <p class="post-text no-redirect">${postData.text}</p>
-        
-                <div class="picture-container">
-                    ${postData.postPics && postData.postPics.length > 0 ? postData.postPics.map(pic => `<img src="../assets/postImages/${pic}" alt="Picture" class="pic">`).join('') : ''}
-                </div>
-        
-                <div class="post-footer">
-                    <button class="like-button no-redirect ${isLiked ? 'liked' : ''}">
-                        <i class="fa-solid fa-thumbs-up"></i>
-                        <p class="comment-count"><span class="like-count">${postData.likeCount}</span></span></p>
-                    </button>
-                    
-                    <button class="dislike-button no-redirect ${isDisliked ? 'disliked' : ''}">
-                        <i class="fa-solid fa-thumbs-down"></i>
-                        <p class="comment-count"><span class="dislike-count">${postData.dislikeCount}</span></span></p>
-                    </button>
-                    
-                    <button class="comment-button">
-                        <i class="fa-solid fa-comment"></i>
-                        <p class="comment-count"><span class="comment-count-number">${postData.commentCount}</span></p>
-                    </button>
-                </div>
-            </a>
-        </div>
-    `;
-
+    // Check if there are stored interactions, if not initialize them
+    if (storedInteractions) {
+        try {
+            // Attempt to parse stored interactions
+            const parsedInteractions = JSON.parse(storedInteractions);
+            // Ensure the parsed object has the expected structure
+            userInteractions.likes = parsedInteractions.likes || [];
+            userInteractions.dislikes = parsedInteractions.dislikes || [];
+        } catch (error) {
+            console.error('Error parsing user interactions from localStorage:', error);
+            // Reset if parsing fails
+            localStorage.removeItem('userInteractions');
+        }
+    } else {
+        // Initialize empty interactions in localStorage
+        localStorage.setItem('userInteractions', JSON.stringify(userInteractions));
+    }
+    
+    // Construct the feed
     const postsSection = document.getElementById('posts-section');
-    postsSection.appendChild(postDiv);
+    constructFeed()
+
+    // Function to create a new post HTML element
+    function constructPost(post) {
+        // Create a div for the post
+        const postDiv = document.createElement('div');
+        postDiv.classList.add('post');
+        postDiv.setAttribute('post-id', post.id);
+
+        // Format the date
+        const dateObject = new Date(post.date);
+        const printDate = dateObject.toLocaleString('en-US', {
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric',
+            hour: 'numeric',
+            minute: 'numeric',
+            hour12: true
+        })
+
+        // Check if the user liked or disliked the post
+        const isLiked = userInteractions.likes.includes(String(post.id));
+        const isDisliked = userInteractions.dislikes.includes(String(post.id));
+        
+        // HTML template
+        postDiv.innerHTML = `
+            <div class="highlight">
+                <a href="view?postId=${post.id}" class="post-anchor">
+                    <div class="post-header">
+                        <div class="post-author no-redirect">
+                            <img src="${post.profilePic}" alt="Profile Picture" class="profile-pic">
+                            <p class="post-author">${post.username}</p>
+                        </div>
+                        <div class="post-info">
+                            <p class="post-location">${post.location}</p>
+                            <p class="post-date">${printDate}</p>
+                        </div>
+                    </div>
+                    
+                    <p class="post-text no-redirect">${post.text}</p>
+            
+                    <div class="picture-container">
+                        ${post.postPics && post.postPics.length > 0 ? post.postPics.map(pic => `<img src="../assets/postImages/${pic}" alt="Picture" class="pic">`).join('') : ''}
+                    </div>
+            
+                    <div class="post-footer">
+                        <button class="like-button no-redirect ${isLiked ? 'liked' : ''}">
+                            <i class="fa-solid fa-thumbs-up"></i>
+                            <p class="comment-count"><span class="like-count">${post.likeCount}</span></span></p>
+                        </button>
+                        
+                        <button class="dislike-button no-redirect ${isDisliked ? 'disliked' : ''}">
+                            <i class="fa-solid fa-thumbs-down"></i>
+                            <p class="comment-count"><span class="dislike-count">${post.dislikeCount}</span></span></p>
+                        </button>
+                        
+                        <button class="comment-button">
+                            <i class="fa-solid fa-comment"></i>
+                            <p class="comment-count"><span class="comment-count-number">${post.commentCount}</span></p>
+                        </button>
+                    </div>
+                </a>
+            </div>
+        `;
+    
+        // Prevent redirect if a no-redirect element is clicked
+        postDiv.querySelector('.post-anchor').addEventListener('click', function(event) {
+            if (event.target.closest('.no-redirect')) {
+                event.preventDefault();
+            }
+        });
+        
+        // Add click event listener to images for enlarging
+        postDiv.querySelectorAll('.pic').forEach(image => {
+            image.addEventListener('click', function(event) {
+                event.preventDefault();
+                modal.style.display = 'block';
+                modalImg.src = this.src;
+                document.body.classList.add('no-scroll');
+            });
+        });
+
+        // Append the post to the posts section
+        postsSection.appendChild(postDiv);
+    }
+
+    // Fetch posts
+    async function constructFeed() {
+        // Fetch config
+        let apiDomain = window.location.hostname === "localhost" ? "http://localhost" : `http://${window.location.hostname}`;
+        let apiPort = '';
+        await fetch('/config')
+            .then(response => response.json())
+            .then(config => {
+                apiPort = config.apiPort;
+            })
+            .catch(error => {
+                console.error('Error fetching config:', error);
+            });
+
+        fetch(`${apiDomain}:${apiPort}/feed?algorithm=user&username=${localStorage.getItem('username')}`)
+            .then(response => response.json())
+            .then(posts => {
+                posts.forEach(post => {
+                    constructPost(post)
+                });
+            })
+            .catch(error => {
+                console.error("Error fetching from /posts: ", error);
+            });
+
+        // Clear previous event listeners for like and dislike buttons
+        postsSection.removeEventListener('click', handleButtonClick);
+        postsSection.addEventListener('click', handleButtonClick);
+    }
+
+    // Get the modal and modal content elements
+    const modal = document.getElementById('image-modal');
+    const modalImg = document.getElementById('enlarged-image');
+    const closeBtn = document.querySelector('.close');
+
+    // Add click event listener to close the modal
+    closeBtn.addEventListener('click', function() {
+        modal.style.display = 'none'; // Hide modal
+        document.body.classList.remove('no-scroll'); // Enable scrolling of main page
+    });
+
+    modal.addEventListener('click', function() {
+        modal.style.display = 'none'; // Hide modal
+        document.body.classList.remove('no-scroll'); // Enable scrolling of main page
+    });
+
+    modalImg.addEventListener('click', function(event) {
+        event.stopPropagation();
+    })
 });

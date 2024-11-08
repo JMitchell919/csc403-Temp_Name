@@ -23,7 +23,7 @@ public class FeedServiceNew {
         this.commentInfluence = 1000;
     }
     
-    public List<Post> getFeed(String algorithm, Double userLat, Double userLon) {
+    public List<Post> getFeed(String algorithm, Double userLat, Double userLon, String username) {
         SqlResultSet rs = null;
         List<Post> postList = new ArrayList<>();
 
@@ -48,6 +48,12 @@ public class FeedServiceNew {
                     rs = sqlService.read(
                         "SELECT posts.id, 1 / SQRT(TIMESTAMPDIFF(SECOND, date, NOW())) AS score " +
                         "FROM posts ORDER BY score DESC");
+                    break;
+                case "user":
+                    rs = sqlService.read(
+                        "SELECT posts.id " +
+                        "FROM posts " +
+                        "WHERE posts.username = ?;", username);
                     break;
                 default:
                     throw new IllegalArgumentException("Invalid algorithm: " + algorithm);

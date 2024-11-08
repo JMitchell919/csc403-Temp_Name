@@ -6,7 +6,8 @@
     <title>Profile</title>
     <link rel="stylesheet" href="../css/styles.css">
     <link rel="stylesheet" href="../css/profile.css">
-    <script src="../js/profile.js"></script>
+    <script type="module" src="../js/profile.js"></script>
+    <script type="module" src="../js/index.js"></script>
     <script src="../js/headerLoader.js"></script>
     <script src="../js/footerLoader.js"></script>
     <script src="/js/gps.js"></script>
@@ -51,6 +52,11 @@
             </div>
         </main>
         <div id="footer-container"></div>
+    </div>
+    
+    <div id="image-modal" class="modal">
+        <span class="close">&times;</span>
+        <img class="modal-content" id="enlarged-image">
     </div>
 </body>
 </html>

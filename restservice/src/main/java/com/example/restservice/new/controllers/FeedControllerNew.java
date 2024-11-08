@@ -19,9 +19,10 @@ public class FeedControllerNew {
     public List<Post> getFeed(
         @RequestParam String algorithm, 
         @RequestParam(required = false) Double userLat, 
-        @RequestParam(required = false) Double userLon) {
+        @RequestParam(required = false) Double userLon,
+        @RequestParam(required = false) String username) {
 
-        return feedService.getFeed(algorithm, userLat, userLon);
+        return feedService.getFeed(algorithm, userLat, userLon, username);
     }
 
 }
