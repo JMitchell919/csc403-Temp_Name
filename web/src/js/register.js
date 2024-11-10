@@ -50,11 +50,27 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    async function sendRegistration(registerData){
+    async function sendRegistration(registerData) {
+        let apiDomain = '';
+        let apiPort = '';
+        
+        await fetch('/config')
+            .then(response => response.json())
+            .then(config => {
+                apiDomain = config.apiDomain;
+                apiPort = config.apiPort;
+            })
+            .catch(error => {
+                console.error('Error fetching config:', error);
+            });
+
         try {
-            const response = await fetch('${apiDomain}:${apiPort}/register', {
+            const response = await fetch(`${apiDomain}:${apiPort}/api/register`, {
                 method: 'POST',
-                body: registerData
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(registerData)
             });
 
             if (response.ok) {
@@ -67,6 +83,7 @@ document.addEventListener('DOMContentLoaded', function() {
             alert("An error occurred. Please try again.");
         }
     }
+});
 
     function sendConfirmationEmail(email) {
         emailjs.send("service_yr686mq", "template_m5dvqvv", {
