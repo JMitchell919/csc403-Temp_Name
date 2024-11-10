@@ -1,8 +1,10 @@
 import java.sql.*;
 import java.util.Scanner;
 
+// signup class
 public class SignupSystem {
 
+    // make database connection
     private static final String DB_URL = "jdbc:mysql://localhost:3306/users_db";
     private static final String DB_USERNAME = "root";
     private static final String DB_PASSWORD = "password";
@@ -25,6 +27,7 @@ public class SignupSystem {
         }
     }
 
+    //check is usrname is available
     public static boolean isUsernameAvailable(String username) {
         Connection conn = null;
         PreparedStatement pstmt = null;
@@ -58,6 +61,7 @@ public class SignupSystem {
         return false;
     }
 
+    // inster usr data into database    
     public static void insertUserIntoDB(String username, String password) {
         Connection conn = null;
         PreparedStatement pstmt = null;
