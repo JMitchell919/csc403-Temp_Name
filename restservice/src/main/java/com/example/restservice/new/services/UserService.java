@@ -38,6 +38,17 @@ public class RegisterService {
 //         return rsUser.getInt("id");
 //     }
     
+    public void registerUser(UserDTO userDTO) {
+        // Map UserDTO to User
+        User user = new User(0, userDTO.getUsername(), userDTO.getPassword(), null, userDTO.getEmail());
+
+        // Use User fields for database insertion
+        sqlService.write(
+            "INSERT INTO users (username, password, email) VALUES (?, ?, ?)",
+            user.getUsername(), user.getPassword(), user.getEmail()
+        );
+    }
+    
     // Method to fetch all user information by username
     public User getUserByUsername(String username) {
         try {
