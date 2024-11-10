@@ -30,9 +30,25 @@ public class UserController {
         
         return userService.writeUser(username, password, email);
     }
-    @GetMapping("/userCheck")
-    public User user(
-        @RequestParam("username" String username)) { 
-    return Userservice.checkUser(username);
+    // Endpoint to fetch all user information by username
+    @GetMapping("/getUser")
+    public ResponseEntity<User> getUserByUsername(@RequestParam String username) {
+        User user = registerService.getUserByUsername(username);
+        if (user != null) {
+            return new ResponseEntity<>(user, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    // Endpoint to fetch only username and profilePic by userID
+    @GetMapping("/getUserInfo")
+    public ResponseEntity<User> getUserInfoById(@RequestParam int userID) {
+        User user = registerService.getUserInfoById(userID);
+        if (user != null) {
+            return new ResponseEntity<>(user, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 }
