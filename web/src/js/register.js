@@ -1,8 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('submitCredentials').addEventListener('click', function() {
 
-        const registerData = new FormData();
-
         registerData.append("username", document.getElementById('username-input').value);
         registerData.append("password", document.getElementById('password-input').value);
         registerData.append("email", document.getElementById('email-input').value);
@@ -40,7 +38,7 @@ document.addEventListener('DOMContentLoaded', function() {
             });
 
         try {
-            const response = await fetch(`${apiDomain}:${apiPort}/api/getUser?username=${username}`, {
+            const response = await fetch(`${apiDomain}:${apiPort}/getUser?username=${username}`, {
                 method: 'GET'
             });
 
