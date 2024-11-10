@@ -1,8 +1,18 @@
-document.addEventListener('DOMContentLoaded', async function() {
+document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('submitConfirmation').addEventListener('click', function() {
-        window.location.href = 'login.html'
+        
+        const confirmationNumber = document.getElementById('confirm-number-input').value;
+
+        // Check if the entered confirmation number matches "12345"
+        if (confirmationNumber === '12345') {
+            // Redirect to login page
+            window.location.href = 'login.html';
+        } else {
+            alert('Incorrect confirmation number. Please try again.');
+        }
     });
-});   
+});
+   
 // 
 //<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
 //<script>
