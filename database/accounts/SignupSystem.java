@@ -1,5 +1,5 @@
-import java.sql.*;
-import java.util.Scanner;
+// import java.sql.*;
+// import java.util.Scanner;
 
 // signup class
 public class SignupSystem {
