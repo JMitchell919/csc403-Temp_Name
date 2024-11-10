@@ -28,7 +28,7 @@ public class UserController {
             @RequestParam("password") String password,
             @RequestParam("email") String email) { 
         
-        return userService.writeUser(username, password, email);
+        return userService.registerUser(username, password, email);
     }
     // Endpoint to fetch all user information by username
     @GetMapping("/getUser")
