@@ -37,12 +37,7 @@ public class RegisterService {
 //             "WHERE username = ?", username);
 //         return rsUser.getInt("id");
 //     }
-package com.example.rest_service;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import java.sql.SQLException;
-
+    
     // Method to fetch all user information by username
     public User getUserByUsername(String username) {
         try {
