@@ -65,7 +65,7 @@ document.addEventListener('DOMContentLoaded', function() {
             });
 
         try {
-            const response = await fetch(`${apiDomain}:${apiPort}/api/register`, {
+            const response = await fetch(`${apiDomain}:${apiPort}/register`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
