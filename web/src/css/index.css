@@ -107,7 +107,7 @@
     margin-left: auto;
     margin-right: auto;
     background: linear-gradient(150deg, var(--header-color), var(--bg-color));
-    min-width: 30rem;
+    min-width: 20rem;
     width: 80%;
     max-width: 80rem;
     color: var(--text-color);

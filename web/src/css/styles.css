@@ -139,25 +139,36 @@ main {
 }
 
 footer {
-    font-size: 0.8rem;
-    padding: 3rem;
-    padding-right: 50%;
-    min-width: 30rem;
+    font-size: 0.5rem;
     background: linear-gradient(180deg, var(--header-color), var(--bg-color));
     color: var(--text-color);
+}
+
+footer p {
+    margin: 0;
+    margin-bottom: 0.5rem;
+}
+
+.footer-section {
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    padding: 2rem;
+    gap: 1rem;
+}
+
+.catagory {
+    min-width: 3rem;
+    max-width: 15rem;
 }
 
 .title {
     color: var(--button-color);
-    font-size: 1rem;
+    font-size: 0.75rem;
     font-weight: bold;
 }
 
 .indented {
-    margin-left: 3rem;
+    margin-left: 1rem;
 }
 
 a {

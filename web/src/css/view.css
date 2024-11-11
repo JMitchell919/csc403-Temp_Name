@@ -1,6 +1,6 @@
 #section {
     background: var(--header-color);
-    min-width: 30rem;
+    min-width: 20rem;
     width: 80%;
     max-width: 80rem;
     color: var(--text-color);
@@ -184,7 +184,7 @@
 }
 
 #comments-container {
-    min-width: 30rem;
+    min-width: 20rem;
     width: 80%;
     max-width: 80rem;
     color: var(--text-color);

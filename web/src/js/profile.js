@@ -142,12 +142,10 @@ document.addEventListener('DOMContentLoaded', async function() {
         fetch(`${apiDomain}:${apiPort}/feed?algorithm=user&username=${localStorage.getItem('username')}`)
             .then(response => response.json())
             .then(posts => {
-                let postCount = 0;
+                document.getElementById('total-post-count').textContent = posts.length;
                 posts.forEach(post => {
-                    postCount += 1;
                     constructPost(post)
                 });
-                document.getElementById('total-post-count').textContent = postCount;
             })
             .catch(error => {
                 console.error("Error fetching from /posts: ", error);
