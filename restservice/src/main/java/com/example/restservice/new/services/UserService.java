@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.sql.SQLException;
 
 @Service
-public class RegisterService {
+public class UserService {
     
     private SqlService sqlService;
 
@@ -38,9 +38,9 @@ public class RegisterService {
 //         return rsUser.getInt("id");
 //     }
     
-    public void registerUser(UserDTO userDTO) {
+    public void registerUser(String username, String password, String email) {
         // Map UserDTO to User
-        User user = new User(0, userDTO.getUsername(), userDTO.getPassword(), null, userDTO.getEmail());
+        User user = new User(0, username, password, null, email);
 
         // Use User fields for database insertion
         sqlService.write(
@@ -92,5 +92,3 @@ public class RegisterService {
     }
 }
 
-
-}
