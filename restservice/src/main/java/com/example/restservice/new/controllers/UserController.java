@@ -14,7 +14,7 @@ import java.util.Map;
 @RestController
 public class UserController {
 
-    private final UserServiceNew userServiceNew;
+    private final UserService userService;
 
     @Autowired
     public UserController(UserService userService) {
@@ -33,7 +33,7 @@ public class UserController {
     // Endpoint to fetch all user information by username
     @GetMapping("/getUser")
     public ResponseEntity<User> getUserByUsername(@RequestParam String username) {
-        User user = registerService.getUserByUsername(username);
+        User user = userService.getUserByUsername(username);
         if (user != null) {
             return new ResponseEntity<>(user, HttpStatus.OK);
         } else {
