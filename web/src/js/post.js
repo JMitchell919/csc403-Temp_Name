@@ -3,6 +3,8 @@ document.addEventListener('DOMContentLoaded', async function() {
     // Get post-input
     const postInput = document.getElementById('post-input');
 
+    postInput.focus();
+
     postInput.addEventListener('input', function() {
         // Reset height
         this.style.minHeight = 'auto';
@@ -89,7 +91,6 @@ document.addEventListener('DOMContentLoaded', async function() {
         formData.append('location', localStorage.getItem('overrideZone') || localStorage.getItem('zone'));
         formData.append('latitude', parseFloat(localStorage.getItem('overrideLatitude') || localStorage.getItem('latitude')));
         formData.append('longitude', parseFloat(localStorage.getItem('overrideLongitude') || localStorage.getItem('longitude')));
-        // formData.append('date', `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`);
         formData.append('text', input);
 
         for (let file of selectedFiles) {
@@ -123,20 +124,9 @@ document.addEventListener('DOMContentLoaded', async function() {
             if (!response.ok) {
                 throw new Error('Network response was not ok');
             }
-            // return response.json();
+            
+            alert("Post sent!");        
+            window.location.href = '/';
         })
-        .then(data => {
-            // Alert user of sent post
-            alert("Post sent!");
-        })
-        .catch(error => {
-            alert(error);
-            console.error('Oopsie poopsie', error);
-        });
-
-        
-
-        // Redirect to home page after login
-        window.location.href = '/';
     });
 });

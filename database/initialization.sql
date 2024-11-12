@@ -51,3 +51,18 @@ CREATE TABLE IF NOT EXISTS comments (
     text TEXT,
     date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+CREATE TABLE IF NOT EXISTS zones (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name TEXT NOT NULL,
+    center_longitude DECIMAL(9,7) NOT NULL,
+    center_latitude DECIMAL(9,7) NOT NULL,
+    radius INT NOT NULL
+);
+
+INSERT INTO zones (name, center_latitude, center_longitude, radius) VALUES
+    ("IESB", 32.52639082775588, -92.6434647523128, 75),
+    ("Student Center", 32.52692060207673, -92.64824658960131, 50),
+    ("Toliver", 32.52641403031212, -92.64900297250526, 30),
+    ("Nethken Hall", 32.52572653547901, -92.64477044672043, 40),
+    ("University Crossing", 32.520169220490395, -92.65200185118128, 125);

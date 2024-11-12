@@ -1,4 +1,4 @@
-window.onload = function() {
+window.onload = async function() {
     fetch('../components/header.html')
         .then(response => response.text())
         .then(data => {
@@ -83,9 +83,36 @@ window.onload = function() {
             // FOR KIEFER
             // Function to change the location shown in the header. (you don't have to use the function if you don't want. The code is short enough to bo used directly)
             function changeLocation(loc) {
-                document.querySelector('.location').innerHTML = loc;
+                
             }
 
-            changeLocation(`${localStorage.getItem('overrideZone') || localStorage.getItem('zone')}${localStorage.getItem('overrideZone') ? ' (override)' : ''}`);
+            changeLocation();
+
+            fetch(`${localStorage.getItem('apiDomain')}:${localStorage.getItem('apiPort')}/zone?latitude=${localStorage.getItem('overrideLatitude') || localStorage.getItem('latitude')}&longitude=${localStorage.getItem('overrideLongitude') || localStorage.getItem('longitude')}`)
+                .then(response => response.text())
+                .then(zone => {
+                    localStorage.setItem('zone', zone);
+                    // document.querySelector('.location').innerHTML = `${localStorage.getItem('overrideZone') || zone}${localStorage.getItem('overrideZone') ? `${localStorage.getItem('overrideZone')}` : zone}`;
+                    document.querySelector('.location').innerHTML = `${localStorage.getItem('overrideZone') ? `"${localStorage.getItem('overrideZone')}"` : zone}`;
+                })
+                .catch(error => {
+                    console.error("Error fetching from /posts: ", error);
+                    localStorage.setItem('zone', '-');
+                });
         });
+
+    let apiDomain = window.location.hostname === "localhost" ? "http://localhost" : `http://${window.location.hostname}`;
+    let apiPort = '';
+
+    await fetch('/config')
+        .then(response => response.json())
+        .then(config => {
+            apiPort = config.apiPort;
+        })
+        .catch(error => {
+            console.error('Error fetching config:', error);
+        });
+
+    localStorage.setItem('apiDomain', apiDomain);
+    localStorage.setItem('apiPort', apiPort);
 }
