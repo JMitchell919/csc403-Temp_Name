@@ -12,7 +12,7 @@ Instructor: Dr. Kyle Prather.
 
 ## **Developers**
 - Kiefer Armand ([Greendragon2170](https://github.com/Greendragon2170))
-    - Accounts and registration.
+    - Accounts, registration, GPS.
 - Lily Derosa ([ndd323](https://github.com/ndd323))
     - Prototyped post creation, encryption.
 - Caleb Matherne ([ctm042](https://github.com/ctm042))
