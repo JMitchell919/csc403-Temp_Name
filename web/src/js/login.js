@@ -4,7 +4,8 @@ document.addEventListener('DOMContentLoaded', function() {
         const username = document.getElementById('username-input').value;
         const password = document.getElementById('password-input').value;
         
-        const user = await fetchUser(username);
+        // Fetch the full user info using the new /getUserInfo endpoint
+        const user = await fetchUserInfo(username);
 
         if (user) {
             // Compare entered password with stored password
@@ -23,7 +24,8 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    async function fetchUser(username) {
+    // Fetches user information (e.g., ID, username, password, email, profile picture)
+    async function fetchUserInfo(username) {
         let apiDomain = '';
         let apiPort = '';
 
@@ -38,12 +40,12 @@ document.addEventListener('DOMContentLoaded', function() {
             });
 
         try {
-            const response = await fetch(`${apiDomain}:${apiPort}/getUser?username=${username}`, {
+            const response = await fetch(`${apiDomain}:${apiPort}/getUserInfo?username=${username}`, {
                 method: 'GET'
             });
 
             if (response.ok) {
-                return await response.json(); // Return the user data as JSON
+                return await response.json(); // Return the full user data as JSON
             } else if (response.status === 404) {
                 return null; // User does not exist
             }
