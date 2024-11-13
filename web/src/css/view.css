@@ -55,6 +55,10 @@
     padding: 0rem 1rem;
 }
 
+#post-text-edit {
+    display: none;
+}
+
 .picture-container {
     text-align: center;
 }
@@ -113,8 +117,38 @@
     color: var(--text-color);
 }
 
-#comment-wrapper {
-    position: relative;
+#actions {
+    display: none;
+    justify-content: flex-end;
+    margin-top: 0.5rem;
+}
+
+.action-set {
+    display: flex;
+    flex-direction: row;
+    gap: 0.5rem;
+}
+
+#edit-actions {
+    display: none;
+}
+
+#post-text-edit {
+    width: calc(100% - 10rem);
+    
+    padding: 1rem;
+
+    color: var(--text-color);
+    background: var(--bg-color);
+
+    border: var(--button-color);
+    border-radius: var(--button-border-radius);
+
+    resize: none;
+}
+
+#post-text-edit:focus {
+    outline: solid var(--button-color);
 }
 
 #comment-container {
@@ -122,6 +156,7 @@
     flex-direction: column;
     gap: 0.5rem;
     margin: 0 auto;
+    margin-top: 0.5rem;
 
     max-width: 100%;
     height: fit-content;
@@ -157,6 +192,7 @@
     outline: solid var(--button-color);
 }
 
+#actions button, 
 #submit-comment,
 .submit-reply-button {
     align-self: flex-end;
@@ -179,6 +215,7 @@
     transition: background-color 0.2s ease;
 }
 
+#actions button:hover, 
 #submit-comment:hover,
 .submit-reply-button:hover {
     background-color: var(--highlight-color);
@@ -196,6 +233,10 @@
 
 #comments-container p {
     margin: 0;
+}
+
+#comment-wrapper {
+    position: relative;
 }
 
 .comment-div {

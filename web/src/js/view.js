@@ -80,7 +80,8 @@ document.addEventListener('DOMContentLoaded', async function() {
                     </div>
                 </div>
                 
-                <p class="post-text">${postData.text}</p>
+                <p class="post-text" id="post-text">${postData.text}</p>
+                <textarea class="post-text" id="post-text-edit"></textarea>
         
                 <div class="picture-container">
                     ${postData.postPics && postData.postPics.length > 0 ? postData.postPics.map(pic => `<img src="../assets/postImages/${pic}" alt="Picture" class="pic">`).join('') : ''}
@@ -103,6 +104,10 @@ document.addEventListener('DOMContentLoaded', async function() {
                     </button>
                 </div>
             `;
+
+            if (postData.username == localStorage.getItem("username")) {
+                document.getElementById('actions').style.display = 'flex';
+            }
 
             // Modal and image enlargement logic
             const modal = document.getElementById('image-modal');
@@ -140,7 +145,44 @@ document.addEventListener('DOMContentLoaded', async function() {
         })
         .catch(error => console.error('Error fetching post:', error));
 
-    // Get post-input
+    // Edit post
+    document.getElementById('edit-post-btn').addEventListener('click', function() {
+        document.getElementById('post-actions').style.display = 'none';
+        document.getElementById('edit-actions').style.display = 'flex';
+
+        const postText = document.getElementById('post-text');
+        const postTextEdit = document.getElementById('post-text-edit');
+
+        postTextEdit.innerHTML = postText.textContent;
+        postTextEdit.focus();
+
+        postText.style.display = 'none';
+        postTextEdit.style.display = 'block';
+        
+    });
+
+    // Delete post
+    document.getElementById('delete-post-btn').addEventListener('click', function() {
+        // api thing
+    });
+
+    // Submit edit
+    document.getElementById('submit-edit-btn').addEventListener('click', function() {
+        // api thing
+    });
+
+    // Cancel edit
+    document.getElementById('cancel-edit-btn').addEventListener('click', function() {
+        document.getElementById('post-actions').style.display = 'flex';
+        document.getElementById('edit-actions').style.display = 'none';
+
+        document.getElementById('post-text-edit').innerHTML = '';
+    
+        document.getElementById('post-text').style.display = 'block';
+        document.getElementById('post-text-edit').style.display = 'none';
+    });
+
+    // Submit comment
     document.getElementById('submit-comment').addEventListener('click', function() {
         const text = document.getElementById('comment-input').value;
         if (text == '') {
