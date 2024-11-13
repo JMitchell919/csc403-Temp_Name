@@ -71,7 +71,7 @@ document.addEventListener('DOMContentLoaded', async function() {
             postContainer.innerHTML = `
                 <div class="post-header">
                     <div class="post-author">
-                        <img src="${postData.profilePic}" alt="Profile Picture" class="profile-pic">
+                        <img src="${postData.profilePic}" alt="Profile Picture" class="profile-pic" onerror="this.onerror=null; this.src='../assets/images/defaultPfp.jpg';">
                         <p class="post-author">${postData.username}</p>
                     </div>
                     <div class="post-info">
@@ -281,7 +281,7 @@ document.addEventListener('DOMContentLoaded', async function() {
                 </div>
                 
                 <div class="comment">
-                    <img src="${user.profilePic}" alt="" class="comment-pfp">
+                    <img src="${user.profilePic}" alt="" class="comment-pfp" onerror="this.onerror=null; this.src='../assets/images/defaultPfp.jpg';">
                     <div class="comment-right">
                         <div class="comment-right-top">
                             <span class="comment-username">${comment.username}</span>

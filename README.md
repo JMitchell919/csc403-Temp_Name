@@ -12,13 +12,13 @@ Instructor: Dr. Kyle Prather.
 
 ## **Developers**
 - Kiefer Armand ([Greendragon2170](https://github.com/Greendragon2170))
-    - GPS
+    - Accounts and registration.
 - Lily Derosa ([ndd323](https://github.com/ndd323))
-    - API
+    - Prototyped post creation, encryption.
 - Caleb Matherne ([ctm042](https://github.com/ctm042))
-    - Web, API
+    - Website, API, project-wide.
 - Jesse Mitchell ([JMitchell919](https://github.com/JMitchell919))
-    - Database
+    - Database creation.
 
    <a href="https://github.com/JMitchell919/csc403-Temp_Name/graphs/contributors">
   <img src="https://contrib.rocks/image?repo=JMitchell919/csc403-Temp_Name" />

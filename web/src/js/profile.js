@@ -81,7 +81,7 @@ document.addEventListener('DOMContentLoaded', async function() {
                 <a href="view?postId=${post.id}" class="post-anchor">
                     <div class="post-header">
                         <div class="post-author no-redirect">
-                            <img src="${post.profilePic}" alt="Profile Picture" class="profile-pic">
+                            <img src="${post.profilePic}" alt="Profile Picture" class="profile-pic" onerror="this.onerror=null; this.src='../assets/images/defaultPfp.jpg';">
                             <p class="post-author">${post.username}</p>
                         </div>
                         <div class="post-info">
