@@ -9,11 +9,11 @@ CREATE TABLE IF NOT EXISTS users (
     email VARCHAR(255) NOT NULL
 );
 
-INSERT INTO users (username, password, profile_pic) VALUES
-    ("Lily", "pass_0", "../assets/images/Lily.png"),
-    ("Kiefer", "pass_1", "../assets/images/Kiefer.png"),
-    ("Jesse", "pass_2", "../assets/images/Jesse.png"),
-    ("Clab", "pass_3", "../assets/images/Clab.png");
+INSERT INTO users (username, password, profile_pic, email) VALUES
+    ("Lily", "pass_0", "../assets/images/Lily.png", "Lily@email.com"),
+    ("Kiefer", "pass_1", "../assets/images/Kiefer.png", "Kiefer@email.com"),
+    ("Jesse", "pass_2", "../assets/images/Jesse.png", "Jesse@email.com"),
+    ("Clab", "pass_3", "../assets/images/Clab.png", "Clab@email.com");
 
 CREATE TABLE IF NOT EXISTS posts (
     id INT AUTO_INCREMENT PRIMARY KEY,

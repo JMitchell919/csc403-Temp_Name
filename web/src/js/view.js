@@ -195,7 +195,7 @@ document.addEventListener('DOMContentLoaded', async function() {
     async function createComments(comments, level = 0, isLast = []) {
         const commentsContainer = document.getElementById('comments-container')
 
-        comments.forEach((comment, index) => {
+        for (const [index, comment] of comments.entries()) {
             const isCurrentLast = index === comments.length - 1;
             const commentwrapperDiv = document.createElement('div');
             commentwrapperDiv.className = 'comment-wrapper';
@@ -223,9 +223,15 @@ document.addEventListener('DOMContentLoaded', async function() {
             })
 
             //get user by id (comment.userId) from api (pfp, username)
-
-            // <p>${comment.text}</p>
-            // <p>${printDate}</p>
+            let user;
+            try {
+                const response = await fetch(`${localStorage.getItem("apiDomain")}:${localStorage.getItem("apiPort")}/getUser?username=${comment.username}`);
+                if (!response.ok) throw new Error('Network response was not ok');
+                user = await response.json();
+            } catch (error) {
+                console.error('Error fetching user:', error);
+                user = { profilePic: 'default-profile-pic.png' };  // Default profile pic if user data fails
+            }
 
             commentDiv.innerHTML = `
                 <div class="tree">
@@ -233,10 +239,10 @@ document.addEventListener('DOMContentLoaded', async function() {
                 </div>
                 
                 <div class="comment">
-                    <img src="${"../assets/images/Clab.png"}" alt="" class="comment-pfp">
+                    <img src="${user.profilePic}" alt="" class="comment-pfp">
                     <div class="comment-right">
                         <div class="comment-right-top">
-                            <span class="comment-username">${"Clab"}</span>
+                            <span class="comment-username">${comment.username}</span>
                             <span class="comment-date">${printDate}</span>
                         </div>
                         <div class="comment-right-bottom">
@@ -312,8 +318,8 @@ document.addEventListener('DOMContentLoaded', async function() {
             commentsContainer.appendChild(commentwrapperDiv);
 
             if (comment.replies && comment.replies.length > 0) {
-                createComments(comment.replies, level + 1, [...isLast, isCurrentLast]);
+                await createComments(comment.replies, level + 1, [...isLast, isCurrentLast]);
             }
-        })
+        }
     } 
 });

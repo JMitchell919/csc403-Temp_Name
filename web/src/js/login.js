@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const username = document.getElementById('username-input').value;
         const password = document.getElementById('password-input').value;
         
-        // Fetch the full user info using the new /getUserInfo endpoint
+        // Fetch the full user info using the new /getUser endpoint
         const user = await fetchUserInfo(username);
 
         if (user) {
@@ -26,21 +26,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Fetches user information (e.g., ID, username, password, email, profile picture)
     async function fetchUserInfo(username) {
-        let apiDomain = '';
-        let apiPort = '';
-
-        await fetch('/config')
-            .then(response => response.json())
-            .then(config => {
-                apiDomain = config.apiDomain;
-                apiPort = config.apiPort;
-            })
-            .catch(error => {
-                console.error('Error fetching config:', error);
-            });
-
         try {
-            const response = await fetch(`${apiDomain}:${apiPort}/getUserInfo?username=${username}`, {
+            const response = await fetch(`${localStorage.getItem("apiDomain")}:${localStorage.getItem("apiPort")}/getUser?username=${username}`, {
                 method: 'GET'
             });
 
@@ -54,18 +41,4 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 });
-
-        // console.log(`${username} ${password}`)
-
-        // // Simulate login validation (replace this with actual back-end validation)
-        // if (username === 'user' && password === 'password') {
-        //     // Store log in in local storage for persistance
-        //     localStorage.setItem('isLoggedIn', 'true');
-        //     localStorage.setItem('username', username);
-
-        //     // Redirect to home page after login
-        //     window.location.href = '/';
-        // } else {
-        //     alert('Invalid username or password!');
-        // }
 
