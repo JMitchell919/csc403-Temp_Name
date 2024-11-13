@@ -6,56 +6,49 @@ document.addEventListener('DOMContentLoaded', function() {
         const email = document.getElementById('email-input').value;
 
         const isUsernameAvailable = await checkUser(username);
+        console.log(isUsernameAvailable)
         
-        if (isUsernameAvailable) {
-            const registerData = { username, password, email };
-
-            await sendRegistration(registerData);
-            #sendConfirmationEmail(email);
-            window.location.href = '/confirm';
-        } else {
+        if (!isUsernameAvailable) {
             alert('This username is already in use.');
+            return;
         }
+        
+        await sendRegistration({ username, password, email });
+        window.location.href = '/login';
+        //sendConfirmationEmail(email);
+        // window.location.href = '/confirm';
+        
     });
 
     async function checkUser(username) {
-        let apiDomain = '';
-        let apiPort = '';
-
-        await fetch('/config')
-            .then(response => response.json())
-            .then(config => {
-                apiDomain = config.apiDomain;
-                apiPort = config.apiPort;
-            })
-            .catch(error => console.error('Error fetching config:', error));
-
         try {
-            const response = await fetch(`${apiDomain}:${apiPort}/getUser?username=${username}`, {
-                method: 'GET'
-            });
+            const response = await fetch(`${localStorage.getItem("apiDomain")}:${localStorage.getItem("apiPort")}/getUser?username=${username}`);
+            if (!response.ok) {
+                console.error('Failed to fetch user data:', response.status);
+                return false;
+            }
 
-            return response.status === 404;
+            const text = await response.text();
+            if (!text) {
+                return true;
+            }
+    
+            const user = await response.json();
+            if (user === null || user === undefined) {
+                return true;
+            }
+    
+            return false;
+
         } catch (error) {
-            console.error("Error checking username:", error);
+            console.error('Error fetching user:', error);
             return false;
         }
     }
 
     async function sendRegistration(registerData) {
-        let apiDomain = '';
-        let apiPort = '';
-
-        await fetch('/config')
-            .then(response => response.json())
-            .then(config => {
-                apiDomain = config.apiDomain;
-                apiPort = config.apiPort;
-            })
-            .catch(error => console.error('Error fetching config:', error));
-
         try {
-            const response = await fetch(`${apiDomain}:${apiPort}/register`, {
+            const response = await fetch(`${localStorage.getItem("apiDomain")}:${localStorage.getItem("apiPort")}/register`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(registerData)
@@ -66,6 +59,7 @@ document.addEventListener('DOMContentLoaded', function() {
             } else {
                 alert("Registration failed. Please try again.");
             }
+
         } catch (error) {
             console.error("Error:", error);
             alert("An error occurred. Please try again.");

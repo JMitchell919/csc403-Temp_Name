@@ -1,5 +1,6 @@
 package com.example.rest_service;
 
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
@@ -16,15 +17,14 @@ public class UserService {
         this.sqlService = sqlService.getInstance();
     }
 
-//     public void writeUser(String username, String password, String email) throws IOException {
-//     // Write post to posts table
-//     int userID = sqlService.write(
-//         "INSERT INTO users (username, password, email) VALUES (?, ?, ?)",
-//         username,
-//         password,
-//         email);
-
-//     }
+    public void writeUser(String username, String password, String email) throws IOException {
+    // Write post to posts table
+    int userID = sqlService.write(
+        "INSERT INTO users (username, password, email) VALUES (?, ?, ?)",
+        username,
+        password,
+        email);
+    }
 
 //     public void readUser(String username) {
 //         SqlResultSet rsUser = sqlService.read(

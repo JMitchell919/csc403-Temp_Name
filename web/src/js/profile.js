@@ -6,9 +6,21 @@ const userInteractions = {
 };
 
 document.addEventListener('DOMContentLoaded', async function() {
-    document.getElementById('display-name').textContent = '-';
-    document.getElementById('username').textContent = localStorage.getItem('username');
-    document.getElementById('email').textContent = '-';
+    let user;
+        try {
+            const response = await fetch(`${localStorage.getItem("apiDomain")}:${localStorage.getItem("apiPort")}/getUser?username=${localStorage.getItem('username')}`);
+            if (!response.ok) throw new Error('Network response was not ok');
+            user = await response.json();
+        } catch (error) {
+            console.error('Error fetching user:', error);
+            user = { profilePic: 'default-profile-pic.png' };  // Default profile pic if user data fails
+        }
+
+    document.getElementById('display-name').textContent = user.username;
+    document.getElementById('username').textContent = user.username;
+    document.getElementById('email').textContent = user.email;
+
+    document.getElementById('pfp-image').src = user.profilePic;
 
     document.getElementById('followers-count').textContent = '-';
     document.getElementById('following-count').textContent = '-';
@@ -127,25 +139,23 @@ document.addEventListener('DOMContentLoaded', async function() {
 
     // Fetch posts
     async function constructFeed() {
-        // Fetch config
-        let apiDomain = window.location.hostname === "localhost" ? "http://localhost" : `http://${window.location.hostname}`;
-        let apiPort = '';
-        await fetch('/config')
-            .then(response => response.json())
-            .then(config => {
-                apiPort = config.apiPort;
-            })
-            .catch(error => {
-                console.error('Error fetching config:', error);
-            });
-
-        fetch(`${apiDomain}:${apiPort}/feed?algorithm=user&username=${localStorage.getItem('username')}`)
+        fetch(`${localStorage.getItem("apiDomain")}:${localStorage.getItem("apiPort")}/feed?algorithm=user&username=${localStorage.getItem('username')}`)
             .then(response => response.json())
             .then(posts => {
                 document.getElementById('total-post-count').textContent = posts.length;
+
+                let totalLikes = 0;
+                let totalDislikes = 0;
+
                 posts.forEach(post => {
-                    constructPost(post)
+                    totalLikes += post.likeCount;
+                    totalDislikes += post.dislikeCount;
+
+                    constructPost(post);
                 });
+
+                document.getElementById('total-likes-count').textContent = totalLikes;
+                document.getElementById('total-dislikes-count').textContent = totalDislikes;
             })
             .catch(error => {
                 console.error("Error fetching from /posts: ", error);

@@ -18,19 +18,19 @@ public class UserController {
     private UserService userService;
 
     // Get a single post's data. (/view page)
-    // @PostMapping("/register")
-    // public ResponseEntity<String> registerUser(@RequestBody Map<String, String> userData) {
-    //     String username = userData.get("username");
-    //     String password = userData.get("password");
-    //     String email = userData.get("email");
+    @PostMapping("/register")
+    public ResponseEntity<String> registerUser(@RequestBody Map<String, String> userData) {
+        String username = userData.get("username");
+        String password = userData.get("password");
+        String email = userData.get("email");
 
-    //     try {
-    //         userService.writeUser(username, password, email);
-    //         return ResponseEntity.ok("User created successfully");
-    //     } catch (Exception e) {
-    //         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Registration failed");
-    //     }
-    // }
+        try {
+            userService.writeUser(username, password, email);
+            return ResponseEntity.ok("User created successfully");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Registration failed");
+        }
+    }
 
     // Endpoint to fetch all user information by username
     // @GetMapping("/getUser")

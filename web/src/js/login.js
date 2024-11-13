@@ -17,10 +17,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 // Redirect to home page
                 window.location.href = '/';
             } else {
-                alert('Incorrect password. Please try again.');
+                alert('Incorrect credentials.');
             }
         } else {
-            alert('Username not found.');
+            alert('Incorrect credentials.');
         }
     });
 
@@ -31,6 +31,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 method: 'GET'
             });
 
+            console.log(response)
             if (response.ok) {
                 return await response.json(); // Return the full user data as JSON
             } else if (response.status === 404) {
